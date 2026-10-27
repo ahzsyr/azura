@@ -104,6 +104,7 @@ export { AdminBreadcrumbs } from "./admin-breadcrumbs";
 export { AdminFloatingActions, AdminChromeFab } from "./admin-floating-actions";
 export { AdminCollapsibleSection } from "./admin-collapsible-section";
 export {
+  AdminAnimatePresence,
   AdminPageTransition,
   AdminStaggerContainer,
   AdminStaggerItem,

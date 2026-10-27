@@ -19,6 +19,26 @@ export const PASSWORD_RESET_TICKET_TTL_MS = PASSWORD_RESET_TICKET_MINUTES * 60 *
 export const PASSWORD_RESET_GENERIC_MESSAGE =
   "If an account exists for that email, we will send a 6-digit code to reset your password.";
 
+/**
+ * Shown on the verify step when the request succeeded but no ticket was
+ * issued (no confirmed delivery for this browser). Same wording for known and
+ * unknown addresses — never reveals whether the account exists.
+ */
+export const PASSWORD_RESET_NO_DELIVERY_CONFIRMATION =
+  "Your request was accepted, but this browser did not get a delivery confirmation. Check spam, wait a few minutes and resend, or ask an administrator to confirm Email delivery and that password reset is enabled under Visitor portal.";
+
+/** Verify-step copy: delivery confirmed (ticket present) vs not confirmed. */
+export function passwordResetVerifyDescription(input: {
+  hasTicket: boolean;
+  hint?: string | null;
+}): string {
+  if (input.hasTicket) {
+    const dest = input.hint?.trim() ? ` to ${input.hint.trim()}` : "";
+    return `We emailed a 6-digit code${dest}. It expires in ${PASSWORD_RESET_OTP_TTL_MINUTES} minutes.`;
+  }
+  return PASSWORD_RESET_NO_DELIVERY_CONFIRMATION;
+}
+
 export function isPasswordResetOtpFormat(code: string): boolean {
   return /^\d{6}$/.test(code.trim());
 }

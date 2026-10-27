@@ -3,6 +3,9 @@ import "server-only";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { resolveAuthSecret } from "@/lib/auth-secret.server";
+import { shouldMintChallengeAfterPassword } from "@/features/auth/mfa-challenge-cookie.helpers";
+
+export { shouldMintChallengeAfterPassword } from "@/features/auth/mfa-challenge-cookie.helpers";
 
 /**
  * Signed, httpOnly cookie that proves "this browser passed the password step
@@ -74,6 +77,29 @@ export async function issueMfaChallengeCookie(input: {
     path: "/",
     maxAge: CHALLENGE_TTL_SECONDS,
   });
+}
+
+/**
+ * After a fresh password verify: keep a valid challenge, or mint one when the
+ * cookie is missing (Auth.js error responses often drop Set-Cookie from the
+ * first password step). Returns whether the browser may proceed to send OTP.
+ */
+export async function ensureMfaChallengeAfterPassword(input: {
+  userId: string;
+  passwordHash: string;
+}): Promise<"valid" | "issued" | "failed"> {
+  try {
+    const existing = await readMfaChallenge(input.userId, input.passwordHash);
+    if (!shouldMintChallengeAfterPassword(existing.valid)) return "valid";
+    await issueMfaChallengeCookie(input);
+    return "issued";
+  } catch (error) {
+    console.error(
+      "[auth] could not ensure MFA challenge cookie",
+      error instanceof Error ? error.message : "unknown",
+    );
+    return "failed";
+  }
 }
 
 export async function clearMfaChallengeCookie(): Promise<void> {

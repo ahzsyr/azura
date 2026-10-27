@@ -1,5 +1,9 @@
 import { downgradeTextEffectForPolicy } from "@/features/theme/downgrade-text-effect";
-import { initTextEffects, resetTextEffects } from "@/features/theme/effects/text";
+import {
+  initTextEffects,
+  resetTextEffects,
+  TEXT_EFFECT_OWNER_READY_ATTR,
+} from "@/features/theme/effects/text";
 import {
   SITE_TEXT_EFFECT_SOURCE_ATTR,
   SITE_TEXT_EFFECT_SOURCE_VALUE,
@@ -16,6 +20,13 @@ function clearSiteTaggedHeroTextEffects(): void {
   document
     .querySelectorAll<HTMLElement>(`[${SITE_TEXT_EFFECT_SOURCE}="${SITE_TEXT_EFFECT_SOURCE_VALUE}"]`)
     .forEach((el) => {
+      // Leave HeaderBrand's SSR attrs alone until that island owns the node.
+      if (
+        el.getAttribute("data-text-effect-target") === "brand" &&
+        el.getAttribute(TEXT_EFFECT_OWNER_READY_ATTR) !== "true"
+      ) {
+        return;
+      }
       el.removeAttribute("data-text-effect");
       el.removeAttribute(SITE_TEXT_EFFECT_SOURCE);
     });
@@ -61,6 +72,14 @@ export function tagHeroHeadings(textEffect: string | null) {
     if (el.classList.contains("hero-anim-typewriter")) return;
     const source = el.getAttribute(SITE_TEXT_EFFECT_SOURCE);
     if (source === "block") return;
+    // Brand is owned by HeaderBrand — tagging before owner-ready mutates DOM
+    // attrs under a still-hydrating island and can trip React #418.
+    if (
+      el.getAttribute("data-text-effect-target") === "brand" &&
+      el.getAttribute(TEXT_EFFECT_OWNER_READY_ATTR) !== "true"
+    ) {
+      return;
+    }
     el.setAttribute("data-text-effect", textEffect);
     el.setAttribute(SITE_TEXT_EFFECT_SOURCE, SITE_TEXT_EFFECT_SOURCE_VALUE);
   });

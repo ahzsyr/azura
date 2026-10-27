@@ -10,6 +10,10 @@ import { accountSettingsService } from "@/features/account/account-settings.serv
 import { clearUserMfa } from "@/features/auth/mfa-totp.service";
 import { generateEmailOtpCode, hashEmailOtp } from "@/features/auth/email-otp.helpers";
 import {
+  createEmailOtpToken,
+  isEmailOtpPurposeEnumError,
+} from "@/features/auth/email-otp-token.service";
+import {
   PASSWORD_RESET_OTP_TTL_MINUTES,
   PASSWORD_RESET_OTP_TTL_MS,
   PASSWORD_RESET_TICKET_TTL_MS,
@@ -120,17 +124,40 @@ async function issuePasswordResetCode(input: {
 
   const code = generateEmailOtpCode();
   // One live code per account: the new code replaces any previous one.
-  await prisma.emailOtpToken.deleteMany({
-    where: { userId: user.id, purpose: RESET_OTP_PURPOSE, usedAt: null },
-  });
-  await prisma.emailOtpToken.create({
-    data: {
+  try {
+    await prisma.emailOtpToken.deleteMany({
+      where: { userId: user.id, purpose: RESET_OTP_PURPOSE, usedAt: null },
+    });
+    await createEmailOtpToken({
       userId: user.id,
       purpose: RESET_OTP_PURPOSE,
+      channel: "email",
       codeHash: hashEmailOtp(code),
       expiresAt: new Date(Date.now() + PASSWORD_RESET_OTP_TTL_MS),
-    },
-  });
+    });
+  } catch (error) {
+    const enumGap = isEmailOtpPurposeEnumError(error);
+    await writeSecurityAuditLog({
+      action: "auth.password_reset.email_failed",
+      actorId: user.id,
+      actorRole: user.role,
+      ip: input.ip,
+      meta: {
+        errorCode: enumGap ? "purpose_enum_missing" : "token_persist_failed",
+        detail: error instanceof Error ? error.message.slice(0, 200) : "unknown",
+        audience: user.role,
+      },
+    });
+    console.error(
+      "[password-reset] OTP token persist failed",
+      enumGap
+        ? "EmailOtpToken.purpose is missing PASSWORD_RESET — run db migrate / deploy ensure"
+        : error instanceof Error
+          ? error.message
+          : "unknown",
+    );
+    return null;
+  }
 
   const subject = "Your password reset code";
   const heading = "Reset your password";

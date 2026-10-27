@@ -22,6 +22,7 @@ import {
   whenShellReady,
 } from "@/lib/motion/shell-ready";
 import { scheduleApplyVisualEffects } from "@/features/theme/visual-effects-coordinator";
+import { scheduleAfterSelectiveHydration } from "@/features/theme/effects/text";
 
 type Props = {
   tokens: ThemeTokens | null;
@@ -111,14 +112,22 @@ export function ThemeEffectsClient({
       return;
     }
 
+    let cancelled = false;
+    let stopShell: (() => void) | undefined;
+
     const runApply = () => {
-      // Always full-bind on mount. colorsOnly is for appearance refreshes only —
-      // using it here skipped tagHeroHeadings / initTextEffects when the bg canvas
-      // was already ready, and the coordinator then blocked later full applies.
-      applyResolved({ immediate: true });
+      if (cancelled) return;
+      // Defer past LocaleBootClient + selective-hydration MessagePort drain so
+      // typewriter/scramble cannot clear SSR heading text mid-hydrate (#418).
+      scheduleAfterSelectiveHydration(() => {
+        if (cancelled) return;
+        // Always full-bind on mount. colorsOnly is for appearance refreshes only —
+        // using it here skipped tagHeroHeadings / initTextEffects when the bg canvas
+        // was already ready, and the coordinator then blocked later full applies.
+        applyResolved({ immediate: true });
+      });
     };
 
-    let stopShell: (() => void) | undefined;
     if (isShellVisible()) {
       runApply();
     } else {
@@ -126,6 +135,7 @@ export function ThemeEffectsClient({
     }
 
     return () => {
+      cancelled = true;
       stopShell?.();
     };
   }, [
@@ -180,23 +190,30 @@ export function VisualExperienceSync() {
   useEffect(() => {
     if (!visualCtx?.site || !effectAppearance) return;
 
+    let cancelled = false;
     let cancelIdle: (() => void) | undefined;
     const run = () => {
-      cancelIdle?.();
-      cancelIdle = deferUntilIdle(() => {
-        const experience = resolveVisitorVisualExperience({
-          site: visualCtx.site,
-          page: visualCtx.page,
-          storedEffects: readStoredPresetEffects(),
-          cursorPreference: readCursorPreference(),
+      if (cancelled) return;
+      scheduleAfterSelectiveHydration(() => {
+        if (cancelled) return;
+        cancelIdle?.();
+        cancelIdle = deferUntilIdle(() => {
+          if (cancelled) return;
+          const experience = resolveVisitorVisualExperience({
+            site: visualCtx.site,
+            page: visualCtx.page,
+            storedEffects: readStoredPresetEffects(),
+            cursorPreference: readCursorPreference(),
+          });
+          scheduleApplyVisualEffects(experience);
         });
-        scheduleApplyVisualEffects(experience);
       });
     };
 
     const stopShell = whenShellReady(run);
 
     return () => {
+      cancelled = true;
       stopShell();
       cancelIdle?.();
     };

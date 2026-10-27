@@ -16,3 +16,7 @@ ALTER TABLE `User` ADD COLUMN `mfaDisabledByAdminAt` DATETIME(3) NULL;
 UPDATE `User`
 SET `mfaMethod` = 'AUTHENTICATOR', `mfaEnrolledAt` = COALESCE(`updatedAt`, NOW(3))
 WHERE `totpEnabled` = true;
+
+-- Password-reset / login-MFA purposes (idempotent with later ensure script).
+ALTER TABLE `EmailOtpToken`
+  MODIFY COLUMN `purpose` ENUM('SIGNUP_VERIFY', 'ADMIN_LOGIN', 'PASSWORD_RESET', 'LOGIN_MFA') NOT NULL;

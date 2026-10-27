@@ -21,6 +21,28 @@ const pageVariants = {
   exit: { opacity: 0, y: -4 },
 };
 
+/**
+ * AnimatePresence mode="wait" can return null while reconciling SSR-restored
+ * child state against a new client children reference → React #418 (text vs "").
+ * Render children plainly until after mount, then enable presence.
+ */
+export function AdminAnimatePresence({
+  children,
+  mode = "wait",
+  ...props
+}: React.ComponentProps<typeof AnimatePresence>) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    setReady(true);
+  }, []);
+  if (!ready) return <>{children}</>;
+  return (
+    <AnimatePresence mode={mode} {...props} initial={false}>
+      {children}
+    </AnimatePresence>
+  );
+}
+
 type AdminPageTransitionProps = {
   children: React.ReactNode;
   className?: string;
@@ -30,20 +52,25 @@ type AdminPageTransitionProps = {
 export function AdminPageTransition({ children, className, routeKey }: AdminPageTransitionProps) {
   const { shouldReduceMotion, shouldSimplifyMotion } = useConstrainedMotion();
   const [animating, setAnimating] = useState(true);
+  const [presenceReady, setPresenceReady] = useState(false);
   const enterDuration = shouldSimplifyMotion
     ? ADMIN_MOTION_MOBILE.enterDuration
     : ADMIN_MOTION.enterDuration;
 
   useEffect(() => {
+    setPresenceReady(true);
+  }, []);
+
+  useEffect(() => {
     setAnimating(true);
   }, [routeKey]);
 
-  if (shouldReduceMotion) {
+  if (shouldReduceMotion || !presenceReady) {
     return <div className={className}>{children}</div>;
   }
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={routeKey}
         initial="initial"

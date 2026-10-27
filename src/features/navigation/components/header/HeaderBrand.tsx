@@ -6,6 +6,7 @@ import { useVisualExperience } from "@/components/theme/visual-experience-contex
 import { Link } from "@/i18n/navigation";
 import { DEFAULT_BRAND_SHORT } from "@/config/site";
 import { brandingCssVariables } from "@/features/navigation/branding-defaults";
+import { scheduleAfterSelectiveHydration } from "@/features/theme/effects/text";
 import { siteHeroHeadingAttrs } from "@/features/theme/hero-heading-attrs";
 import { useTextEffectRescan } from "@/features/theme/use-text-effect-rescan";
 import { BrandLogoImage } from "@/features/navigation/components/header/brand-logo-image";
@@ -46,6 +47,9 @@ export function HeaderBrand({ branding, localeCode: _localeCode, siteTextEffect 
   const mounted = useMounted();
   const experience = useVisualExperience();
   const [visitorTextEffect, setVisitorTextEffect] = useState<string | null>(null);
+  // Delay owner-ready past selective-hydration MessagePort drain so typewriter
+  // cannot clear brand text while sibling islands are still hydrating (#418).
+  const [ownerReady, setOwnerReady] = useState(false);
 
   useEffect(() => {
     const sync = () => setVisitorTextEffect(readLiveTextEffect());
@@ -54,21 +58,41 @@ export function HeaderBrand({ branding, localeCode: _localeCode, siteTextEffect 
     return () => window.removeEventListener(THEME_CHANGE_EVENT, sync);
   }, []);
 
-  // Prefer explicit override → live visitor preset effect → site experience.
+  useEffect(() => {
+    if (!mounted) {
+      setOwnerReady(false);
+      return;
+    }
+    let cancelled = false;
+    scheduleAfterSelectiveHydration(() => {
+      if (!cancelled) setOwnerReady(true);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [mounted]);
+
+  // Prefer explicit override → site experience (SSR-stable) → live visitor preset.
   const textEffect =
     siteTextEffect !== undefined
       ? normalizeTextEffect(siteTextEffect)
-      : (visitorTextEffect ??
-        normalizeTextEffect(experience?.resolved.textEffect) ??
+      : (normalizeTextEffect(experience?.resolved.textEffect) ??
+        visitorTextEffect ??
         null);
 
   const brandTextEffectAttrs = siteHeroHeadingAttrs(textEffect);
+  // Gate global text-effect apply until after selective hydrate drains so
+  // ThemeEffectsClient cannot clear brand textContent mid-hydrate (#418).
   const brandTextEffectProps = {
     "data-text-effect-target": "brand" as const,
+    ...(ownerReady ? { "data-text-effect-owner-ready": "true" as const } : null),
     ...brandTextEffectAttrs,
   };
 
-  useTextEffectRescan(textEffect, experience?.resolved.animationsEnabled !== false);
+  useTextEffectRescan(
+    ownerReady ? textEffect : null,
+    ownerReady && experience?.resolved.animationsEnabled !== false,
+  );
 
   const activeLogoImage =
     mounted && resolvedTheme === "dark" ? darkUrl || lightUrl : lightUrl || darkUrl;
@@ -103,11 +127,15 @@ export function HeaderBrand({ branding, localeCode: _localeCode, siteTextEffect 
       style={brandingCssVariables(branding) as CSSProperties}
       aria-label={`${brandName || "Home"} — Home`}
     >
-      <div className="brand-logo" {...(!hasImage ? brandTextEffectProps : undefined)}>
+      <div
+        className="brand-logo"
+        suppressHydrationWarning
+        {...(!hasImage ? brandTextEffectProps : undefined)}
+      >
         {logoInner}
       </div>
       <div className="brand-text">
-        <div className="brand-name" {...brandTextEffectProps}>
+        <div className="brand-name" suppressHydrationWarning {...brandTextEffectProps}>
           {brandName}
         </div>
         {branding.showTagline && branding.tagline ? (

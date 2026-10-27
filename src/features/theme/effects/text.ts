@@ -168,10 +168,91 @@ export function resetTextEffects(): void {
   }
 }
 
+/** Effects that rewrite textContent / innerHTML — unsafe during selective hydrate. */
+const TEXT_CONTENT_MUTATING_EFFECTS = new Set([
+  "typewriter",
+  "scramble",
+  "wave",
+  "glitch",
+]);
+
+/** Set by HeaderBrand after mount; brand is skipped until then (React #418). */
+export const TEXT_EFFECT_OWNER_READY_ATTR = "data-text-effect-owner-ready";
+
+function isBrandTextTarget(el: Element): boolean {
+  return el.getAttribute("data-text-effect-target") === "brand";
+}
+
+function isBrandOwnerReady(el: Element): boolean {
+  return el.getAttribute(TEXT_EFFECT_OWNER_READY_ATTR) === "true";
+}
+
+function isDocumentHydrated(): boolean {
+  return document.documentElement.dataset.hydrated === "true";
+}
+
+/** One MessagePort turn — same queue React uses for selective hydration. */
+function afterMessagePort(work: () => void): void {
+  try {
+    const { port1, port2 } = new MessageChannel();
+    port1.onmessage = () => work();
+    port2.postMessage(null);
+  } catch {
+    window.setTimeout(work, 0);
+  }
+}
+
+/**
+ * Wait until LocaleBootClient marks `data-hydrated`, then drain selective-hydration
+ * MessagePort work before mutating text nodes.
+ *
+ * rAF + setTimeout(0) alone is not enough: ThemeEffectsClient can clear heading
+ * textContent (typewriter) while sibling islands are still hydrating → React #418
+ * (`text` vs ``) with a MessagePort stack frame.
+ *
+ * Extensions that wrap `setImmediate` / MessagePort (seen as `content.js` in
+ * console stacks) can interleave hundreds of port tasks with React hydrate —
+ * so we also wait for an idle turn (or a short timeout) before mutating text.
+ */
+export function scheduleAfterSelectiveHydration(work: () => void): void {
+  const runIdle = () => {
+    const ric = window.requestIdleCallback?.bind(window);
+    if (typeof ric === "function") {
+      ric(() => work(), { timeout: 500 });
+      return;
+    }
+    window.setTimeout(work, 0);
+  };
+
+  const run = () => {
+    // Two MessagePort drains + rAF + idle: LocaleBootClient may set hydrated
+    // while other islands (or extension port wrappers) are still queued.
+    afterMessagePort(() => {
+      afterMessagePort(() => {
+        requestAnimationFrame(runIdle);
+      });
+    });
+  };
+
+  if (isDocumentHydrated()) {
+    run();
+    return;
+  }
+
+  const onHydrated = () => {
+    document.removeEventListener("azura:hydrated", onHydrated);
+    run();
+  };
+  document.addEventListener("azura:hydrated", onHydrated, { once: true });
+}
+
 export function initTextEffects(type: string | null | undefined) {
   const fallback = type && type !== "none" ? type : null;
 
   requestAnimationFrame(() => {
+    const immediate: Array<() => void> = [];
+    const deferred: Array<() => void> = [];
+
     document.querySelectorAll<HTMLElement>("[data-text-effect]").forEach((el) => {
       if (isRootTextTarget(el)) return;
       if (!isSimpleTextHeading(el)) return;
@@ -180,17 +261,43 @@ export function initTextEffects(type: string | null | undefined) {
       if (owner?.hasAttribute("data-text-effect-off")) return;
       if (!owner && el.closest("[data-text-effect-off]")) return;
 
+      // Header brand is owned by HeaderBrand — applying from ThemeEffectsClient
+      // before that island hydrates clears SSR text and trips React #418.
+      if (isBrandTextTarget(el) && !isBrandOwnerReady(el)) {
+        return;
+      }
+
       const raw = el.getAttribute("data-text-effect");
       const effect =
         raw && raw !== "none" && raw !== "inherit" ? raw : fallback;
       if (!effect) return;
       if (el.getAttribute(APPLIED_ATTR) === effect) return;
 
-      // Drop any leftover neon paint before binding the new effect.
-      killGsapTweens(el);
-      el.style.removeProperty("text-shadow");
-      applyEffect(el, effect);
+      const apply = () => {
+        // Re-check at apply time: deferred work can outlive owner-ready flips
+        // or run while selective hydrate is still draining MessagePort tasks.
+        if (!el.isConnected) return;
+        if (isBrandTextTarget(el) && !isBrandOwnerReady(el)) return;
+        if (el.getAttribute(APPLIED_ATTR) === effect) return;
+        // Drop any leftover neon paint before binding the new effect.
+        killGsapTweens(el);
+        el.style.removeProperty("text-shadow");
+        applyEffect(el, effect);
+      };
+
+      if (TEXT_CONTENT_MUTATING_EFFECTS.has(effect)) {
+        deferred.push(apply);
+      } else {
+        immediate.push(apply);
+      }
     });
+
+    for (const fn of immediate) fn();
+    if (deferred.length > 0) {
+      scheduleAfterSelectiveHydration(() => {
+        for (const fn of deferred) fn();
+      });
+    }
   });
 }
 
@@ -346,7 +453,8 @@ function applyTypewriter(el: HTMLElement, text: string) {
     document.head.append(s);
   }
 
-  el.textContent = "";
+  // Keep SSR text until the first interval tick. Synchronous textContent="" during
+  // selective hydration is what surfaces as React #418 (text vs "").
   el.style.borderRight = "none";
 
   const speed = parseFloat(
@@ -358,6 +466,9 @@ function applyTypewriter(el: HTMLElement, text: string) {
 
   let i = 0;
   const interval = window.setInterval(() => {
+    if (i === 0) {
+      el.textContent = "";
+    }
     i++;
     if (i < text.length) {
       el.textContent = text.slice(0, i);

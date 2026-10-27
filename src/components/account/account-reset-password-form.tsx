@@ -12,6 +12,7 @@ import { PasswordField } from "@/components/account/password-field";
 import { validateNewPassword } from "@/features/account/lib/password-form-validation";
 import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
 import { accountPublicPath } from "@/features/account/account-public-path";
+import { passwordResetVerifyDescription } from "@/features/account/password-reset-otp.helpers";
 import { usePasswordResetFlow } from "@/components/account/use-password-reset-flow";
 
 type Props = {
@@ -115,7 +116,10 @@ export function AccountResetPasswordForm({ locale }: Props) {
         </CardTitle>
         <CardDescription>
           {flow.state.stage === "verify"
-            ? `We emailed a 6-digit code${flow.hint ? ` to ${flow.hint}` : ""}.`
+            ? passwordResetVerifyDescription({
+                hasTicket: Boolean(flow.state.ticket),
+                hint: flow.hint,
+              })
             : "Start by requesting a 6-digit code for your account email."}
         </CardDescription>
       </CardHeader>

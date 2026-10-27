@@ -5,16 +5,20 @@ import { enforceRateLimit } from "@/lib/rate-limit";
 import { writeSecurityAuditLog } from "@/lib/security-audit";
 import { fail, ok, type ActionResult } from "@/types/api";
 import { isLoginOtpChannel, type LoginOtpChannel } from "@/features/auth/login-mfa-factors";
-import { clearMfaChallengeCookie, readMfaChallenge } from "@/features/auth/mfa-challenge-cookie";
+import {
+  clearMfaChallengeCookie,
+  ensureMfaChallengeAfterPassword,
+  readMfaChallenge,
+} from "@/features/auth/mfa-challenge-cookie";
 import { issueAdminLoginOtp } from "@/features/auth/admin-login-otp.service";
 
 /**
  * Authorise an OTP action for the *current* password challenge.
  *
  * The login form holds the email + password it just verified. We re-check the
- * password here (the user already proved they know it) and confirm the signed
- * challenge cookie says this same browser passed the password step for this
- * same account. Either check failing means "sign in again", never "send a code".
+ * password here (the user already proved they know it). A missing challenge
+ * cookie is re-minted after that proof — Auth.js often drops Set-Cookie on the
+ * first mfa_required response, so "Email me a code" must self-heal.
  */
 async function authorizeChallenge(
   email: unknown,
@@ -50,6 +54,21 @@ async function authorizeChallenge(
     return { ok: false, error: "Invalid email or password", code: "invalid_credentials" };
   }
 
+  const ensured = await ensureMfaChallengeAfterPassword({
+    userId: user.id,
+    passwordHash: user.passwordHash,
+  });
+  if (ensured === "failed") {
+    await clearMfaChallengeCookie().catch(() => undefined);
+    return {
+      ok: false,
+      error: "Your sign-in session expired. Enter your password again.",
+      code: "challenge_expired",
+    };
+  }
+
+  // Confirm the cookie is readable after a fresh mint (covers write failures
+  // that issueMfaChallengeCookie swallowed as success elsewhere).
   const challenge = await readMfaChallenge(user.id, user.passwordHash);
   if (!challenge.valid) {
     await clearMfaChallengeCookie().catch(() => undefined);
@@ -80,6 +99,16 @@ function messageForIssueFailure(
         : "That delivery channel is not available right now.";
     case "invalid_recipient":
       return "No phone number on file for this account.";
+    case "delivery_failed":
+      if (errorCode === "token_persist_failed") {
+        return "Could not prepare a sign-in code (database). Ask an administrator to run the latest database migrate, then try again.";
+      }
+      if (errorCode === "not_configured") {
+        return "Email sign-in codes are not configured yet. Ask an administrator to choose the OTP email account under Settings → Email Accounts → Email delivery.";
+      }
+      return errorCode && errorCode !== "unknown" && errorCode !== "transport_error"
+        ? `Could not send the code (${errorCode}). Ask an administrator to check the Email delivery account, or use another method.`
+        : "Could not send the code. Try another method.";
     default:
       // Name the provider error once ("not_configured", a rejected key, an
       // unverified sender domain) — it is what makes the problem fixable.
@@ -113,11 +142,20 @@ export async function sendLoginOtpAction(input: {
     const source = channel === "email" ? auth.user.email : (auth.user.phone ?? "");
     return ok({ channel, maskedDestination: maskDestination(source) });
   } catch (error) {
-    console.error(
-      "[auth] sendLoginOtpAction failed",
-      error instanceof Error ? error.message : "unknown",
+    const detail = error instanceof Error ? error.message : "unknown";
+    console.error("[auth] sendLoginOtpAction failed", detail);
+    // Prefer a fixable hint over a blank "try again" when the failure is ours.
+    if (/AUTH_SECRET|challenge cookie/i.test(detail)) {
+      return fail("Sign-in session could not be saved. Enter your password again.");
+    }
+    if (/purpose|PASSWORD_RESET|LOGIN_MFA|Data truncated/i.test(detail)) {
+      return fail(
+        "Could not prepare a sign-in code (database). Ask an administrator to run the latest database migrate, then try again.",
+      );
+    }
+    return fail(
+      "Unable to send a sign-in code right now. Ask an administrator to check Settings → Email Accounts → Email delivery and the security audit log.",
     );
-    return fail("Unable to send a sign-in code right now.");
   }
 }
 

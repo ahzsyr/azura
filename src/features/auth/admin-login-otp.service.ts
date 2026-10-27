@@ -18,6 +18,7 @@ import {
   getLoginOtpTransport,
 } from "@/features/auth/login-otp-delivery";
 import type { ResolvedAuthSender } from "@/features/email/auth-email-sender";
+import { createEmailOtpToken } from "@/features/auth/email-otp-token.service";
 
 const ISSUE_LIMIT = 5;
 const ISSUE_WINDOW_MS = 15 * 60 * 1000;
@@ -164,12 +165,34 @@ export async function issueAdminLoginOtp(input: {
   const purpose = "ADMIN_LOGIN" as EmailOtpPurpose;
 
   // Invalidate previously issued codes before creating the new one.
-  await prisma.emailOtpToken.deleteMany({
-    where: { userId: user.id, purpose, usedAt: null },
-  });
-  await prisma.emailOtpToken.create({
-    data: { userId: user.id, purpose, channel, codeHash, expiresAt: emailOtpExpiresAt() },
-  });
+  try {
+    await prisma.emailOtpToken.deleteMany({
+      where: { userId: user.id, purpose, usedAt: null },
+    });
+    await createEmailOtpToken({
+      userId: user.id,
+      purpose,
+      channel,
+      codeHash,
+      expiresAt: emailOtpExpiresAt(),
+    });
+  } catch (error) {
+    console.error(
+      "[auth] login OTP token persist failed",
+      error instanceof Error ? error.message : "unknown",
+    );
+    await writeSecurityAuditLog({
+      action: "auth.mfa.delivery_failed",
+      actorId: user.id,
+      actorRole: user.role,
+      meta: {
+        channel,
+        errorCode: "token_persist_failed",
+        detail: error instanceof Error ? error.message.slice(0, 200) : "unknown",
+      },
+    });
+    return { ok: false, reason: "delivery_failed", errorCode: "token_persist_failed" };
+  }
 
   let delivery: { sent: boolean; errorCode?: string };
   try {

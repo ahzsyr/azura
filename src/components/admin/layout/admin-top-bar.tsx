@@ -90,9 +90,11 @@ function SaveStatusIndicator() {
 
   const formattedTime =
     lastUpdated &&
-    new Intl.DateTimeFormat(undefined, {
+    new Intl.DateTimeFormat("en-GB", {
       hour: "numeric",
       minute: "2-digit",
+      hour12: false,
+      timeZone: "UTC",
     }).format(lastUpdated);
 
   return (

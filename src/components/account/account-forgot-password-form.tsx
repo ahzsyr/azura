@@ -12,6 +12,7 @@ import { TurnstileField } from "@/components/security/turnstile-field";
 import { CredentialChecks, useCredentialCheck } from "@/components/security/credential-checks";
 import { validateEmailFormat, validateNewPassword } from "@/features/account/lib/password-form-validation";
 import { accountPublicPath } from "@/features/account/account-public-path";
+import { passwordResetVerifyDescription } from "@/features/account/password-reset-otp.helpers";
 import { usePasswordResetFlow } from "@/components/account/use-password-reset-flow";
 
 type Props = {
@@ -83,9 +84,19 @@ export function AccountForgotPasswordForm({ locale, captchaSiteKey = "" }: Props
         ? t("resetPasswordTitle")
         : t("forgotPasswordTitle");
 
+  const hasResetTicket = Boolean(flow.state.ticket);
+  const verifyCopy =
+    flow.state.stage === "verify"
+      ? passwordResetVerifyDescription({
+          hasTicket: hasResetTicket,
+          hint: flow.hint,
+        })
+      : null;
   const description =
     flow.state.stage === "verify"
-      ? `We emailed a 6-digit code${flow.hint ? ` to ${flow.hint}` : ""}. It expires in 10 minutes.`
+      ? hasResetTicket
+        ? verifyCopy
+        : "Enter the 6-digit code if one arrived. It expires in 10 minutes."
       : flow.state.stage === "password"
         ? "Choose a new password. Two-step verification will be turned off and must be set up again at your next sign-in."
         : "Enter your email and we will email you a 6-digit code to reset your password.";
@@ -97,7 +108,10 @@ export function AccountForgotPasswordForm({ locale, captchaSiteKey = "" }: Props
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        {flow.notice && flow.stage === "verify" ? (
+        {flow.state.stage === "verify" && !hasResetTicket && verifyCopy ? (
+          <p className="mb-4 text-sm text-amber-800 dark:text-amber-200">{verifyCopy}</p>
+        ) : null}
+        {flow.notice && flow.state.stage === "verify" && hasResetTicket ? (
           <p className="mb-4 text-sm text-emerald-700 dark:text-emerald-300">{flow.notice}</p>
         ) : null}
 

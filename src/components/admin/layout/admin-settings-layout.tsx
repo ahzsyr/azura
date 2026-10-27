@@ -1,12 +1,12 @@
 "use client";
 
 import { useRef, useState, type ReactNode } from "react";
-import { AnimatePresence } from "motion/react";
 import {
   AdminSettingsRibbon,
   AdminSettingsSection,
   type SettingsRibbonTab,
 } from "./admin-settings-ribbon";
+import { AdminAnimatePresence } from "./admin-motion";
 import { cn } from "@/lib/utils";
 
 // ── Status dot colors (mirrors admin-settings-ribbon.tsx) ─────────────────────
@@ -190,11 +190,11 @@ export function AdminSettingsLayout({
 
         {/* Content panel */}
         <div className="min-w-0">
-          <AnimatePresence mode="wait">
+          <AdminAnimatePresence mode="wait">
             <AdminSettingsSection key={activeTab} id={activeTab}>
               {children(activeTab)}
             </AdminSettingsSection>
-          </AnimatePresence>
+          </AdminAnimatePresence>
         </div>
       </div>
     );
@@ -211,11 +211,11 @@ export function AdminSettingsLayout({
           layoutId={layoutId}
           variant="wrap"
         />
-        <AnimatePresence mode="wait">
+        <AdminAnimatePresence mode="wait">
           <AdminSettingsSection key={activeTab} id={activeTab}>
             {children(activeTab)}
           </AdminSettingsSection>
-        </AnimatePresence>
+        </AdminAnimatePresence>
       </div>
     );
   }
@@ -243,11 +243,11 @@ export function AdminSettingsLayout({
         />
       )}
       <div className="admin-settings-content min-w-0">
-        <AnimatePresence mode="wait">
+        <AdminAnimatePresence mode="wait">
           <AdminSettingsSection key={activeTab} id={activeTab}>
             {children(activeTab)}
           </AdminSettingsSection>
-        </AnimatePresence>
+        </AdminAnimatePresence>
       </div>
     </div>
   );

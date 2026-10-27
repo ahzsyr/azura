@@ -20,7 +20,10 @@ import {
   verifyResetCodeAction,
   completePasswordResetAction,
 } from "@/features/account/password-reset.actions";
-import { resolvePasswordResetStage } from "@/features/account/password-reset-otp.helpers";
+import {
+  PASSWORD_RESET_NO_DELIVERY_CONFIRMATION,
+  resolvePasswordResetStage,
+} from "@/features/account/password-reset-otp.helpers";
 
 export type ResetFlowState = {
   stage: "request" | "verify" | "password" | "done";
@@ -60,10 +63,11 @@ export function usePasswordResetFlow(options: {
         setError(result.error);
         return false;
       }
-      setNotice(result.message);
-      // A ticket is returned only when a code was actually sent for this
-      // browser, so the generic message stays true either way.
-      reset({ stage: "verify", email: input.email.trim(), ticket: result.ticket ?? null });
+      const ticket = result.ticket ?? null;
+      // Ticket only when mail was accepted for this browser. Keep the generic
+      // success for anti-enumeration; show a no-confirmation notice otherwise.
+      setNotice(ticket ? result.message : PASSWORD_RESET_NO_DELIVERY_CONFIRMATION);
+      reset({ stage: "verify", email: input.email.trim(), ticket });
       setHint(result.hint ?? "");
       return true;
     } catch {

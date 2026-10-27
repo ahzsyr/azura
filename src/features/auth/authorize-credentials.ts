@@ -207,21 +207,18 @@ export async function authorizeCredentials(
   let adminOtpUnconfigured = false;
   const needsSecondFactor = requiresSecondFactorForUser(user);
   if (needsSecondFactor) {
-    adminOtpUnconfigured = await completeMfaChallenge(user, mfaCode, ip);
-
-    // Record how this browser completed the challenge so the "send a code"
-    // / "switch channel" actions can be authorised. Best-effort: a cookie that
-    // cannot be written must not block sign-in.
-    if (!adminOtpUnconfigured) {
-      try {
-        await issueMfaChallengeCookie({ userId: user.id, passwordHash: user.passwordHash });
-      } catch (error) {
-        console.error(
-          "[auth] could not issue MFA challenge cookie",
-          error instanceof Error ? error.message : "unknown",
-        );
-      }
+    // Mint before completeMfaChallenge: that path throws MfaRequiredError when
+    // no code is present, and the cookie must already exist so "Email me a
+    // code" / channel switch can re-authorise this browser.
+    try {
+      await issueMfaChallengeCookie({ userId: user.id, passwordHash: user.passwordHash });
+    } catch (error) {
+      console.error(
+        "[auth] could not issue MFA challenge cookie",
+        error instanceof Error ? error.message : "unknown",
+      );
     }
+    adminOtpUnconfigured = await completeMfaChallenge(user, mfaCode, ip);
   }
 
   await clearLoginLockout(user.id);
