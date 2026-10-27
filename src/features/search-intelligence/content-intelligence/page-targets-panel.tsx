@@ -7,8 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   acknowledgeOwnershipExceptionAction,
+  createPlanningBriefAction,
+  deleteKeywordClusterAction,
+  deleteKeywordRecordAction,
   deletePageSearchTargetAction,
   retirePageSearchTargetAction,
+  upsertKeywordClusterAction,
+  upsertKeywordRecordAction,
   upsertPageSearchTargetAction,
   updatePriorityEntitiesAction,
 } from "./actions";
@@ -20,14 +25,26 @@ import type {
   SearchIntent,
 } from "./page-search-target";
 import { PAGE_TARGET_ENTITY_TYPES, SEARCH_INTENTS } from "./page-search-target";
+import {
+  CLUSTER_CONTENT_TYPES,
+  type ClusterContentType,
+} from "./keyword-registry";
 
 type LocaleOption = { code: string; label: string; isDefault: boolean };
+
+type KeywordAssignmentFinding = {
+  id: string;
+  locale: string;
+  normalizedKeyword: string;
+  keywords: Array<{ id: string; keyword: string; assignedEntity?: PageTargetEntityRef }>;
+};
 
 type Props = {
   siteKey: string;
   locales: LocaleOption[];
   config: PageTargetSiteConfig;
   ownershipFindings: OwnershipFinding[];
+  keywordAssignmentFindings?: KeywordAssignmentFinding[];
   unassignedByLocale: Record<string, PageTargetEntityRef[]>;
 };
 
@@ -36,6 +53,7 @@ export function PageTargetsPanel({
   locales,
   config,
   ownershipFindings,
+  keywordAssignmentFindings = [],
   unassignedByLocale,
 }: Props) {
   const [pending, startTransition] = useTransition();
@@ -47,10 +65,23 @@ export function PageTargetsPanel({
   const [supporting, setSupporting] = useState("");
   const [intent, setIntent] = useState<SearchIntent>("informational");
   const [priorityText, setPriorityText] = useState("");
+  const [clusterId, setClusterId] = useState("");
   const [exceptionReason, setExceptionReason] = useState("Intentional overlap reviewed");
   const [priorityDraft, setPriorityDraft] = useState(
     config.priorityEntities.map((e) => `${e.type}:${e.id}`).join("\n"),
   );
+  const [clusterName, setClusterName] = useState("");
+  const [clusterTopic, setClusterTopic] = useState("");
+  const [clusterType, setClusterType] = useState<ClusterContentType>("category");
+  const [clusterSynonyms, setClusterSynonyms] = useState("");
+  const [kwText, setKwText] = useState("");
+  const [kwClusterId, setKwClusterId] = useState("");
+  const [briefTopic, setBriefTopic] = useState("");
+  const [briefType, setBriefType] = useState<ClusterContentType>("category");
+  const [briefKeywords, setBriefKeywords] = useState("");
+  const [briefEntityType, setBriefEntityType] = useState("CATEGORY");
+  const [briefEntityId, setBriefEntityId] = useState("");
+  const [briefResult, setBriefResult] = useState<string | null>(null);
 
   const openFindings = useMemo(
     () => ownershipFindings.filter((f) => f.status === "open"),
@@ -162,6 +193,22 @@ export function PageTargetsPanel({
                 placeholder="10"
               />
             </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="clusterId">Cluster (optional)</Label>
+              <select
+                id="clusterId"
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm"
+                value={clusterId}
+                onChange={(e) => setClusterId(e.target.value)}
+              >
+                <option value="">None</option>
+                {config.clusters.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button
@@ -181,6 +228,7 @@ export function PageTargetsPanel({
                     intent,
                     status: "active",
                     priority: priorityText.trim() ? Number(priorityText) : undefined,
+                    clusterId: clusterId || undefined,
                   }),
                 )
               }
@@ -205,6 +253,7 @@ export function PageTargetsPanel({
                     intent,
                     status: "draft",
                     priority: priorityText.trim() ? Number(priorityText) : undefined,
+                    clusterId: clusterId || undefined,
                   }),
                 )
               }
@@ -213,6 +262,305 @@ export function PageTargetsPanel({
             </Button>
           </div>
           {message ? <p className="text-sm text-muted-foreground">{message}</p> : null}
+        </CardContent>
+      </Card>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Keyword clusters</CardTitle>
+            <CardDescription>
+              Keyword-first planning. Seed from real catalog categories (e.g. routers), not hard-coded routes.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="clusterName">Name</Label>
+                <Input id="clusterName" value={clusterName} onChange={(e) => setClusterName(e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="clusterTopic">Primary topic</Label>
+                <Input id="clusterTopic" value={clusterTopic} onChange={(e) => setClusterTopic(e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="clusterType">Content type</Label>
+                <select
+                  id="clusterType"
+                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm"
+                  value={clusterType}
+                  onChange={(e) => setClusterType(e.target.value as ClusterContentType)}
+                >
+                  {CLUSTER_CONTENT_TYPES.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="clusterSynonyms">Synonyms (comma-separated)</Label>
+                <Input
+                  id="clusterSynonyms"
+                  value={clusterSynonyms}
+                  onChange={(e) => setClusterSynonyms(e.target.value)}
+                />
+              </div>
+            </div>
+            <Button
+              type="button"
+              disabled={pending}
+              onClick={() =>
+                run("Cluster saved", () =>
+                  upsertKeywordClusterAction({
+                    name: clusterName,
+                    primaryTopic: clusterTopic || clusterName,
+                    contentType: clusterType,
+                    synonyms: clusterSynonyms
+                      .split(",")
+                      .map((s) => s.trim())
+                      .filter(Boolean),
+                  }),
+                )
+              }
+            >
+              Save cluster
+            </Button>
+            <div className="space-y-2 text-sm">
+              {config.clusters.length === 0 ? (
+                <p className="text-muted-foreground">No clusters yet.</p>
+              ) : (
+                config.clusters.map((c) => (
+                  <div key={c.id} className="rounded-lg border p-3 flex items-start justify-between gap-2">
+                    <div>
+                      <p className="font-medium">{c.name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {c.contentType} · {c.primaryTopic}
+                        {c.synonyms.length ? ` · ${c.synonyms.join(", ")}` : ""}
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      disabled={pending}
+                      onClick={() => run("Cluster deleted", () => deleteKeywordClusterAction(c.id))}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                ))
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Keywords</CardTitle>
+            <CardDescription>Assign keywords to entities via cluster — never raw targetUrl identity.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="space-y-1.5 sm:col-span-2">
+                <Label htmlFor="kwText">Keyword</Label>
+                <Input id="kwText" value={kwText} onChange={(e) => setKwText(e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="kwCluster">Cluster</Label>
+                <select
+                  id="kwCluster"
+                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm"
+                  value={kwClusterId}
+                  onChange={(e) => setKwClusterId(e.target.value)}
+                >
+                  <option value="">Select cluster</option>
+                  {config.clusters.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <Button
+              type="button"
+              disabled={pending || !kwClusterId}
+              onClick={() =>
+                run("Keyword saved", () =>
+                  upsertKeywordRecordAction({
+                    keyword: kwText,
+                    locale,
+                    intent,
+                    clusterId: kwClusterId,
+                    assignedEntityType: entityType,
+                    assignedEntityId: entityId,
+                    status: "assigned",
+                  }),
+                )
+              }
+            >
+              Save keyword (uses entity fields above)
+            </Button>
+            {keywordAssignmentFindings.length > 0 ? (
+              <div className="rounded-lg border border-amber-500/40 p-3 text-xs space-y-1">
+                <p className="font-medium">Keyword assignment collisions</p>
+                {keywordAssignmentFindings.map((f) => (
+                  <p key={f.id} className="text-muted-foreground">
+                    {f.locale} · {f.normalizedKeyword} · {f.keywords.length} records
+                  </p>
+                ))}
+              </div>
+            ) : null}
+            <div className="space-y-2 text-sm">
+              {config.keywords.length === 0 ? (
+                <p className="text-muted-foreground">No keywords yet.</p>
+              ) : (
+                config.keywords.slice(0, 40).map((k) => (
+                  <div key={k.id} className="rounded-lg border p-3 flex items-start justify-between gap-2">
+                    <div>
+                      <p className="font-medium">{k.keyword}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {k.locale} · {k.intent} · {k.status}
+                        {k.assignedEntity
+                          ? ` · ${k.assignedEntity.type}:${k.assignedEntity.id}`
+                          : " · unassigned"}
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      disabled={pending}
+                      onClick={() => run("Keyword deleted", () => deleteKeywordRecordAction(k.id))}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                ))
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Landing page planning brief</CardTitle>
+          <CardDescription>
+            Creates draft cluster / target / keywords only — does not publish CMS pages or live meta.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="briefTopic">Primary topic</Label>
+              <Input id="briefTopic" value={briefTopic} onChange={(e) => setBriefTopic(e.target.value)} />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="briefType">Page type</Label>
+              <select
+                id="briefType"
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm"
+                value={briefType}
+                onChange={(e) => {
+                  const next = e.target.value as ClusterContentType;
+                  setBriefType(next);
+                  if (next === "category") setBriefEntityType("CATEGORY");
+                  else if (next === "brand") setBriefEntityType("BRAND");
+                  else if (next === "product") setBriefEntityType("PRODUCT");
+                  else if (next === "article") setBriefEntityType("POST");
+                  else setBriefEntityType("pageKey");
+                }}
+              >
+                {CLUSTER_CONTENT_TYPES.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="briefEntityType">Entity type</Label>
+              <select
+                id="briefEntityType"
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm"
+                value={briefEntityType}
+                onChange={(e) => setBriefEntityType(e.target.value)}
+              >
+                {PAGE_TARGET_ENTITY_TYPES.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="briefEntityId">Entity id (optional for draft cluster only)</Label>
+              <Input
+                id="briefEntityId"
+                value={briefEntityId}
+                onChange={(e) => setBriefEntityId(e.target.value)}
+                placeholder="routers"
+              />
+            </div>
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="briefKeywords">Related keywords (comma-separated)</Label>
+              <Input
+                id="briefKeywords"
+                value={briefKeywords}
+                onChange={(e) => setBriefKeywords(e.target.value)}
+              />
+            </div>
+          </div>
+          <Button
+            type="button"
+            disabled={pending}
+            onClick={() =>
+              startTransition(async () => {
+                setMessage(null);
+                setBriefResult(null);
+                try {
+                  const result = await createPlanningBriefAction({
+                    primaryTopic: briefTopic,
+                    pageType: briefType,
+                    locale,
+                    relatedKeywords: briefKeywords
+                      .split(",")
+                      .map((s) => s.trim())
+                      .filter(Boolean),
+                    entityType: briefEntityType,
+                    entityId: briefEntityId.trim() || undefined,
+                    intent,
+                  });
+                  if (!result.ok) {
+                    setMessage("message" in result ? result.message : "Brief failed");
+                    return;
+                  }
+                  setMessage("Planning brief created (draft only)");
+                  setBriefResult(
+                    [
+                      result.brief.requiredH1,
+                      result.brief.introGuidance,
+                      `Schema: ${result.brief.schemaType}`,
+                      result.brief.sitemapExpectation,
+                      ...result.brief.internalLinks.map((l) => `Link: ${l}`),
+                      ...result.brief.ownershipWarnings,
+                    ].join("\n"),
+                  );
+                } catch (error) {
+                  setMessage(error instanceof Error ? error.message : "Brief failed");
+                }
+              })
+            }
+          >
+            Create planning brief
+          </Button>
+          {briefResult ? (
+            <pre className="whitespace-pre-wrap rounded-lg border bg-muted/30 p-3 text-xs text-muted-foreground">
+              {briefResult}
+            </pre>
+          ) : null}
         </CardContent>
       </Card>
 

@@ -5,7 +5,6 @@ import { resolveSiteOrigin } from "@/features/seo/resolve-site-origin";
 import { buildCanonicalUrl } from "@/i18n/seo-helpers";
 import { getFallbackDefaultLocalePrefix } from "@/i18n/url-helpers";
 import { localeService } from "@/features/i18n/locale.service";
-import { getStaticSeoPage, isStaticSeoPageKey } from "@/features/seo/constants";
 import {
   loadPageTargetSiteConfig,
   resolveCurrentSiteKey,
@@ -14,6 +13,7 @@ import type { PageSearchTarget } from "@/features/search-intelligence/content-in
 import { normalizeTopic } from "@/features/search-intelligence/content-intelligence/page-search-target";
 import { normalizeUrlForSiteMatch } from "./url-match-policy";
 import { softIncludesPhrase } from "@/features/seo/platform/analyzers/topic-evidence";
+import { pathForPageSearchTarget } from "./target-path";
 
 export type TargetGscCompareFilters = {
   days?: number;
@@ -62,18 +62,6 @@ export type TargetGscCompareReport = {
   }>;
 };
 
-function pathForTarget(target: PageSearchTarget): string {
-  if (target.entity.type === "pageKey" && isStaticSeoPageKey(target.entity.id)) {
-    return getStaticSeoPage(target.entity.id)?.path ?? `/${target.entity.id}`;
-  }
-  if (target.entity.type === "PRODUCT" || target.entity.type === "CONTENT_ITEM") {
-    return `/products/${target.entity.id}`;
-  }
-  if (target.entity.type === "POST") return `/blog/${target.entity.id}`;
-  if (target.entity.type === "CMS_PAGE") return `/pages/${target.entity.id}`;
-  return `/${target.entity.id}`;
-}
-
 async function deriveCanonicalForTarget(
   target: PageSearchTarget,
   siteOrigin: string,
@@ -85,7 +73,7 @@ async function deriveCanonicalForTarget(
     locales[0];
   const defaultPrefix =
     locales.find((l) => l.isDefault)?.urlPrefix ?? getFallbackDefaultLocalePrefix();
-  const path = pathForTarget(target);
+  const path = pathForPageSearchTarget(target);
   return buildCanonicalUrl(
     siteOrigin,
     locale?.urlPrefix ?? target.locale,

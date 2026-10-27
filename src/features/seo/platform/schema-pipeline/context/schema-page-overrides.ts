@@ -28,4 +28,6 @@ export type SchemaPageOverrides = {
   };
   pageJsonLd?: unknown;
   seoMetaJsonLdInDatabase?: boolean;
+  /** Visible listing items for CollectionPage ItemList (category/brand). */
+  listingItems?: Array<{ name: string; url: string }>;
 };

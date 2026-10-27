@@ -90,7 +90,10 @@ export const WebPageBuilder = {
     const primaryImage = ctx.site.logoUrl ? entityRef("logo", ctx) : undefined;
     const hasProduct = ctx.page.pageType === "product" && Boolean(ctx.page.product);
     const hasArticle = ctx.page.pageType === "blog" && Boolean(ctx.page.article);
-    const hasFaq = ctx.page.faqItems.length > 0 && !hasProduct && !hasArticle;
+    const hasCollection =
+      (ctx.page.pageType === "collection" || ctx.page.pageType === "brand") &&
+      Boolean(ctx.page.listingItems?.length || ctx.page.title);
+    const hasFaq = ctx.page.faqItems.length > 0 && !hasProduct && !hasArticle && !hasCollection;
 
     return [
       {
@@ -109,9 +112,11 @@ export const WebPageBuilder = {
           ? { mainEntity: entityRef(`product-${ctx.page.product!.id}`, ctx) }
           : hasArticle
             ? { mainEntity: entityRef("article", ctx) }
-            : hasFaq
-              ? { mainEntity: entityRef("faqpage", ctx) }
-              : {}),
+            : hasCollection
+              ? { mainEntity: entityRef("collectionpage", ctx) }
+              : hasFaq
+                ? { mainEntity: entityRef("faqpage", ctx) }
+                : {}),
       },
     ];
   },

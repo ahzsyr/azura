@@ -104,6 +104,11 @@ export type PageContext = {
   pageJsonLd?: unknown;
   /** Whether SeoMeta.jsonLd exists in database (column or translation). */
   seoMetaJsonLdInDatabase?: boolean;
+  /**
+   * Visible listing items for CollectionPage/ItemList (category/brand pages).
+   * Must reflect the rendered listing — never invent products.
+   */
+  listingItems?: Array<{ name: string; url: string }>;
 };
 
 export type RuntimeContext = {

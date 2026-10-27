@@ -32,6 +32,73 @@ import { resolvePageSeoContext } from "@/features/seo/resolve-page-seo-context";
 import { resolveEffectiveSeoForLocale } from "@/features/seo/resolve-page-seo-for-locale";
 import type { ParsedMarketingPath } from "./parse-marketing-path";
 import { ensureSearchRuntimeConfig } from "@/capabilities/search/settings/search-runtime";
+import { publicLocalePath } from "@/i18n/url-helpers";
+
+const LISTING_SCHEMA_ITEM_LIMIT = 24;
+
+async function loadListingItemsForSchema(
+  pageType: "collection" | "brand",
+  slug: string,
+  locale: string,
+  siteOrigin: string,
+): Promise<Array<{ name: string; url: string }> | undefined> {
+  const origin = siteOrigin.replace(/\/$/, "");
+  if (pageType === "collection") {
+    const { buildProductListingCatalogForCollection } = await import(
+      "@/features/products/listing/catalog"
+    );
+    const { filterStateFromSearchParams } = await import(
+      "@/features/products/listing/url-state"
+    );
+    const catalog = await buildProductListingCatalogForCollection(
+      locale,
+      slug,
+      filterStateFromSearchParams(new URLSearchParams()),
+    );
+    return (catalog.records ?? [])
+      .slice(0, LISTING_SCHEMA_ITEM_LIMIT)
+      .map((record) => {
+        const path = publicLocalePath(locale, `/products/${record.slug}`);
+        return {
+          name: record.name || record.slug,
+          url: `${origin}${path}`,
+        };
+      });
+  }
+
+  const { buildProductListingCatalog } = await import("@/features/products/listing/catalog");
+  const { loadBrandAndTagEntries, findBrandBySlug } = await import(
+    "@/features/catalog/brand-tag-pages.service"
+  );
+  const { filterRecordsForBrandProfile } = await import("@/features/catalog/brand-matching");
+  const { readCatalogBrandProfiles } = await import(
+    "@/features/catalog/admin/catalog-taxonomy"
+  );
+  const { ensureDefaultBrandMatchRules } = await import(
+    "@/features/catalog/types/catalog-brand-profile"
+  );
+
+  const listing = await buildProductListingCatalog(locale);
+  const { brands } = await loadBrandAndTagEntries(locale, listing.records);
+  const brand = findBrandBySlug(brands, slug);
+  if (!brand) return [];
+  const profiles = (await readCatalogBrandProfiles(locale)).map(ensureDefaultBrandMatchRules);
+  const profile =
+    profiles.find((p) => p.slug.toLowerCase() === slug.toLowerCase()) ??
+    (brand.profile ? ensureDefaultBrandMatchRules(brand.profile) : null);
+  const filtered = profile
+    ? filterRecordsForBrandProfile(listing.records, profile)
+    : listing.records.filter(
+        (record) => (record.brand ?? "").trim().toLowerCase() === brand.name.toLowerCase(),
+      );
+  return filtered.slice(0, LISTING_SCHEMA_ITEM_LIMIT).map((record) => {
+    const path = publicLocalePath(locale, `/products/${record.slug}`);
+    return {
+      name: record.name || record.slug,
+      url: `${origin}${path}`,
+    };
+  });
+}
 
 async function resolvePageJsonLdForSchema(
   parsed: ParsedMarketingPath,
@@ -232,6 +299,37 @@ export async function buildSchemaContext(
     }
   }
 
+  let listingItems = overrides?.listingItems;
+  if (
+    !listingItems &&
+    (parsed.pageType === "collection" || parsed.pageType === "brand") &&
+    parsed.slug
+  ) {
+    listingItems = await loadListingItemsForSchema(
+      parsed.pageType,
+      parsed.slug,
+      locale,
+      runtime.siteOrigin,
+    ).catch(() => undefined);
+    if (!title && parsed.pageType === "collection") {
+      try {
+        const { collectionsDataService } = await import(
+          "@/features/collections/collections-data.service"
+        );
+        const col = await collectionsDataService.loadBySlug(
+          { localePrefix: locale },
+          parsed.slug,
+        );
+        if (col) {
+          title = col.seo?.metaTitle || col.name || parsed.slug;
+          description = description || col.seo?.metaDescription || col.description || "";
+        }
+      } catch {
+        // keep empty title
+      }
+    }
+  }
+
   const jsonLdResolution =
     overrides?.pageJsonLd !== undefined
       ? {
@@ -257,6 +355,7 @@ export async function buildSchemaContext(
     video,
     pageJsonLd: jsonLdResolution.pageJsonLd,
     seoMetaJsonLdInDatabase: jsonLdResolution.seoMetaJsonLdInDatabase,
+    listingItems,
   };
 
   const ctx: SchemaContext = { site, page, runtime };

@@ -15,6 +15,7 @@ import { ProductBuilder } from "../builders/product.builder";
 import { ArticleBuilder } from "../builders/article.builder";
 import { VideoObjectBuilder } from "../builders/video.builder";
 import { ReviewBuilder } from "../builders/review.builder";
+import { CollectionPageBuilder } from "../builders/collection.builder";
 
 function withGoogleMeta(builder: SchemaBuilder): SchemaBuilder {
   const google = googleMetaForBuilder(builder.id);
@@ -34,6 +35,7 @@ const ALL_BUILDERS: SchemaBuilder[] = [
   ArticleBuilder,
   VideoObjectBuilder,
   ReviewBuilder,
+  CollectionPageBuilder,
 ].map(withGoogleMeta);
 
 export function getActiveBuilders(config?: SeoStructuredConfig): SchemaBuilder[] {

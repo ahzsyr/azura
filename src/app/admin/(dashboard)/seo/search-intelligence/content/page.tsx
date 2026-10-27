@@ -3,13 +3,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getSearchIntelligenceOverview } from "@/features/search-intelligence/seo-consumer";
 import { getPageTargetsWorkspaceAction } from "@/features/search-intelligence/content-intelligence/actions";
 import { PageTargetsPanel } from "@/features/search-intelligence/content-intelligence/page-targets-panel";
+import { buildSeoReadinessChecklist } from "@/features/seo/quality/seo-readiness-checklist";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminContentIntelligencePage() {
-  const [overview, workspace] = await Promise.all([
+  const [overview, workspace, readiness] = await Promise.all([
     getSearchIntelligenceOverview(),
     getPageTargetsWorkspaceAction(),
+    buildSeoReadinessChecklist(),
   ]);
 
   return (
@@ -19,11 +21,34 @@ export default async function AdminContentIntelligencePage() {
         description="Assign site-scoped search targets, review topic ownership, and detect content gaps."
       />
 
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">SEO readiness checklist</CardTitle>
+          <CardDescription>
+            Operator status signals only — not a ranking score. Site {readiness.siteKey}.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-2 text-sm">
+          {readiness.items.map((item) => (
+            <div key={item.id} className="rounded-lg border p-3 flex items-start justify-between gap-3">
+              <div>
+                <p className="font-medium">{item.label}</p>
+                <p className="text-xs text-muted-foreground">{item.detail}</p>
+              </div>
+              <span className="text-xs uppercase tracking-wide text-muted-foreground shrink-0">
+                {item.status}
+              </span>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
       <PageTargetsPanel
         siteKey={workspace.siteKey}
         locales={workspace.locales}
         config={workspace.config}
         ownershipFindings={workspace.ownershipFindings}
+        keywordAssignmentFindings={workspace.keywordAssignmentFindings}
         unassignedByLocale={workspace.unassignedByLocale}
       />
 

@@ -67,6 +67,12 @@ export const BUILDER_GOOGLE_METADATA: Record<string, SchemaBuilderGoogleMeta> = 
     description: "Review eligibility depends on source",
     why: "Self-serving organization reviews are not eligible for Google review rich results.",
   },
+  "collection-page": {
+    feature: "CollectionPage / ItemList",
+    status: "supporting",
+    description: "Category and brand listing understanding",
+    why: "Describes a listing page and the products visible on it. ItemList is grounded in the rendered listing only.",
+  },
 };
 
 export function googleMetaForBuilder(builderId: string): SchemaBuilderGoogleMeta | undefined {

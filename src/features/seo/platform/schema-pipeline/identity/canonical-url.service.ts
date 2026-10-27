@@ -5,6 +5,8 @@ import {
   SCHEMA_ID_BREADCRUMB,
   SCHEMA_ID_BRAND,
   SCHEMA_ID_FAQPAGE,
+  SCHEMA_ID_COLLECTION_PAGE,
+  SCHEMA_ID_ITEM_LIST,
   SCHEMA_ID_LOGO,
   SCHEMA_ID_ORGANIZATION,
   SCHEMA_ID_PRODUCT,
@@ -50,6 +52,10 @@ export function entityUrl(key: EntityKey, ctx: SchemaContext): string {
       return pageHashUrl(ctx, SCHEMA_ID_BREADCRUMB);
     case "faqpage":
       return pageHashUrl(ctx, SCHEMA_ID_FAQPAGE);
+    case "collectionpage":
+      return pageHashUrl(ctx, SCHEMA_ID_COLLECTION_PAGE);
+    case "itemlist":
+      return pageHashUrl(ctx, SCHEMA_ID_ITEM_LIST);
     case "article":
       return pageHashUrl(ctx, SCHEMA_ID_ARTICLE);
     case "offer":

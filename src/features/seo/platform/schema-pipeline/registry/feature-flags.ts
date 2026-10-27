@@ -14,6 +14,7 @@ export type SchemaBuilderFlags = {
   articleBuilder: boolean;
   videoObjectBuilder: boolean;
   reviewBuilder: boolean;
+  collectionPageBuilder: boolean;
 };
 
 export const DEFAULT_SCHEMA_BUILDER_FLAGS: SchemaBuilderFlags = {
@@ -30,6 +31,7 @@ export const DEFAULT_SCHEMA_BUILDER_FLAGS: SchemaBuilderFlags = {
   articleBuilder: true,
   videoObjectBuilder: true,
   reviewBuilder: true,
+  collectionPageBuilder: true,
 };
 
 function envFlag(name: string, defaultValue = true): boolean {
@@ -60,6 +62,8 @@ export function resolveSchemaBuilderFlags(
     videoObjectBuilder:
       fromConfig.videoObjectBuilder ?? envFlag("SCHEMA_VIDEO_OBJECT_BUILDER", true),
     reviewBuilder: fromConfig.reviewBuilder ?? envFlag("SCHEMA_REVIEW_BUILDER", true),
+    collectionPageBuilder:
+      fromConfig.collectionPageBuilder ?? envFlag("SCHEMA_COLLECTION_PAGE_BUILDER", true),
   };
 }
 
@@ -81,6 +85,7 @@ export function isBuilderEnabled(
     article: "articleBuilder",
     video: "videoObjectBuilder",
     review: "reviewBuilder",
+    "collection-page": "collectionPageBuilder",
   };
   const flagKey = map[builderId];
   if (!flagKey) return true;

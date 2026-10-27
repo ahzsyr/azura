@@ -20,6 +20,8 @@ export const PAGE_TARGET_ENTITY_TYPES = [
   "PRODUCT",
   "CONTENT_ITEM",
   "PACKAGE",
+  "CATEGORY",
+  "BRAND",
 ] as const;
 
 export type PageTargetEntityType = (typeof PAGE_TARGET_ENTITY_TYPES)[number];
@@ -61,6 +63,9 @@ export type PageTargetSiteConfig = {
   priorityEntities: PageTargetEntityRef[];
   targets: PageSearchTarget[];
   exceptions: OwnershipException[];
+  /** Keyword-first planning (clusters + records). */
+  clusters: import("./keyword-registry").KeywordCluster[];
+  keywords: import("./keyword-registry").KeywordRecord[];
   updatedAt: string;
 };
 
@@ -114,6 +119,8 @@ export function emptySiteConfig(siteKey: string): PageTargetSiteConfig {
     priorityEntities: seedPriorityEntities(),
     targets: [],
     exceptions: [],
+    clusters: [],
+    keywords: [],
     updatedAt: new Date().toISOString(),
   };
 }

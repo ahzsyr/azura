@@ -11,6 +11,8 @@ export type EntityKey =
   | "webpage"
   | "breadcrumb"
   | "faqpage"
+  | "collectionpage"
+  | "itemlist"
   | `product-${string}`
   | "offer"
   | `video-${string}`

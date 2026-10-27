@@ -30,6 +30,7 @@ import { publicLocalePath } from "@/i18n/url-helpers";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
 export const revalidate = 60;
@@ -62,19 +63,30 @@ function defaultListingFilterState() {
   return filterStateFromSearchParams(new URLSearchParams());
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params, searchParams }: Props) {
   const { locale, slug } = await params;
+  const query = (await searchParams) ?? {};
   const collection = await collectionsDataService.loadBySlug({ localePrefix: locale }, slug);
   const title = collection?.seo?.metaTitle || collection?.name || "Category";
   const description =
     collection?.seo?.metaDescription || collection?.description || "Browse category products.";
 
   try {
-    return await seoService.resolveMetadata({
+    const { applyFacetIndexPolicyToMetadata } = await import(
+      "@/features/seo/quality/apply-facet-index-policy"
+    );
+    const metadata = await seoService.resolveMetadata({
       locale: locale as Locale,
       path: `/categories/${slug}`,
       pageKey: `category:${slug}`,
+      entityType: "CATEGORY",
+      entityId: slug,
+      slug,
       fallback: { title, description },
+    });
+    return applyFacetIndexPolicyToMetadata(metadata, {
+      path: `/categories/${slug}`,
+      searchParams: query,
     });
   } catch {
     return { title, description };

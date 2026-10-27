@@ -18,6 +18,16 @@ import {
 } from "./page-search-target";
 import { createOwnershipException, type OwnershipExceptionInput } from "./ownership-findings";
 import { setPriorityEntities } from "./priority-entities";
+import {
+  normalizeKeywordCluster,
+  normalizeKeywordRecord,
+  validateKeywordClusterInput,
+  validateKeywordRecordInput,
+  type KeywordCluster,
+  type KeywordClusterInput,
+  type KeywordRecord,
+  type KeywordRecordInput,
+} from "./keyword-registry";
 
 export async function resolveCurrentSiteKey(): Promise<string> {
   const origin = await resolveSiteOrigin("public");
@@ -48,6 +58,8 @@ export async function loadPageTargetSiteConfig(siteKey?: string): Promise<PageTa
       : emptySiteConfig(current).priorityEntities,
     targets: Array.isArray(stored.targets) ? stored.targets : [],
     exceptions: Array.isArray(stored.exceptions) ? stored.exceptions : [],
+    clusters: Array.isArray(stored.clusters) ? stored.clusters : [],
+    keywords: Array.isArray(stored.keywords) ? stored.keywords : [],
   };
 }
 
@@ -178,4 +190,98 @@ export async function getTargetForEntity(input: {
         t.status !== "retired",
     ) ?? null
   );
+}
+
+export async function upsertKeywordCluster(input: {
+  cluster: KeywordClusterInput;
+  currentSiteKey: string;
+}): Promise<
+  | { ok: true; cluster: KeywordCluster; config: PageTargetSiteConfig }
+  | { ok: false; errors: Array<{ field?: string; message: string }> }
+> {
+  assertSiteKeyMatch(input.cluster.siteKey, input.currentSiteKey);
+  const errors = validateKeywordClusterInput(input.cluster, input.currentSiteKey);
+  if (errors.length) return { ok: false, errors };
+
+  const config = await loadPageTargetSiteConfig(input.currentSiteKey);
+  const existingIndex = input.cluster.id
+    ? config.clusters.findIndex((c) => c.id === input.cluster.id)
+    : config.clusters.findIndex(
+        (c) =>
+          c.name.toLowerCase() === input.cluster.name.trim().toLowerCase() &&
+          c.siteKey === config.siteKey,
+      );
+  const existingId = existingIndex >= 0 ? config.clusters[existingIndex]?.id : input.cluster.id;
+  const normalized = normalizeKeywordCluster(
+    { ...input.cluster, siteKey: config.siteKey },
+    existingId,
+  );
+  const clusters = [...config.clusters];
+  if (existingIndex >= 0) clusters[existingIndex] = normalized;
+  else clusters.push(normalized);
+  const next = await saveConfig({ ...config, clusters });
+  return { ok: true, cluster: normalized, config: next };
+}
+
+export async function deleteKeywordCluster(input: {
+  siteKey: string;
+  clusterId: string;
+  currentSiteKey: string;
+}): Promise<PageTargetSiteConfig> {
+  assertSiteKeyMatch(input.siteKey, input.currentSiteKey);
+  const config = await loadPageTargetSiteConfig(input.currentSiteKey);
+  return saveConfig({
+    ...config,
+    clusters: config.clusters.filter((c) => c.id !== input.clusterId),
+    keywords: config.keywords.filter((k) => k.clusterId !== input.clusterId),
+  });
+}
+
+export async function upsertKeywordRecord(input: {
+  keyword: KeywordRecordInput;
+  enabledLocales: string[];
+  currentSiteKey: string;
+}): Promise<
+  | { ok: true; keyword: KeywordRecord; config: PageTargetSiteConfig }
+  | { ok: false; errors: Array<{ field?: string; message: string }> }
+> {
+  assertSiteKeyMatch(input.keyword.siteKey, input.currentSiteKey);
+  const config = await loadPageTargetSiteConfig(input.currentSiteKey);
+  const errors = validateKeywordRecordInput(input.keyword, {
+    currentSiteKey: input.currentSiteKey,
+    enabledLocales: input.enabledLocales,
+    clusterIds: new Set(config.clusters.map((c) => c.id)),
+  });
+  if (errors.length) return { ok: false, errors };
+
+  const identity = `${input.keyword.locale}::${normalizeKeywordRecord(input.keyword).normalizedKeyword}`;
+  const existingIndex = input.keyword.id
+    ? config.keywords.findIndex((k) => k.id === input.keyword.id)
+    : config.keywords.findIndex(
+        (k) =>
+          `${k.locale}::${k.normalizedKeyword}` === identity && k.siteKey === config.siteKey,
+      );
+  const existingId = existingIndex >= 0 ? config.keywords[existingIndex]?.id : input.keyword.id;
+  const normalized = normalizeKeywordRecord(
+    { ...input.keyword, siteKey: config.siteKey },
+    existingId,
+  );
+  const keywords = [...config.keywords];
+  if (existingIndex >= 0) keywords[existingIndex] = normalized;
+  else keywords.push(normalized);
+  const next = await saveConfig({ ...config, keywords });
+  return { ok: true, keyword: normalized, config: next };
+}
+
+export async function deleteKeywordRecord(input: {
+  siteKey: string;
+  keywordId: string;
+  currentSiteKey: string;
+}): Promise<PageTargetSiteConfig> {
+  assertSiteKeyMatch(input.siteKey, input.currentSiteKey);
+  const config = await loadPageTargetSiteConfig(input.currentSiteKey);
+  return saveConfig({
+    ...config,
+    keywords: config.keywords.filter((k) => k.id !== input.keywordId),
+  });
 }

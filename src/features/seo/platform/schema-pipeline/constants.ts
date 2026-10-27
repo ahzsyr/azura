@@ -14,6 +14,8 @@ export const SCHEMA_ID_PRODUCT = "product";
 export const SCHEMA_ID_OFFER = "offer";
 export const SCHEMA_ID_ARTICLE = "article";
 export const SCHEMA_ID_FAQPAGE = "faqpage";
+export const SCHEMA_ID_COLLECTION_PAGE = "collectionpage";
+export const SCHEMA_ID_ITEM_LIST = "itemlist";
 
 export const SCHEMA_ENTITY_TYPES = [
   "Organization",

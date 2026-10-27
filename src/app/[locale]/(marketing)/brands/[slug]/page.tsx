@@ -33,6 +33,7 @@ const FALLBACK_PREFIXES = FALLBACK_LOCALES.map((locale) => locale.urlPrefix);
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
 export async function generateStaticParams() {
@@ -54,8 +55,9 @@ export async function generateStaticParams() {
   return localizedSlugs.flatMap(({ locale, slugs }) => slugs.map((slug) => ({ locale, slug })));
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params, searchParams }: Props) {
   const { locale, slug } = await params;
+  const query = (await searchParams) ?? {};
   const listing = await buildProductListingCatalog(locale);
   const { brands } = await loadBrandAndTagEntries(locale, listing.records);
   const brand = findBrandBySlug(brands, slug);
@@ -65,11 +67,21 @@ export async function generateMetadata({ params }: Props) {
     : "Browse brand products.";
 
   try {
-    return await seoService.resolveMetadata({
+    const { applyFacetIndexPolicyToMetadata } = await import(
+      "@/features/seo/quality/apply-facet-index-policy"
+    );
+    const metadata = await seoService.resolveMetadata({
       locale: locale as Locale,
       path: `/brands/${slug}`,
       pageKey: `brand:${slug}`,
+      entityType: "BRAND",
+      entityId: slug,
+      slug,
       fallback: { title, description },
+    });
+    return applyFacetIndexPolicyToMetadata(metadata, {
+      path: `/brands/${slug}`,
+      searchParams: query,
     });
   } catch {
     return { title, description };

@@ -1,6 +1,7 @@
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { buildTargetGscCompareReport } from "@/features/seo/analytics/target-gsc-compare.service";
+import { buildKeywordOpportunityBoard } from "@/features/seo/analytics/keyword-opportunity.service";
 
 export const dynamic = "force-dynamic";
 
@@ -15,7 +16,10 @@ export default async function AdminPerformanceSeoPage({
   const country = typeof params.country === "string" ? params.country : undefined;
   const device = typeof params.device === "string" ? params.device : undefined;
 
-  const report = await buildTargetGscCompareReport({ days, country, device });
+  const [report, opportunity] = await Promise.all([
+    buildTargetGscCompareReport({ days, country, device }),
+    buildKeywordOpportunityBoard({ days, country, device }),
+  ]);
 
   return (
     <div className="space-y-8 max-w-6xl">
@@ -45,6 +49,55 @@ export default async function AdminPerformanceSeoPage({
               {country ? ` country=${country}` : ""}
               {device ? ` device=${device}` : ""}
             </p>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Keyword opportunity board</CardTitle>
+          <CardDescription>
+            GSC queries joined to keyword/target assignments
+            {opportunity.gscPropertyLabel ? ` · ${opportunity.gscPropertyLabel}` : ""}.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-2 text-sm">
+          {opportunity.caveats.slice(0, 2).map((c) => (
+            <p key={c} className="text-xs text-muted-foreground">
+              • {c}
+            </p>
+          ))}
+          {opportunity.rows.length === 0 ? (
+            <p className="text-muted-foreground">No keyword opportunities above the impression threshold.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="text-muted-foreground">
+                  <tr className="border-b">
+                    <th className="py-2 pr-3 font-medium">Keyword</th>
+                    <th className="py-2 pr-3 font-medium">Assigned entity</th>
+                    <th className="py-2 pr-3 font-medium">Impr</th>
+                    <th className="py-2 pr-3 font-medium">Clicks</th>
+                    <th className="py-2 pr-3 font-medium">CTR</th>
+                    <th className="py-2 pr-3 font-medium">Pos</th>
+                    <th className="py-2 font-medium">Gap</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {opportunity.rows.map((row) => (
+                    <tr key={`${row.normalizedKeyword}-${row.assignedEntity ?? "none"}`} className="border-b border-border/60">
+                      <td className="py-2 pr-3">{row.keyword}</td>
+                      <td className="py-2 pr-3 font-mono">{row.assignedEntity ?? "—"}</td>
+                      <td className="py-2 pr-3 tabular-nums">{row.impressions}</td>
+                      <td className="py-2 pr-3 tabular-nums">{row.clicks}</td>
+                      <td className="py-2 pr-3 tabular-nums">{(row.ctr * 100).toFixed(1)}%</td>
+                      <td className="py-2 pr-3 tabular-nums">{row.position.toFixed(1)}</td>
+                      <td className="py-2 uppercase tracking-wide text-muted-foreground">{row.gapStatus}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </CardContent>
       </Card>
