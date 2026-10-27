@@ -104,6 +104,7 @@ export const SEO_KNOWLEDGE_NAMESPACE = "seo-knowledge";
 export const SEO_PIPELINES_NAMESPACE = "seo-pipelines";
 export const SEO_PROVENANCE_NAMESPACE = "seo-provenance";
 export const SEO_SEARCH_OPS_NAMESPACE = "seo-search-ops";
+export const SEO_PAGE_TARGETS_NAMESPACE = "seo-page-targets";
 export const SEO_APPEARANCE_NAMESPACE = "seo-appearance";
 export const SEO_URL_INSPECTION_NAMESPACE = "seo-url-inspection";
 export const SEO_LLMS_NAMESPACE = "seo-llms";

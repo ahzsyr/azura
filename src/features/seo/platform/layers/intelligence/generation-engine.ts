@@ -85,7 +85,29 @@ export async function generateRuleBasedSuggestion(
 
   metaTitle = enrichMetaTitle(metaTitle, snapshot, brand, tagline);
   metaDescription = enrichMetaDescription(metaDescription, snapshot, brand, tagline);
-  const focusKeywords = enrichFocusKeywords(extractKeywords(snapshot), snapshot, brand);
+
+  const declaredPrimary =
+    typeof snapshot.metadata?.primaryTopic === "string"
+      ? snapshot.metadata.primaryTopic.trim()
+      : typeof snapshot.metadata?.pageSearchPrimaryTopic === "string"
+        ? snapshot.metadata.pageSearchPrimaryTopic.trim()
+        : "";
+  const declaredSupporting = Array.isArray(snapshot.metadata?.supportingTopics)
+    ? snapshot.metadata.supportingTopics
+        .filter((t): t is string => typeof t === "string" && t.trim().length > 0)
+        .map((t) => t.trim())
+    : [];
+
+  // Prefer site-scoped page-search primary topic when present (still reviewable via autofill).
+  if (declaredPrimary && metaTitle && !metaTitle.toLowerCase().includes(declaredPrimary.toLowerCase())) {
+    const candidate = `${declaredPrimary} | ${metaTitle}`;
+    if (candidate.length <= 70) metaTitle = candidate;
+  }
+
+  const seedKeywords = declaredPrimary
+    ? [declaredPrimary, ...declaredSupporting, extractKeywords(snapshot)].filter(Boolean).join(", ")
+    : extractKeywords(snapshot);
+  const focusKeywords = enrichFocusKeywords(seedKeywords, snapshot, brand);
 
   const ogImageUrl = selectPrimaryContentImage(snapshot);
   const jsonLd = buildStructuredDataObject({

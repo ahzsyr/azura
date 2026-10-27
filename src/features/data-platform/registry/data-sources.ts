@@ -822,6 +822,16 @@ const JSON_SOURCES: DataSourceDefinition[] = [
     capabilities: { count: true, browse: true, inspect: true, edit: true, export: true },
   },
   {
+    id: "json:seo-page-targets",
+    storage: "json-store",
+    namespace: "seo-page-targets",
+    category: "seo",
+    displayName: "SEO page search targets",
+    description: "Site-scoped intent/topic ownership planning (not public metadata)",
+    jsonCategory: "seo",
+    capabilities: { count: true, browse: true, inspect: true, edit: true, export: true },
+  },
+  {
     id: "json:header-workspace",
     storage: "json-store",
     namespace: "header-workspace",

@@ -121,8 +121,9 @@ export type SeoRecommendation = Readonly<{
   severity: "critical" | "warn" | "info";
   message: string;
   suggestedFix?: Partial<SeoSuggestion>;
+  /** autoFix only when an existing autofill/ops apply path can handle the field. */
   actions: ReadonlyArray<"fix" | "autoFix" | "ignore">;
-  derivedFrom: ReadonlyArray<"validation" | "rules" | "signals">;
+  derivedFrom: ReadonlyArray<"validation" | "rules" | "signals" | "target" | "evidence">;
 }>;
 
 export type SeoSimulation = Readonly<{
@@ -144,6 +145,11 @@ export type RecommendationInput = Readonly<{
   validation: ValidationResult;
   rules: RuleResult;
   currentMeta?: SeoMeta | null;
+  /** Declared page-search target topics when available (site-scoped planning). */
+  pageSearchTarget?: Readonly<{
+    primaryTopic: string;
+    supportingTopics?: ReadonlyArray<string>;
+  }> | null;
 }>;
 
 export type SimulationInput = Readonly<{

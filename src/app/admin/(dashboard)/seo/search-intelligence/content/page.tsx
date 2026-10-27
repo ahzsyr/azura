@@ -1,17 +1,30 @@
 import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSearchIntelligenceOverview } from "@/features/search-intelligence/seo-consumer";
+import { getPageTargetsWorkspaceAction } from "@/features/search-intelligence/content-intelligence/actions";
+import { PageTargetsPanel } from "@/features/search-intelligence/content-intelligence/page-targets-panel";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminContentIntelligencePage() {
-  const overview = await getSearchIntelligenceOverview();
+  const [overview, workspace] = await Promise.all([
+    getSearchIntelligenceOverview(),
+    getPageTargetsWorkspaceAction(),
+  ]);
 
   return (
     <div className="space-y-8 max-w-6xl">
       <AdminPageHeader
         title="Content Intelligence"
-        description="Entity → topic → intent → questions → content. Detect gaps and cannibalization."
+        description="Assign site-scoped search targets, review topic ownership, and detect content gaps."
+      />
+
+      <PageTargetsPanel
+        siteKey={workspace.siteKey}
+        locales={workspace.locales}
+        config={workspace.config}
+        ownershipFindings={workspace.ownershipFindings}
+        unassignedByLocale={workspace.unassignedByLocale}
       />
 
       <div className="grid gap-4 lg:grid-cols-2">

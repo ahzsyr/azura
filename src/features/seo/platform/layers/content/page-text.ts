@@ -15,6 +15,16 @@ export function extractPageText(snapshot: ContentSnapshot): string {
   return collapseWhitespace(parts.map((part) => part.trim()).filter(Boolean).join(" "));
 }
 
+/** First ~N words of page body for topic-evidence checks (title/H1/opening only). */
+export function extractOpeningExcerpt(snapshot: ContentSnapshot, maxWords = 150): string {
+  const body = snapshot.paragraphs.map((p) => p.trim()).filter(Boolean).join(" ");
+  const collapsed = collapseWhitespace(body);
+  if (!collapsed) return "";
+  const words = collapsed.split(" ");
+  if (words.length <= maxWords) return collapsed;
+  return words.slice(0, maxWords).join(" ");
+}
+
 /**
  * Builds meta description text from page content. When base extracted text is shorter
  * than the SEO minimum, augments with all headings (including H1) and table cells.

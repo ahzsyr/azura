@@ -593,35 +593,39 @@ Locale-neutral: `canonicalUrl`, `robots`, `focusKeywords`, `ogImageUrl`, `twitte
 
 ## Platform Maturity: Management vs Intelligence vs Engine
 
-The codebase today is a mature **SEO Management Platform** — not yet an **SEO Engine**. That distinction is intentional and correct for current scale.
+The **management foundation** (store, resolve, distribute, submit, audit) is mature. An **SEO Platform write/intelligence path** already exists under `src/features/seo/platform/` (content snapshots, generation, governance, recommendations, autofill, plugin SDK). Remaining work is primarily **intent-to-page ownership**, **rendered evidence**, and **GSC demand alignment** — see [`seo-system-upgrade-audit.md`](./seo-system-upgrade-audit.md) — not a second metadata engine.
 
-| Capability | Management Platform (today) | Intelligence Platform (proposed) | SEO Engine (full vision) |
-|---|---|---|---|
-| Store meta title, description, OG | ✅ | ✅ | ✅ |
-| Canonical, robots, hreflang | ✅ | ✅ | ✅ |
-| JSON-LD, redirects, sitemap | ✅ | ✅ | ✅ |
-| Search submission + quality audit | ✅ | ✅ | ✅ |
-| **Understand page content** (blocks, headings, links) | ❌ | ✅ | ✅ |
-| **Auto-generate** metadata from content | Partial (bulk fill from title/excerpt) | ✅ | ✅ |
-| **Rule / strategy engine** (configurable, not hardcoded) | ❌ | ✅ | ✅ |
-| **Recommendations** with fix / auto-fix / ignore | Score only | ✅ | ✅ |
-| **Explainability** (why each `<head>` value exists) | ❌ | ✅ | ✅ |
-| **Extensible analyzer pipeline** | ❌ | Partial | ✅ |
-| **Full lifecycle workflow** (analyze → approve → monitor) | CRUD + audit | ✅ | ✅ |
+| Capability | Status | Notes |
+|---|---|---|
+| Store meta title, description, OG | **implemented** | `SeoMeta` + `EntityTranslation` |
+| Canonical, robots, hreflang | **implemented** | URL helpers; overrides on `SeoMeta` |
+| JSON-LD, redirects, sitemap | **implemented** | Schema pipeline + crawl surfaces |
+| Search submission + quality audit | **implemented** | Async jobs + quality layer |
+| Content snapshots (blocks, headings, links) | **implemented** | Platform content layer |
+| Auto-generate metadata | **implemented** | Rule/provider generation + autofill (reviewable) |
+| Rule / strategy / schema registries | **implemented** | Extend existing SDK; do not replace |
+| Recommendations (fix / auto-fix / ignore) | **partial** | Validation/rules/signals; topic evidence upgrading |
+| Explainability / provenance | **partial** | Observability hooks present |
+| Extensible analyzer pipeline | **implemented** | Analyzers register via plugin SDK |
+| Intent / page search targets | **implemented** | Search Intelligence planning (site-scoped JsonStore); not on `SeoMeta` |
+| Target vs GSC compare | **implemented** | Performance admin; URL policy matching; unmatched rows reported |
+| Full lifecycle (analyze → approve → monitor) | **partial** | Persist→publish→submit solid; planning/evidence/GSC compare available as admin guidance |
 
-**Management** = humans (or simple bulk fill) write `SeoMeta`; the system resolves and distributes it reliably.
+**Management** = humans (or reviewed autofill) write `SeoMeta`; the system resolves and distributes it reliably.
 
-**Intelligence** = the system analyzes content, proposes or generates SEO, validates against rules, scores, and recommends — with the developer controlling every stage.
+**Intelligence** = analyze content, propose SEO, validate, recommend — developer-controlled stages writing into the same `SeoMeta` store.
 
-**Engine** = all intelligence stages run through a composable, pluggable pipeline; any stage can be replaced without touching the foundation.
+**Engine** = composable pipeline stages; replaceable without touching the frozen read path.
 
-The foundation (`SeoMeta`, `seoService`, `buildMetadata()`, triggers, integrations) **does not change**. Intelligence sits **above** content, **below** admin approval, and **writes into** `SeoMeta` — the same store the public site already reads.
+The foundation (`SeoMeta`, `seoService`, `documentToMetadata()` / contributors, triggers, integrations) **does not change**. Further intelligence sits **above** content, **below** admin approval, and **writes into** `SeoMeta`.
+
+**Keyword policy:** `focusKeywords` are internal editorial data. Public `<meta name="keywords">` emission has no ranking promise.
 
 ---
 
-## SEO Intelligence Layer (Vision)
+## SEO Intelligence Layer (evolution notes)
 
-> **Status:** Proposed evolution — additive layer on top of the frozen foundation. Not required for current operations.
+> **Status:** Core write-path intelligence is **implemented** in `src/features/seo/platform/`. The sections below retain historical design notes. Prefer extending the live platform and Search Intelligence workspaces over inventing parallel engines. Active upgrade: intent ownership + evidence + GSC compare ([`seo-system-upgrade-audit.md`](./seo-system-upgrade-audit.md)).
 
 ### Target architecture
 
@@ -653,7 +657,7 @@ Intelligence is a **write-path** concern. Resolution, snapshots, CDN, and `<head
 Analyze → Generate → Validate → Preview → Approve → Persist → Publish → Submit → Monitor → Improve
 ```
 
-Today the system covers **Persist → Publish → Submit → Monitor** well. The gap is everything upstream of persist.
+Today the system covers **Analyze → Generate → Validate → Persist → Publish → Submit → Monitor** on the platform write path (with admin approval for autofill). Remaining gaps are primarily **intent ownership**, **evidence-quality recommendations**, and **measured-demand compare** — not a missing analyzer.
 
 ---
 
@@ -1096,6 +1100,9 @@ Any epic work must preserve all of the above.
 
 ## Related Docs
 
+- [SEO system guide](./seo-system-guide.md) — full section/function catalog + keyword SERP recommendations + maturity map
+- [SEO system upgrade audit](./seo-system-upgrade-audit.md) — intent ownership + evidence upgrade direction
+- [Google Search operations](./seo-google-operations.md) — GSC, GBP, Merchant Center runbook
 - [Unified i18n architecture](./unified-i18n-architecture.md) — `EntityTranslation` model
 - [Architecture principles](./architecture-principles.md) — platform-wide rules
 - [Platform boundaries](./platform-boundaries.md) — layer enforcement

@@ -5,6 +5,10 @@ import type {
   SeoRecommendation,
 } from "../types";
 import { ADS_LANDING_RELEVANCE_THRESHOLD } from "../analyzers/ads-landing-relevance";
+import {
+  evaluateTopicEvidence,
+  topicEvidenceFromSnapshotMetadata,
+} from "../analyzers/topic-evidence";
 
 export function buildRecommendations(
   _ctx: SeoExecutionContext,
@@ -93,6 +97,59 @@ export function buildRecommendations(
         derivedFrom: Object.freeze(["signals"] as const),
       }),
     );
+  }
+
+  const fromMeta = topicEvidenceFromSnapshotMetadata(input.snapshot);
+  const target =
+    input.pageSearchTarget ??
+    (fromMeta
+      ? {
+          primaryTopic: fromMeta.primaryTopic,
+          supportingTopics: fromMeta.supportingTopics,
+        }
+      : null);
+
+  if (target?.primaryTopic?.trim()) {
+    const report = evaluateTopicEvidence({
+      snapshot: input.snapshot,
+      primaryTopic: target.primaryTopic,
+      supportingTopics: [...(target.supportingTopics ?? [])],
+      locale: input.snapshot.localeCode,
+    });
+
+    for (const match of report.matches) {
+      if (match.matched) continue;
+      const surfaceLabel =
+        match.surface === "title"
+          ? "page title"
+          : match.surface === "h1"
+            ? "H1"
+            : "opening content";
+      items.push(
+        Object.freeze({
+          id: `topic-${match.surface}`,
+          severity: match.surface === "opening" ? "info" : "warn",
+          message: `Declared primary topic “${report.primaryTopic}” was not found in the rendered ${surfaceLabel}. Editorial target — review; not a publish blocker.`,
+          actions: Object.freeze(["fix", "ignore"] as const),
+          derivedFrom: Object.freeze(["target", "evidence"] as const),
+        }),
+      );
+    }
+
+    if (
+      report.supportingTopics.length > 0 &&
+      report.supportingInOpening === 0
+    ) {
+      items.push(
+        Object.freeze({
+          id: "topic-supporting-sparse",
+          severity: "info",
+          message: `None of the supporting topics appear in the opening content (declared: ${report.supportingTopics.join(", ")}).`,
+          actions: Object.freeze(["fix", "ignore"] as const),
+          derivedFrom: Object.freeze(["target", "evidence"] as const),
+        }),
+      );
+    }
   }
 
   return items;

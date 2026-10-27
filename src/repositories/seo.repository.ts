@@ -1372,12 +1372,37 @@ export const seoRepository = {
         .sort((a, b) => b.clicks - a.clicks)
         .slice(0, 20);
     }
+    const latest = rows[0]?.date ?? null;
     return {
       topPages: aggregateBy("url"),
       topQueries: aggregateBy("query"),
       totalClicks: rows.reduce((sum, row) => sum + row.clicks, 0),
       totalImpressions: rows.reduce((sum, row) => sum + row.impressions, 0),
+      latestDate: latest,
+      rowCount: rows.length,
     };
+  },
+
+  /** Row-level aggregates for target↔GSC compare (date/country/device; no search type). */
+  async listSearchMetricsForCompare(params: {
+    days: number;
+    country?: string;
+    device?: string;
+    source?: string;
+    take?: number;
+  }) {
+    const since = new Date(Date.now() - params.days * 24 * 60 * 60 * 1000);
+    const rows = await seoSearchMetricDelegate().findMany({
+      where: {
+        date: { gte: since },
+        ...(params.source ? { source: params.source } : {}),
+        ...(params.country ? { country: params.country } : {}),
+        ...(params.device ? { device: params.device } : {}),
+      },
+      orderBy: { date: "desc" },
+      take: params.take ?? 10_000,
+    });
+    return rows;
   },
 
   async listSearchMetricTotalsByUrl(params: {

@@ -42,11 +42,24 @@ export {
   recommendInternalLinks,
   computeGraphMetrics,
   summarizeLinkHealth,
+  inboundLinkGuidance,
+  isIndexableLinkTarget,
 } from "./internal-linking";
+export type { LinkRecommendation, LinkRelationship } from "./internal-linking";
 export {
   buildTopicClusters,
   detectContentGaps,
   detectCannibalization,
+  buildOwnershipFindings,
+  listUnassignedPriorityEntities,
+  normalizeSiteKey,
+  normalizeTopic,
+} from "./content-intelligence";
+export type {
+  PageSearchTarget,
+  PageTargetSiteConfig,
+  OwnershipException,
+  SearchIntent,
 } from "./content-intelligence";
 export { scorePageAudit } from "./ai";
 export type { AiAuditSignals, PageAuditScore } from "./ai";

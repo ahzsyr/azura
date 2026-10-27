@@ -118,9 +118,39 @@ export async function buildSnapshotForDescriptor(
     entityType: descriptor.kind,
     entityId: descriptor.id,
   };
-  const snapshot = freezeContentSnapshot(snapshotCtx, draft);
+  let snapshot = freezeContentSnapshot(snapshotCtx, draft);
+  snapshot = await enrichSnapshotWithPageSearchTarget(snapshot, ctx);
   await seoEventBus.emit("snapshot.built", { ctx, snapshot });
   return snapshot;
+}
+
+async function enrichSnapshotWithPageSearchTarget(
+  snapshot: ContentSnapshot,
+  ctx: SeoExecutionContext,
+): Promise<ContentSnapshot> {
+  try {
+    const { getTargetForEntity } = await import(
+      "@/features/search-intelligence/content-intelligence/page-target-store"
+    );
+    const target = await getTargetForEntity({
+      entity: { type: ctx.entityType, id: ctx.entityId },
+      locale: ctx.locale,
+    });
+    if (!target) return snapshot;
+    return Object.freeze({
+      ...snapshot,
+      metadata: Object.freeze({
+        ...(snapshot.metadata ?? {}),
+        primaryTopic: target.primaryTopic,
+        pageSearchPrimaryTopic: target.primaryTopic,
+        supportingTopics: target.supportingTopics,
+        pageSearchIntent: target.intent,
+        pageSearchTargetId: target.id,
+      }),
+    });
+  } catch {
+    return snapshot;
+  }
 }
 
 export const snapshotResolver = {

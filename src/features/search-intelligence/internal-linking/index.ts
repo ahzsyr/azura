@@ -1,15 +1,101 @@
 import type { GraphEntity, GraphMetrics, PublicEntityId } from "../types";
 import type { GraphQueryService, EntityStore } from "../entity-graph";
+import { readPropertyValue } from "../entity-graph";
+import { normalizeSiteKey } from "../content-intelligence/page-search-target";
+
+export type LinkRelationship =
+  | "product_to_category"
+  | "product_to_faq"
+  | "product_to_article"
+  | "article_to_product"
+  | "support_page"
+  | "related";
 
 export type LinkRecommendation = {
   fromPublicId: PublicEntityId;
   toPublicId: PublicEntityId;
+  siteKey: string;
+  locale: string;
+  suggestedAnchor: string;
+  relationship: LinkRelationship;
   reason: string;
   score: number;
+  /** Final href must be resolved at render/ops time via route + locale + site URL policy. */
+};
+
+export type RecommendInternalLinksOptions = {
+  siteKey?: string;
+  locale?: string;
+  limit?: number;
 };
 
 function clamp01(n: number) {
   return Math.max(0, Math.min(1, n));
+}
+
+function defaultAnchor(entity: GraphEntity): string {
+  return (
+    readPropertyValue<string>(entity, "name") ??
+    readPropertyValue<string>(entity, "headline") ??
+    entity.slug
+  );
+}
+
+function classifyRelationship(
+  fromType: string,
+  toType: string,
+): { relationship: LinkRelationship; score: number; reason: string } {
+  if (fromType === "Product" && toType === "Category") {
+    return {
+      relationship: "product_to_category",
+      score: 0.9,
+      reason: "Product should link to its category",
+    };
+  }
+  if (fromType === "Product" && toType === "FAQ") {
+    return {
+      relationship: "product_to_faq",
+      score: 0.85,
+      reason: "Product has weak FAQ support links",
+    };
+  }
+  if (fromType === "Product" && toType === "Article") {
+    return {
+      relationship: "product_to_article",
+      score: 0.8,
+      reason: "Product should reference supporting articles",
+    };
+  }
+  if (fromType === "Article" && toType === "Product") {
+    return {
+      relationship: "article_to_product",
+      score: 0.75,
+      reason: "Article should mention related products",
+    };
+  }
+  if (toType === "WebPage") {
+    return {
+      relationship: "support_page",
+      score: 0.4,
+      reason: "Connect orphan or supporting pages",
+    };
+  }
+  return {
+    relationship: "related",
+    score: 0.3,
+    reason: "Topically related entity",
+  };
+}
+
+/**
+ * Filter out targets that look like parameterized crawl traps.
+ * Href resolution remains the caller's responsibility via the site URL layer.
+ */
+export function isIndexableLinkTarget(publicId: PublicEntityId): boolean {
+  const lower = publicId.toLowerCase();
+  if (lower.includes("?") || lower.includes("&") || lower.includes("=")) return false;
+  if (lower.includes("/filter/") || lower.includes("/page/")) return false;
+  return true;
 }
 
 export async function computeGraphMetrics(
@@ -22,7 +108,6 @@ export async function computeGraphMetrics(
   const inDegree = rels.filter((r) => r.toPublicId === publicId).length;
   const outDegree = rels.filter((r) => r.fromPublicId === publicId).length;
 
-  // Lightweight approximations suitable for admin recommendations (not full graph algorithms).
   const pageRank = clamp01((1 - 0.85) / n + 0.85 * (inDegree / Math.max(n - 1, 1)));
   const betweenness = clamp01((inDegree * outDegree) / Math.max(n * n, 1));
   const hubScore = clamp01(outDegree / Math.max(n - 1, 1));
@@ -48,8 +133,14 @@ export async function recommendInternalLinks(
   query: GraphQueryService,
   store: EntityStore,
   fromPublicId: PublicEntityId,
-  limit = 10,
+  limitOrOptions: number | RecommendInternalLinksOptions = 10,
 ): Promise<LinkRecommendation[]> {
+  const options: RecommendInternalLinksOptions =
+    typeof limitOrOptions === "number" ? { limit: limitOrOptions } : limitOrOptions;
+  const limit = options.limit ?? 10;
+  const siteKey = normalizeSiteKey(options.siteKey ?? "https://localhost");
+  const locale = options.locale ?? "en";
+
   const from = await query.getEntity(fromPublicId);
   if (!from) return [];
 
@@ -64,28 +155,11 @@ export async function recommendInternalLinks(
   for (const candidate of candidates) {
     if (candidate.publicId === fromPublicId) continue;
     if (existing.has(candidate.publicId)) continue;
+    if (!isIndexableLinkTarget(candidate.publicId)) continue;
 
-    let score = 0;
-    let reason = "Topically related entity";
-
-    if (from.type === "Product" && candidate.type === "Category") {
-      score = 0.9;
-      reason = "Product should link to its category";
-    } else if (from.type === "Product" && candidate.type === "FAQ") {
-      score = 0.85;
-      reason = "Product has weak FAQ support links";
-    } else if (from.type === "Product" && candidate.type === "Article") {
-      score = 0.8;
-      reason = "Product should reference supporting articles";
-    } else if (from.type === "Article" && candidate.type === "Product") {
-      score = 0.75;
-      reason = "Article should mention related products";
-    } else if (candidate.type === "WebPage") {
-      score = 0.4;
-      reason = "Connect orphan or supporting pages";
-    } else {
-      score = 0.3;
-    }
+    const classified = classifyRelationship(from.type, candidate.type);
+    let score = classified.score;
+    let reason = classified.reason;
 
     if (metrics.outDegree === 0) score += 0.2;
     if (metrics.inDegree > 10 && metrics.outDegree < 2) {
@@ -96,6 +170,10 @@ export async function recommendInternalLinks(
     recommendations.push({
       fromPublicId,
       toPublicId: candidate.publicId,
+      siteKey,
+      locale,
+      suggestedAnchor: defaultAnchor(candidate),
+      relationship: classified.relationship,
       reason,
       score: clamp01(score),
     });
@@ -110,6 +188,17 @@ export function summarizeLinkHealth(metrics: GraphMetrics, entity: GraphEntity):
   if (metrics.outDegree === 0) notes.push(`${entity.publicId} has no outbound links.`);
   if (metrics.inDegree >= 10 && metrics.outDegree === 0) {
     notes.push(`${entity.publicId} is a sink hub (${metrics.inDegree} inbound, 0 outbound).`);
+  }
+  return notes;
+}
+
+/** Inbound evidence notes for admin guidance (Phase 3). */
+export function inboundLinkGuidance(metrics: GraphMetrics, entity: GraphEntity): string[] {
+  const notes = summarizeLinkHealth(metrics, entity);
+  if (metrics.inDegree > 0 && metrics.inDegree < 2) {
+    notes.push(
+      `${entity.publicId} has weak inbound support (${metrics.inDegree}). Prefer descriptive anchors from related hubs.`,
+    );
   }
   return notes;
 }

@@ -2,7 +2,11 @@ import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSearchIntelligenceOverview } from "@/features/search-intelligence/seo-consumer";
 import { getSearchIntelligencePlatform } from "@/features/search-intelligence";
-import { summarizeLinkHealth } from "@/features/search-intelligence/internal-linking";
+import {
+  inboundLinkGuidance,
+  summarizeLinkHealth,
+} from "@/features/search-intelligence/internal-linking";
+import { normalizeSiteKey } from "@/features/search-intelligence/content-intelligence/page-search-target";
 
 export const dynamic = "force-dynamic";
 
@@ -10,16 +14,22 @@ export default async function AdminInternalLinkingPage() {
   const overview = await getSearchIntelligenceOverview();
   const platform = getSearchIntelligencePlatform({ siteOrigin: overview.siteOrigin });
   const org = overview.organizations[0];
+  const siteKey = normalizeSiteKey(overview.siteOrigin);
 
   const metrics = org ? await platform.metricsFor(org.publicId) : null;
-  const recommendations = org ? await platform.recommendLinks(org.publicId) : [];
-  const notes = org && metrics ? summarizeLinkHealth(metrics, org) : [];
+  const recommendations = org
+    ? await platform.recommendLinks(org.publicId, { siteKey, locale: "en", limit: 15 })
+    : [];
+  const notes =
+    org && metrics
+      ? [...summarizeLinkHealth(metrics, org), ...inboundLinkGuidance(metrics, org)]
+      : [];
 
   return (
     <div className="space-y-8 max-w-6xl">
       <AdminPageHeader
         title="Internal Linking"
-        description="Graph metrics and intelligent link recommendations from entity relationships."
+        description="Graph metrics and intelligent link recommendations. Hrefs resolve through the site URL layer at apply time — not stored parameterized URLs."
       />
 
       {metrics ? (
@@ -47,10 +57,10 @@ export default async function AdminInternalLinkingPage() {
       {notes.length > 0 ? (
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Health notes</CardTitle>
+            <CardTitle className="text-base">Health notes (incl. inbound guidance)</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
-            {notes.map((note) => (
+            {[...new Set(notes)].map((note) => (
               <p key={note} className="text-muted-foreground">
                 {note}
               </p>
@@ -62,7 +72,9 @@ export default async function AdminInternalLinkingPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Recommendations</CardTitle>
-          <CardDescription>Suggested edges based on ontology and graph shape.</CardDescription>
+          <CardDescription>
+            Suggested edges with locale, anchor, and relationship. Manual review unless an SI apply operation exists.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
           {recommendations.length === 0 ? (
@@ -72,8 +84,10 @@ export default async function AdminInternalLinkingPage() {
               <div key={`${rec.fromPublicId}-${rec.toPublicId}`} className="rounded-lg border p-3">
                 <p className="font-medium">{rec.toPublicId}</p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  score {rec.score.toFixed(2)} · {rec.reason}
+                  score {rec.score.toFixed(2)} · {rec.relationship} · {rec.locale} · anchor “
+                  {rec.suggestedAnchor}”
                 </p>
+                <p className="mt-1 text-xs text-muted-foreground">{rec.reason}</p>
               </div>
             ))
           )}

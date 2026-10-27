@@ -55,13 +55,29 @@ export async function getSearchIntelligenceOverview() {
   const content = await platform.contentIntelligence();
   const dashboard = platform.dashboard();
 
+  const { loadPageTargetSiteConfig } = await import(
+    "./content-intelligence/page-target-store"
+  );
+  const { buildOwnershipFindings } = await import(
+    "./content-intelligence/ownership-findings"
+  );
+  const { normalizeSiteKey } = await import("./content-intelligence/page-search-target");
+  const pageTargets = await loadPageTargetSiteConfig(normalizeSiteKey(siteOrigin));
+
   return {
     siteOrigin,
+    siteKey: pageTargets.siteKey,
     entityCount: entities.length,
     relationshipCount: relationships.length,
     entityTypes: [...new Set(entities.map((e: { type: string }) => e.type))].sort(),
     contentGaps: content.gaps.slice(0, 10),
     cannibalization: content.cannibalization.slice(0, 10),
+    pageTargets: {
+      count: pageTargets.targets.length,
+      activeCount: pageTargets.targets.filter((t) => t.status === "active").length,
+      ownershipFindings: buildOwnershipFindings(pageTargets),
+      priorityEntityCount: pageTargets.priorityEntities.length,
+    },
     dashboard,
     connectors: platform.connectors.listHealth(),
     auditEvents: platform.auditLog.list().slice(-20).reverse(),

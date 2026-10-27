@@ -121,3 +121,16 @@ export function detectCannibalization(entities: GraphEntity[]): Array<{ a: strin
 }
 
 export type ContentEntityFocus = Extract<EntityType, "Product" | "Solution" | "Category" | "Industry">;
+
+export * from "./page-search-target";
+export {
+  buildOwnershipFindings,
+  createOwnershipException,
+} from "./ownership-findings";
+export type { OwnershipFinding, OwnershipExceptionInput } from "./ownership-findings";
+export {
+  listUnassignedPriorityEntities,
+  mergePriorityEntities,
+  setPriorityEntities,
+  sortTargetsByPriority,
+} from "./priority-entities";

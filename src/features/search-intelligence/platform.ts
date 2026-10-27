@@ -311,8 +311,11 @@ export function createSearchIntelligencePlatform(options: SearchIntelligencePlat
       return found;
     },
 
-    async recommendLinks(publicId: Parameters<typeof recommendInternalLinks>[2]) {
-      return recommendInternalLinks(query, store, publicId);
+    async recommendLinks(
+      publicId: Parameters<typeof recommendInternalLinks>[2],
+      options?: Parameters<typeof recommendInternalLinks>[3],
+    ) {
+      return recommendInternalLinks(query, store, publicId, options);
     },
 
     async metricsFor(publicId: Parameters<typeof computeGraphMetrics>[1]) {
