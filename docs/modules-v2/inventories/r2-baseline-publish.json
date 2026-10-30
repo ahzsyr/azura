@@ -1,18 +1,20 @@
 {
   "phase": "R2",
   "title": "Modules platform baseline publish",
-  "measuredAt": "2026-10-30T18:37:30.722Z",
+  "measuredAt": "2026-10-30T18:37:50.672Z",
   "branch": "modules-platform-baseline",
   "base": "origin/main",
   "baseSha": "af8f08173c474e5134cbf76db362ac3f76203f74",
-  "headSha": "48e4d7bea40132e9d8f2fccdfc444294ca34a710",
+  "headSha": "ecc1ba5f904cc641183e4edd4003eb78c025deef",
   "commits": [
+    "ecc1ba5f Refresh R2 publish evidence with final branch inventory counts.",
+    "c15515f6 Record R2 baseline publish evidence for the reviewable branch.",
     "48e4d7be Refresh marketing shared-edges inventory for the platform baseline.",
     "f35af616 Retain theme package fontFaces through typography schema and parsers.",
     "0273a10c Include Advanced SEO bridge and theme/profile deps required by baseline gates.",
     "8393032b Publish Modules Option A+C platform baseline for review."
   ],
-  "fileCount": 273,
+  "fileCount": 274,
   "files": [
     ".github/workflows/ci.yml",
     "docs/azura-v2/README.md",
@@ -77,6 +79,7 @@
     "docs/modules-v2/inventories/profile-gating-evidence.json",
     "docs/modules-v2/inventories/profile-module-compatibility-matrix.json",
     "docs/modules-v2/inventories/r1-verification-results.json",
+    "docs/modules-v2/inventories/r2-baseline-publish.json",
     "docs/modules-v2/modules/advanced-seo.md",
     "docs/modules-v2/modules/documentation.md",
     "docs/modules-v2/modules/marketing.md",
