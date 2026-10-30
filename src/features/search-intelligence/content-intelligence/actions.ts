@@ -1,8 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/features/auth/guards";
+import { requireAdminSection } from "@/features/auth/guards";
 import { localeService } from "@/features/i18n/locale.service";
+import { assertAdvancedSeoMutationAllowed } from "@/modules/advanced-seo/guard";
 import type { PageSearchTargetInput, PageTargetEntityRef, SearchIntent, PageSearchTargetStatus } from "./page-search-target";
 import {
   deleteKeywordCluster,
@@ -34,7 +35,7 @@ async function revalidateContentIntelligence() {
 }
 
 export async function getPageTargetsWorkspaceAction() {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const siteKey = await resolveCurrentSiteKey();
   const locales = await localeService.listEnabled();
   const config = await loadPageTargetSiteConfig(siteKey);
@@ -75,7 +76,8 @@ export async function upsertPageSearchTargetAction(input: {
   clusterId?: string;
   id?: string;
 }) {
-  const session = await requireAdmin();
+  await assertAdvancedSeoMutationAllowed();
+  const session = await requireAdminSection("seo");
   const siteKey = await resolveCurrentSiteKey();
   const locales = await localeService.listEnabled();
   const payload: PageSearchTargetInput = {
@@ -103,7 +105,8 @@ export async function upsertPageSearchTargetAction(input: {
 }
 
 export async function retirePageSearchTargetAction(targetId: string) {
-  await requireAdmin();
+  await assertAdvancedSeoMutationAllowed();
+  await requireAdminSection("seo");
   const siteKey = await resolveCurrentSiteKey();
   const config = await retirePageSearchTarget({
     siteKey,
@@ -115,7 +118,8 @@ export async function retirePageSearchTargetAction(targetId: string) {
 }
 
 export async function deletePageSearchTargetAction(targetId: string) {
-  await requireAdmin();
+  await assertAdvancedSeoMutationAllowed();
+  await requireAdminSection("seo");
   const siteKey = await resolveCurrentSiteKey();
   const config = await deletePageSearchTarget({
     siteKey,
@@ -132,7 +136,8 @@ export async function acknowledgeOwnershipExceptionAction(input: {
   entityIds: PageTargetEntityRef[];
   reason: string;
 }) {
-  const session = await requireAdmin();
+  await assertAdvancedSeoMutationAllowed();
+  const session = await requireAdminSection("seo");
   const siteKey = await resolveCurrentSiteKey();
   const result = await saveOwnershipException({
     currentSiteKey: siteKey,
@@ -150,7 +155,8 @@ export async function acknowledgeOwnershipExceptionAction(input: {
 }
 
 export async function updatePriorityEntitiesAction(entities: PageTargetEntityRef[]) {
-  await requireAdmin();
+  await assertAdvancedSeoMutationAllowed();
+  await requireAdminSection("seo");
   const siteKey = await resolveCurrentSiteKey();
   const config = await updatePriorityEntities({
     siteKey,
@@ -172,7 +178,8 @@ export async function upsertKeywordClusterAction(input: {
   primaryEntityType?: string;
   primaryEntityId?: string;
 }) {
-  const session = await requireAdmin();
+  await assertAdvancedSeoMutationAllowed();
+  const session = await requireAdminSection("seo");
   const siteKey = await resolveCurrentSiteKey();
   const result = await upsertKeywordCluster({
     currentSiteKey: siteKey,
@@ -197,7 +204,8 @@ export async function upsertKeywordClusterAction(input: {
 }
 
 export async function deleteKeywordClusterAction(clusterId: string) {
-  await requireAdmin();
+  await assertAdvancedSeoMutationAllowed();
+  await requireAdminSection("seo");
   const siteKey = await resolveCurrentSiteKey();
   const config = await deleteKeywordCluster({
     siteKey,
@@ -219,7 +227,8 @@ export async function upsertKeywordRecordAction(input: {
   priority?: number;
   status?: KeywordRecordStatus;
 }) {
-  const session = await requireAdmin();
+  await assertAdvancedSeoMutationAllowed();
+  const session = await requireAdminSection("seo");
   const siteKey = await resolveCurrentSiteKey();
   const locales = await localeService.listEnabled();
   const result = await upsertKeywordRecord({
@@ -246,7 +255,8 @@ export async function upsertKeywordRecordAction(input: {
 }
 
 export async function deleteKeywordRecordAction(keywordId: string) {
-  await requireAdmin();
+  await assertAdvancedSeoMutationAllowed();
+  await requireAdminSection("seo");
   const siteKey = await resolveCurrentSiteKey();
   const config = await deleteKeywordRecord({
     siteKey,
@@ -268,7 +278,8 @@ export async function createPlanningBriefAction(input: {
   entityId?: string;
   intent?: SearchIntent;
 }) {
-  const session = await requireAdmin();
+  await assertAdvancedSeoMutationAllowed();
+  const session = await requireAdminSection("seo");
   const siteKey = await resolveCurrentSiteKey();
   const locales = await localeService.listEnabled();
   const result = await createPlanningBrief({

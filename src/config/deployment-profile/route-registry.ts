@@ -1,6 +1,7 @@
 import { documentationModuleManifest } from "@/modules/documentation/manifest";
 import { statusPageModuleManifest } from "@/modules/status-page/manifest";
 import { marketingModuleManifest } from "@/modules/marketing/manifest";
+import { advancedSeoModuleManifest } from "@/modules/advanced-seo/manifest";
 
 /** Preset → admin href prefixes and public URL segments (locale-stripped). */
 export const PRESET_ROUTE_REGISTRY: Record<
@@ -64,9 +65,15 @@ export const MODULE_MANIFESTS = [
   documentationModuleManifest,
   statusPageModuleManifest,
   marketingModuleManifest,
+  advancedSeoModuleManifest,
 ] as const;
 
-/** Route gating is derived from the same manifests used by module and block code. */
+/**
+ * Route gating SoT (Phase 4): ModuleManifest.adminRoutes / publicRoutes → this registry
+ * → profile generator (`disabledAdminPrefixes` / `disabledPublicPrefixes` / API prefixes).
+ * Package contributions do not gate public/API routes.
+ * Exceptional bindings (e.g. Marketing `/a`): see module-extra-bindings.ts.
+ */
 export const MODULE_ROUTE_REGISTRY: Record<
   string,
   { adminPrefixes: string[]; publicPrefixes: string[]; apiPrefixes: string[] }

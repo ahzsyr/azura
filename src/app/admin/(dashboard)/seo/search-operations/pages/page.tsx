@@ -9,9 +9,11 @@ import {
 } from "@/features/search-intelligence/workspaces/ui";
 import { enqueueSearchOperationAction } from "@/features/search-intelligence/workspaces/actions";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function SearchOpsPagesWorkspace() {
+  await requireAdvancedSeoPage();
   const platform = await getSearchOperationsPlatform();
   const url = await resolveCanonicalHomeUrl(platform.siteOrigin);
   const latestInspect = platform.operations

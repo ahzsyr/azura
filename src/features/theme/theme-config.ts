@@ -135,10 +135,31 @@ function parseLocaleFonts(raw: unknown): Record<string, LocaleFontOverride> | un
   return Object.keys(result).length > 0 ? result : undefined;
 }
 
+function parseFontFaces(raw: unknown): ThemeTypographySettings["fontFaces"] {
+  if (!Array.isArray(raw)) return undefined;
+  const formats = new Set(["woff2", "woff", "truetype", "opentype"]);
+  const faces: NonNullable<ThemeTypographySettings["fontFaces"]> = [];
+  for (const entry of raw) {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) continue;
+    const e = entry as Record<string, unknown>;
+    const family = typeof e.family === "string" ? e.family.trim() : "";
+    const url = typeof e.url === "string" ? e.url.trim() : "";
+    if (!family || !url) continue;
+    const format =
+      typeof e.format === "string" && formats.has(e.format)
+        ? (e.format as NonNullable<ThemeTypographySettings["fontFaces"]>[number]["format"])
+        : undefined;
+    faces.push({ family, url, ...(format ? { format } : {}) });
+    if (faces.length >= 8) break;
+  }
+  return faces.length > 0 ? faces : undefined;
+}
+
 export function parseTypography(raw: unknown): ThemeTypographySettings {
   const r = asRecord(raw);
   const scale = Number(r.headingScale);
   const localeFonts = parseLocaleFonts(r.localeFonts);
+  const fontFaces = parseFontFaces(r.fontFaces);
   return {
     bodyFont: typeof r.bodyFont === "string" ? r.bodyFont : DEFAULT_TYPOGRAPHY.bodyFont,
     headingFont: typeof r.headingFont === "string" ? r.headingFont : DEFAULT_TYPOGRAPHY.headingFont,
@@ -149,6 +170,7 @@ export function parseTypography(raw: unknown): ThemeTypographySettings {
         ? scale
         : DEFAULT_TYPOGRAPHY.headingScale,
     ...(localeFonts ? { localeFonts } : {}),
+    ...(fontFaces ? { fontFaces } : {}),
   };
 }
 
@@ -218,6 +240,10 @@ function parseThemeProvenance(raw: unknown): ThemeProvenance | null {
   return {
     sourcePresetId:
       typeof record.sourcePresetId === "string" ? record.sourcePresetId : null,
+    sourcePackageId:
+      typeof record.sourcePackageId === "string" ? record.sourcePackageId : null,
+    sourcePackageVersion:
+      typeof record.sourcePackageVersion === "string" ? record.sourcePackageVersion : null,
     appliedAt: typeof record.appliedAt === "string" ? record.appliedAt : null,
   };
 }

@@ -3,12 +3,14 @@
  * Compile deployment profile from AZURA_PROFILE + YAML manifests.
  * Output: src/generated/deployment-profile.json (edge-safe static import).
  */
+import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import yaml from "yaml";
 import ts from "typescript";
+import { MODULE_EXTRA_PUBLIC_BINDINGS as MODULE_EXTRA_DISABLED_PUBLIC } from "./module-extra-public-bindings.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const docsDir = path.join(root, "docs");
@@ -93,15 +95,43 @@ function pruneDisabledPrefixesBlockingEnabledHrefs(disabledPrefixes, enabledHref
   );
 }
 
+function resolveProfileYamlPath(profileId) {
+  const override = process.env.AZURA_PROFILE_FILE?.trim();
+  if (override) {
+    return path.isAbsolute(override) ? override : path.join(root, override);
+  }
+  return path.join(docsDir, "profiles", `${profileId}.yaml`);
+}
+
+/** Canonical module list: reject duplicates, return sorted unique. */
+function canonicalizeModules(rawModules, profileId) {
+  const list = (rawModules ?? []).map(String);
+  const seen = new Set();
+  const dups = [];
+  for (const id of list) {
+    if (seen.has(id)) dups.push(id);
+    else seen.add(id);
+  }
+  if (dups.length > 0) {
+    throw new Error(
+      `${profileId}: duplicate module id(s) in YAML modules[]: ${[...new Set(dups)].join(", ")}`,
+    );
+  }
+  return [...seen].sort();
+}
+
 function compileProfile(profileId, navManifest) {
-  const profilePath = path.join(docsDir, "profiles", `${profileId}.yaml`);
+  const profilePath = resolveProfileYamlPath(profileId);
   if (!fs.existsSync(profilePath)) {
     throw new Error(`Profile not found: ${profilePath}`);
   }
 
-  const profile = yaml.parse(fs.readFileSync(profilePath, "utf8"));
+  const yamlBytes = fs.readFileSync(profilePath);
+  const profileSourceHash = createHash("sha256").update(yamlBytes).digest("hex");
+  const profile = yaml.parse(yamlBytes.toString("utf8"));
+  const modules = canonicalizeModules(profile.modules, profileId);
   const enabledNavItems = collectEnabledNavIds(profile);
-  const enabledModules = new Set((profile.modules ?? []).map(String));
+  const enabledModules = new Set(modules);
   for (const manifest of getModuleManifests()) {
     if (enabledModules.has(manifest.id)) {
       const missingCapabilities = manifest.requiredCapabilities.filter(
@@ -165,6 +195,11 @@ function compileProfile(profileId, navManifest) {
     disabledApiPrefixes.push(...routes.apiPrefixes);
   }
 
+  for (const [moduleId, extras] of Object.entries(MODULE_EXTRA_DISABLED_PUBLIC)) {
+    if (enabledModules.has(moduleId)) continue;
+    disabledPublicPrefixes.push(...extras);
+  }
+
   const sortedDisabledAdminPrefixes = uniqueSorted(
     pruneDisabledPrefixesBlockingEnabledHrefs(disabledAdminPrefixes, enabledAdminHrefs),
   );
@@ -178,7 +213,9 @@ function compileProfile(profileId, navManifest) {
     capabilities: profile.capabilities ?? [],
     experience: profile.experience ?? [],
     presets: profile.presets ?? [],
-    modules: profile.modules ?? [],
+    modules,
+    profileSourceModules: modules,
+    profileSourceHash,
     enabledNavItemIds,
     enabledAdminHrefs,
     disabledAdminPrefixes: sortedDisabledAdminPrefixes,
@@ -199,6 +236,8 @@ function fallbackEnterprise() {
     experience: [],
     presets: [],
     modules: [],
+    profileSourceModules: [],
+    profileSourceHash: "",
     enabledNavItemIds: [],
     enabledAdminHrefs: [],
     disabledAdminPrefixes: [],
@@ -208,22 +247,33 @@ function fallbackEnterprise() {
   };
 }
 
+function resolveProfileId() {
+  return (process.env.AZURA_PROFILE ?? "enterprise").trim().toLowerCase();
+}
+
 function main() {
-  const profileId = (process.env.AZURA_PROFILE ?? "enterprise").trim().toLowerCase();
-  if (!STANDARD_PROFILES.includes(profileId)) {
-    console.warn(`[profile:generate] Unknown AZURA_PROFILE="${profileId}", using enterprise.`);
+  const resolvedId = resolveProfileId();
+  if (!STANDARD_PROFILES.includes(resolvedId)) {
+    console.error(
+      `[profile:generate] Unknown AZURA_PROFILE="${resolvedId}". ` +
+        `Expected one of: ${STANDARD_PROFILES.join(", ")}.`,
+    );
+    process.exit(1);
   }
-  const resolvedId = STANDARD_PROFILES.includes(profileId) ? profileId : "enterprise";
 
   const navPath = path.join(docsDir, "admin-nav-manifest.yaml");
   if (!fs.existsSync(navPath)) {
-    console.warn("[profile:generate] admin-nav-manifest.yaml missing; writing fallback.");
+    console.warn("[profile:generate] admin-nav-manifest.yaml missing; writing fallback (generated: false).");
     fs.mkdirSync(path.dirname(outFile), { recursive: true });
     fs.writeFileSync(outFile, JSON.stringify(fallbackEnterprise(), null, 2));
-    return;
+    process.exit(1);
   }
 
   const navManifest = yaml.parse(fs.readFileSync(navPath, "utf8"));
+  const profileYamlPath = resolveProfileYamlPath(resolvedId);
+  if (process.env.AZURA_PROFILE_FILE?.trim()) {
+    console.log(`[profile:generate] AZURA_PROFILE_FILE=${profileYamlPath}`);
+  }
   const compiled = compileProfile(resolvedId, navManifest);
 
   fs.mkdirSync(path.dirname(outFile), { recursive: true });
@@ -232,7 +282,8 @@ function main() {
     `[profile:generate] Wrote ${resolvedId} profile — ` +
       `${compiled.enabledNavItemIds.length} nav items, ` +
       `${compiled.disabledAdminPrefixes.length} disabled admin paths, ` +
-      `${compiled.disabledPublicSegments.length} disabled public segments.`,
+      `${compiled.disabledPublicSegments.length} disabled public segments` +
+      `${compiled.modules?.includes("marketing") ? " (marketing on)" : " (marketing off)"}.`,
   );
 }
 

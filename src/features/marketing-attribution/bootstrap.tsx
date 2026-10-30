@@ -32,14 +32,22 @@ function readPrevSnapshot(): AttributionSnapshot | null {
  * Bootstraps first-party marketing attribution on marketing pages.
  * Short-link visits (/a?id) arrive with a clean URL + mkt_camp_entry cookie;
  * that cookie is consumed here so attribution works without query params in the bar.
+ *
+ * `marketingActive` is computed on the server. When false, this component must
+ * not mount side effects; server ingress guards remain authoritative.
  */
-export function MarketingAttributionBootstrap() {
+export function MarketingAttributionBootstrap({
+  marketingActive = true,
+}: {
+  marketingActive?: boolean;
+}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const booted = useRef(false);
   const lastPath = useRef<string | null>(null);
 
   useEffect(() => {
+    if (!marketingActive) return;
     const requireConsent = process.env.NEXT_PUBLIC_MARKETING_REQUIRE_CONSENT === "1";
     let consent = getMarketingConsent();
     if (!requireConsent && consent === "UNKNOWN") {
@@ -76,7 +84,7 @@ export function MarketingAttributionBootstrap() {
         });
       }
     });
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, marketingActive]);
 
   return null;
 }

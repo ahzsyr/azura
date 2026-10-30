@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { buildTargetGscCompareReport } from "@/features/seo/analytics/target-gsc-compare.service";
 import { buildKeywordOpportunityBoard } from "@/features/seo/analytics/keyword-opportunity.service";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function AdminPerformanceSeoPage({
@@ -10,6 +11,7 @@ export default async function AdminPerformanceSeoPage({
 }: {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  await requireAdvancedSeoPage();
   const params = (await searchParams) ?? {};
   const daysRaw = typeof params.days === "string" ? Number(params.days) : 28;
   const days = Number.isFinite(daysRaw) && daysRaw > 0 ? Math.min(daysRaw, 90) : 28;

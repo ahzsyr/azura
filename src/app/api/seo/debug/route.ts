@@ -1,14 +1,18 @@
 import { NextResponse } from "next/server";
-import { requireAdmin } from "@/features/auth/guards";
+import { requireAdminSection } from "@/features/auth/guards";
 import { resolveSeoDocument } from "@/features/seo/core/seo-resolver";
 import { serializeYoastHead } from "@/features/seo/integrations/yoast/yoast-head.serializer";
+import { advancedSeoApiGuardResponse } from "@/modules/advanced-seo/guard";
 
 export async function GET(request: Request) {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
   } catch {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const denied = await advancedSeoApiGuardResponse();
+  if (denied) return denied;
 
   const { searchParams } = new URL(request.url);
   const url = searchParams.get("url");

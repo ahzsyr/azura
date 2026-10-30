@@ -12,9 +12,11 @@ import {
   enqueueSearchOperationAction,
 } from "@/features/search-intelligence/workspaces/actions";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function SearchOpsEntitiesWorkspace() {
+  await requireAdvancedSeoPage();
   const platform = await getSearchOperationsPlatform();
   const entities = await platform.store.entities.list();
   const relationships = await platform.store.relationships.list();

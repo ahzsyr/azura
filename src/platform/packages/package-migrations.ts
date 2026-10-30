@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { prisma } from "@/lib/prisma";
+import { sqlStatements, upFilenameForDown } from "@/platform/packages/package-migration-sql";
 
 export type PackageSqlFile = {
   filename: string;
@@ -10,19 +11,21 @@ export type PackageSqlFile = {
   checksum: string;
 };
 
+export class PackageMigrationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "PackageMigrationError";
+  }
+}
+
+export { sqlStatements, upFilenameForDown };
+
 function checksumOf(sql: string): string {
   return createHash("sha256").update(sql).digest("hex");
 }
 
 export function packageMigrationsDir(packageId: string): string {
   return path.join(process.cwd(), "src", "modules", packageId, "migrations");
-}
-
-export function sqlStatements(sql: string): string[] {
-  return sql
-    .split(/;\s*(?:\r?\n|$)/)
-    .map((statement) => statement.trim())
-    .filter((statement) => statement.length > 0 && !statement.startsWith("--"));
 }
 
 export async function readPackageSqlFiles(packageId: string): Promise<PackageSqlFile[]> {
@@ -42,6 +45,11 @@ export async function readPackageSqlFiles(packageId: string): Promise<PackageSql
   return files;
 }
 
+/**
+ * Apply allowlisted ship-time SQL for a package.
+ * - up: skip when filename+checksum match; refuse checksum mismatch on same filename.
+ * - down: eligible only when the corresponding **up** ledger row exists; after success, delete that up row.
+ */
 export async function applyPackageSql(
   packageId: string,
   version: string,
@@ -49,16 +57,24 @@ export async function applyPackageSql(
 ): Promise<number> {
   const files = (await readPackageSqlFiles(packageId)).filter((file) => file.direction === direction);
   const ordered = direction === "down" ? [...files].reverse() : files;
-  const applied = await prisma.packageMigration.findMany({
-    where: { packageId, direction },
+  const upLedger = await prisma.packageMigration.findMany({
+    where: { packageId, direction: "up" },
     select: { filename: true, checksum: true },
   });
-  const seen = new Map(applied.map((row) => [row.filename, row.checksum]));
+  const upByName = new Map(upLedger.map((row) => [row.filename, row.checksum]));
   let count = 0;
   for (const file of ordered) {
-    if (direction === "up" && seen.get(file.filename) === file.checksum) continue;
-    if (direction === "down" && !seen.has(file.filename.replace(/\.down\.sql$/, ".up.sql")) && !seen.has(file.filename)) {
-      continue;
+    if (direction === "up") {
+      const prior = upByName.get(file.filename);
+      if (prior === file.checksum) continue;
+      if (prior != null && prior !== file.checksum) {
+        throw new PackageMigrationError(
+          `${packageId} migration ${file.filename} checksum mismatch (refusing to re-apply; recorded ${prior.slice(0, 8)}… vs ${file.checksum.slice(0, 8)}…)`,
+        );
+      }
+    } else {
+      const upName = upFilenameForDown(file.filename);
+      if (!upByName.has(upName)) continue;
     }
     const statements = sqlStatements(file.sql);
     await prisma.$transaction(async (tx) => {
@@ -76,11 +92,14 @@ export async function applyPackageSql(
           },
         });
       } else {
+        const upName = upFilenameForDown(file.filename);
         await tx.packageMigration.deleteMany({
-          where: { packageId, filename: file.filename },
+          where: { packageId, filename: upName, direction: "up" },
         });
       }
     });
+    if (direction === "up") upByName.set(file.filename, file.checksum);
+    else upByName.delete(upFilenameForDown(file.filename));
     count += 1;
   }
   return count;

@@ -1,5 +1,8 @@
 import { notFound } from "next/navigation";
-import { isModuleActive } from "@/modules/status-page/module-profile";
+import {
+  assertStatusPageReadAllowed,
+  isModuleActive,
+} from "@/modules/status-page/module-profile";
 
 export default async function StatusAdminLayout({
   children,
@@ -7,5 +10,10 @@ export default async function StatusAdminLayout({
   children: React.ReactNode;
 }) {
   if (!(await isModuleActive())) notFound();
+  try {
+    await assertStatusPageReadAllowed();
+  } catch {
+    notFound();
+  }
   return children;
 }

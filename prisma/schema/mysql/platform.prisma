@@ -748,6 +748,21 @@ model PackageMigration {
   @@index([packageId])
 }
 
+/// Core-owned Module settings (Phase 3). Schemas live in src/modules/<id>/settings.ts.
+/// Deactivate retains rows; reset is an explicit operator action.
+model ModuleSetting {
+  id            String   @id @default(cuid())
+  packageId     String   @db.VarChar(64)
+  key           String   @db.VarChar(128)
+  value         Json
+  schemaVersion Int      @default(1)
+  updatedAt     DateTime @updatedAt
+  updatedBy     String?  @db.VarChar(191)
+
+  @@unique([packageId, key])
+  @@index([packageId])
+}
+
 model Video {
   id               String      @id @default(cuid())
   slug             String      @unique

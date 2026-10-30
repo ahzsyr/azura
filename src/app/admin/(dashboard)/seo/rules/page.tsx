@@ -3,8 +3,10 @@ import { SeoDeveloperDetailsPanel } from "@/features/seo/workspace/components/se
 import { pluginSdk } from "@/features/seo/platform/plugin-sdk";
 import { SEO_PIPELINE_VERSION } from "@/features/seo/workspace/types";
 import "@/features/seo/platform/seo-platform.impl";
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 
-export default function AdminSeoRulesPage() {
+export default async function AdminSeoRulesPage() {
+  await requireAdvancedSeoPage();
   const rules = pluginSdk.getRules();
   return (
     <div className="space-y-8">

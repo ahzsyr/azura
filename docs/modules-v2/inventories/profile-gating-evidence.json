@@ -1,0 +1,34 @@
+{
+  "phase": "6",
+  "lane": "profileGating",
+  "measuredAt": "2026-10-30T18:14:37.726Z",
+  "commands": [
+    "npm run profiles:verify",
+    "npm run test:profile-source-integrity",
+    "node scripts/platform/profile-gating-evidence.mjs"
+  ],
+  "releaseGate": {
+    "exclusionCiGate": false,
+    "decision": "docs-only"
+  },
+  "ok": true,
+  "enterpriseAssertOk": true,
+  "twinExpectMarketingAbsentOk": true,
+  "enterpriseModulesIncludeMarketing": true,
+  "twinModulesIncludeMarketing": false,
+  "twinDisabledPublicIncludesMarketingBindings": true,
+  "twinDisabledPublicPrefixes": [
+    "/a"
+  ],
+  "twinDisabledApiPrefixes": [
+    "/api/marketing"
+  ],
+  "inputs": {
+    "enterpriseYamlSha256": "a3b6d16b9a0c2e1e6a7244fe31f768219dd708ba6a7a03e954a74f1549ff5ebe"
+  },
+  "notes": [
+    "Profile gating answers access/nav/prefix ceiling — independent of bundleEvidence.",
+    "Twin omits marketing from modules[]; production expectations assert is not applied to twin YAML.",
+    "Twin disables Marketing API (/api/marketing) and short-link (/a via MODULE_EXTRA_PUBLIC_BINDINGS)."
+  ]
+}

@@ -31,6 +31,12 @@ describe("mimeTypeForUpload", () => {
     assert.equal(mimeTypeForUpload("UniFi.svg", "text/plain", "SVG"), "image/svg+xml");
     assert.equal(mimeTypeForUpload("logo.svg", "application/octet-stream"), "image/svg+xml");
   });
+
+  it("maps font extensions to font/* Content-Types (M7.2)", () => {
+    assert.equal(mimeTypeForUpload("Brand.woff2", "", "DOCUMENT"), "font/woff2");
+    assert.equal(mimeTypeForUpload("Brand.woff", "application/octet-stream", "DOCUMENT"), "font/woff");
+    assert.equal(resolveMediaType("Brand.woff2", ""), "DOCUMENT");
+  });
 });
 
 describe("validateUploadFile", () => {

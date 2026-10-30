@@ -37,6 +37,11 @@ const EXT_TO_TYPE: Record<string, MediaType> = {
   ".pptx": "DOCUMENT",
   ".rtf": "DOCUMENT",
   ".zip": "DOCUMENT",
+  ".woff2": "DOCUMENT",
+  ".woff": "DOCUMENT",
+  ".ttf": "DOCUMENT",
+  ".otf": "DOCUMENT",
+  ".ico": "DOCUMENT",
   ".svg": "SVG",
 };
 
@@ -75,6 +80,11 @@ const MIME_BY_EXT: Record<string, string> = {
   ".mp4": "video/mp4",
   ".webm": "video/webm",
   ".pdf": "application/pdf",
+  ".woff2": "font/woff2",
+  ".woff": "font/woff",
+  ".ttf": "font/ttf",
+  ".otf": "font/otf",
+  ".ico": "image/x-icon",
 };
 
 /** Canonical Content-Type stored with the object (never trust a misleading browser MIME for SVG). */
@@ -159,7 +169,7 @@ export const ACCEPT_BY_TYPE: Record<MediaType, string> = {
   IMAGE: "image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif",
   VIDEO: "video/mp4,video/webm,.mp4,.webm",
   DOCUMENT:
-    "application/pdf,text/plain,text/csv,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/rtf,application/zip,.pdf,.txt,.csv,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.rtf,.zip",
+    "application/pdf,text/plain,text/csv,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/rtf,application/zip,font/woff2,font/woff,font/ttf,font/otf,.pdf,.txt,.csv,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.rtf,.zip,.woff2,.woff,.ttf,.otf,.ico",
   SVG: "image/svg+xml,.svg",
 };
 

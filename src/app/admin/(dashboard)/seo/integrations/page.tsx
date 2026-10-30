@@ -7,6 +7,7 @@ import { getServerDefaultSitemapUrl } from "@/features/seo/integrations/enqueue"
 import { getServerAppOrigin } from "@/lib/oauth-redirect-origin";
 import type { PublicSeoIntegrationsConfig, SeoProviderHealth } from "@/features/seo/types";
 import SeoIntegrationsLoading from "./loading";
+import { isAdvancedSeoMutationAllowed } from "@/modules/advanced-seo/guard";
 
 export const dynamic = "force-dynamic";
 
@@ -81,6 +82,7 @@ export default async function SeoIntegrationsPage({
 
   const siteUrl = (await getServerAppOrigin()).replace(/\/$/, "");
   const sitemapUrl = await getServerDefaultSitemapUrl();
+  const advancedConfigureEnabled = await isAdvancedSeoMutationAllowed();
 
   return (
     <Suspense fallback={<SeoIntegrationsLoading />}>
@@ -92,6 +94,7 @@ export default async function SeoIntegrationsPage({
         searchReport={searchReport}
         siteUrl={siteUrl}
         sitemapUrl={sitemapUrl}
+        advancedConfigureEnabled={advancedConfigureEnabled}
       />
     </Suspense>
   );

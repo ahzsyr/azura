@@ -15,5 +15,5 @@ export const statusPageModuleManifest = {
   publicRoutes: ["/status", "/api/status-boards"],
   navItemIds: ["status-page"],
   contributedBlockTypes: ["statusDashboard"],
-  permissions: ["status.read", "status.manage"],
+  permissions: ["status-page.read", "status-page.manage"],
 } satisfies ModuleManifest;

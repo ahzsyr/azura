@@ -9,6 +9,7 @@ import { loadGooglePlatformAdminData, loadGoogleIntegrationPageData } from "@/fe
 import { googleIntegrationRegistry } from "@/features/seo/google-platform/registry";
 import type { GoogleIntegrationId } from "@/features/seo/google-platform/types";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function AdminGooglePage({
@@ -21,6 +22,7 @@ export default async function AdminGooglePage({
     googleSaved?: string;
   }>;
 }) {
+  await requireAdvancedSeoPage();
   let trackingConfig: SeoTrackingConfig = {};
   let integrationsConfig: PublicSeoIntegrationsConfig = {};
   let health: SeoProviderHealth[] = [];

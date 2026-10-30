@@ -1,11 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
-import {
-  buildCleanLandingUrl,
-  CAMPAIGN_ENTRY_COOKIE,
-  encodeCampaignEntryCookie,
-  parseShortCampaignId,
-} from "@/modules/marketing/tracking-urls/build-url";
 import {
   FALLBACK_LOCALE_PREFIXES,
   getLocaleRoutingCache,
@@ -14,6 +8,8 @@ import {
   getCanonicalAppOrigin,
   resolveRequestOrigin,
 } from "@/lib/oauth-redirect-origin";
+import { resolveMarketingIngressAccess } from "@/modules/marketing/ingress-guard";
+import { handleMarketingShortLink } from "@/modules/marketing/ingress/short-link";
 
 export const runtime = "nodejs";
 
@@ -52,81 +48,42 @@ function resolveShortLinkRedirectOrigin(request: NextRequest): string {
   return getCanonicalAppOrigin();
 }
 
-/** Landing paths may be stored absolute; always redirect with a relative path. */
-function toLandingPath(raw: string): string {
-  const trimmed = raw.trim() || "/";
-  if (!/^https?:\/\//i.test(trimmed)) {
-    return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
-  }
-  try {
-    return new URL(trimmed).pathname || "/";
-  } catch {
-    return "/";
-  }
-}
-
 /**
  * Short campaign link: /a?test
- * → sets first-party attribution cookie
+ * → sets first-party attribution cookie when marketing is runtime-active
  * → redirects to clean landing path (e.g. /en/products) with no query params
+ *
+ * Nested `/a/:id` is recognized by parsers/middleware but is not bound by
+ * App Router here (`src/app/a/route.ts` matches `/a` only).
  */
 export async function GET(request: NextRequest) {
-  const id = parseShortCampaignId({
-    pathname: request.nextUrl.pathname,
-    searchParams: request.nextUrl.searchParams,
+  return handleMarketingShortLink(request, {
+    resolveAccess: resolveMarketingIngressAccess,
+    resolveRedirectOrigin: resolveShortLinkRedirectOrigin,
+    getDefaultLocale: () => {
+      const cache = getLocaleRoutingCache();
+      return (
+        cache?.defaultLocale ??
+        cache?.locales?.[0] ??
+        FALLBACK_LOCALE_PREFIXES[0] ??
+        "en"
+      );
+    },
+    findCampaignByInternalId: async (id) => {
+      const campaign = await prisma.marketingCampaign
+        .findFirst({
+          where: { internalId: id },
+          include: {
+            trackingUrls: { orderBy: { createdAt: "asc" }, take: 1 },
+          },
+        })
+        .catch(() => null);
+      if (!campaign) return null;
+      return {
+        internalId: campaign.internalId,
+        landingPagePath: campaign.landingPagePath,
+        trackingUrls: campaign.trackingUrls,
+      };
+    },
   });
-
-  if (!id) {
-    return NextResponse.redirect(new URL("/", resolveShortLinkRedirectOrigin(request)), 302);
-  }
-
-  const campaign = await prisma.marketingCampaign
-    .findFirst({
-      where: { internalId: id },
-      include: {
-        trackingUrls: { orderBy: { createdAt: "asc" }, take: 1 },
-      },
-    })
-    .catch(() => null);
-
-  const tracking = campaign?.trackingUrls[0];
-  const landingPath = toLandingPath(
-    campaign?.landingPagePath || tracking?.baseUrl || "/",
-  );
-
-  const cache = getLocaleRoutingCache();
-  const defaultLocale =
-    cache?.defaultLocale ?? cache?.locales?.[0] ?? FALLBACK_LOCALE_PREFIXES[0] ?? "en";
-
-  // Path only — host comes from the visitor-facing origin (never request.url / 0.0.0.0)
-  const cleanPath = buildCleanLandingUrl({
-    baseUrl: landingPath,
-    localePrefix: defaultLocale,
-  });
-
-  const redirectOrigin = resolveShortLinkRedirectOrigin(request);
-  const redirectUrl = new URL(cleanPath || "/", redirectOrigin);
-
-  const campaignParam = campaign?.internalId ?? id;
-  const response = NextResponse.redirect(redirectUrl, 302);
-  response.cookies.set({
-    name: CAMPAIGN_ENTRY_COOKIE,
-    value: encodeCampaignEntryCookie({
-      campaignParam,
-      utmSource: tracking?.utmSource,
-      utmMedium: tracking?.utmMedium,
-      utmCampaign: tracking?.utmCampaign ?? campaignParam,
-      utmContent: tracking?.utmContent,
-      utmTerm: tracking?.utmTerm,
-      entryUrl: `${redirectOrigin}${request.nextUrl.pathname}${request.nextUrl.search}`,
-      landingPagePath: redirectUrl.pathname,
-    }),
-    path: "/",
-    maxAge: 60 * 30, // 30 minutes — consumed on first page load
-    sameSite: "lax",
-    httpOnly: false, // client attribution bootstrap must read it
-    secure: redirectUrl.protocol === "https:",
-  });
-
-  return response;
 }

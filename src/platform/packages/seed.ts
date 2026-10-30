@@ -57,6 +57,14 @@ async function seedBuiltinPackages(): Promise<void> {
 export function readStoredManifest(value: Prisma.JsonValue): PackageManifest | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   const record = value as Record<string, unknown>;
+  // Format-1 installation envelope (M7 theme tokens)
+  if (record.format === 1 && record.package && typeof record.package === "object" && !Array.isArray(record.package)) {
+    const pkg = record.package as Record<string, unknown>;
+    if (typeof pkg.id === "string" && typeof pkg.kind === "string") {
+      return record.package as unknown as PackageManifest;
+    }
+    return null;
+  }
   if (typeof record.id !== "string" || typeof record.kind !== "string") return null;
   return value as unknown as PackageManifest;
 }

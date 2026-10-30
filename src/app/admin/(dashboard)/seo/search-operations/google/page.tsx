@@ -26,6 +26,7 @@ import {
 } from "@/features/seo/google-live/business-profile-cache";
 import { BUSINESS_PROFILE_RATE_LIMITED_MESSAGE } from "@/features/seo/google-live/google-api-error";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 function statusBadge(connected: boolean, state: string) {
@@ -55,6 +56,7 @@ function relativeTime(value?: string | null) {
 }
 
 export default async function SearchOpsGoogleWorkspace() {
+  await requireAdvancedSeoPage();
   const [{ platform, snapshots, health }, googlePlatform] = await Promise.all([
     getSearchOperationsGoogleWorkspace(),
     loadGooglePlatformAdminData({ public: true }),

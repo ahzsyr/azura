@@ -3,7 +3,9 @@ import { AdminPageHeader } from "@/components/admin/layout/admin-shell";
 import { seoRepository } from "@/repositories/seo.repository";
 import { SearchAppearanceForm } from "@/features/seo/admin/search-appearance-form";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export default async function AdminSeoTemplatesPage() {
+  await requireAdvancedSeoPage();
   const appearance = await seoRepository.getAppearanceConfig();
   return (
     <div className="space-y-8">

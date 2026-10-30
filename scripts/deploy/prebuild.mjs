@@ -2,21 +2,22 @@
 /**
  * Prebuild hook: rebuild product indexes when catalog source is present.
  * Skips when committed products-index manifest already has products.
+ *
+ * M2.3: middleware / profile / prisma-metadata all hard-fail via runPrebuildManifestSteps
+ * (order preserved: middleware → profile+assert → prisma-metadata).
  */
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
+import { runPrebuildManifestSteps } from "./run-build-generators.mjs";
 
 function refreshBuildManifests() {
-  for (const script of ["middleware:manifest", "profile:generate", "prisma-metadata:generate"]) {
-    const result = spawnSync("npm", ["run", script], {
-      stdio: "inherit",
-      shell: process.platform === "win32",
-      env: process.env,
-    });
-    if ((result.status ?? 1) !== 0) {
-      console.warn(`[prebuild] ${script} failed; continuing with bundled fallback.`);
-    }
+  const result = runPrebuildManifestSteps({ env: process.env });
+  if (!result.ok) {
+    console.error(
+      `[prebuild] ${result.failedStep} failed — aborting (exit ${result.code}).`,
+    );
+    process.exit(result.code);
   }
 }
 

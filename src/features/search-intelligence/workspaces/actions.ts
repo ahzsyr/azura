@@ -5,6 +5,7 @@ import { getSearchOperationsPlatform } from "@/features/search-intelligence/work
 import { formatEnqueueOutcome } from "@/features/search-intelligence/operations/result-summary";
 import type { ConnectorId } from "@/features/search-intelligence/integrations";
 import type { GoogleIntegrationId } from "@/features/seo/google-platform/types";
+import { assertAdvancedSeoMutationAllowed } from "@/modules/advanced-seo/guard";
 
 async function revalidateWorkspaces() {
   revalidatePath("/admin/seo/search-operations");
@@ -27,6 +28,7 @@ export async function enqueueSearchOperationAction(input: {
   forceApproval?: boolean;
   executeNow?: boolean;
 }) {
+  await assertAdvancedSeoMutationAllowed();
   const platform = await getSearchOperationsPlatform();
   const record = platform.enqueueOperation({
     definitionId: input.definitionId,
@@ -45,6 +47,7 @@ export async function enqueueSearchOperationAction(input: {
 }
 
 export async function approveSearchOperationAction(operationId: string) {
+  await assertAdvancedSeoMutationAllowed();
   const platform = await getSearchOperationsPlatform();
   platform.operations.approve(operationId, "admin");
   const latest = await platform.operations.execute(operationId, "admin");
@@ -53,6 +56,7 @@ export async function approveSearchOperationAction(operationId: string) {
 }
 
 export async function rejectSearchOperationAction(operationId: string) {
+  await assertAdvancedSeoMutationAllowed();
   const platform = await getSearchOperationsPlatform();
   const latest = platform.operations.reject(operationId, "admin", "Rejected from Action Center");
   await revalidateWorkspaces();
@@ -60,6 +64,7 @@ export async function rejectSearchOperationAction(operationId: string) {
 }
 
 export async function undoSearchOperationAction(operationId: string) {
+  await assertAdvancedSeoMutationAllowed();
   const platform = await getSearchOperationsPlatform();
   const { record } = platform.operations.undo(operationId, "admin");
   await revalidateWorkspaces();
@@ -70,6 +75,7 @@ export async function updateApprovalPolicyAction(input: {
   moderateAutoExecute?: boolean;
   moderate?: "auto_execute" | "optional_approval";
 }) {
+  await assertAdvancedSeoMutationAllowed();
   const platform = await getSearchOperationsPlatform();
   if (typeof input.moderateAutoExecute === "boolean") {
     platform.operations.setModerateAutoExecute(input.moderateAutoExecute);
@@ -82,6 +88,7 @@ export async function updateApprovalPolicyAction(input: {
 }
 
 export async function runAutomationRuleAction(ruleId: string) {
+  await assertAdvancedSeoMutationAllowed();
   const platform = await getSearchOperationsPlatform();
   const run = await platform.automation.runRule(ruleId, {}, "admin");
   await revalidateWorkspaces();
@@ -89,6 +96,7 @@ export async function runAutomationRuleAction(ruleId: string) {
 }
 
 export async function toggleAutomationRuleAction(ruleId: string, enabled: boolean) {
+  await assertAdvancedSeoMutationAllowed();
   const platform = await getSearchOperationsPlatform();
   platform.automation.setEnabled(ruleId, enabled);
   await revalidateWorkspaces();
@@ -99,6 +107,7 @@ export async function editEntityAction(input: {
   publicId: string;
   fields: Record<string, unknown>;
 }) {
+  await assertAdvancedSeoMutationAllowed();
   return enqueueSearchOperationAction({
     definitionId: "entity.edit",
     payload: { publicId: input.publicId, fields: input.fields },
@@ -111,6 +120,7 @@ export async function applyLinkRecommendationsAction(input: {
   fromPublicId: string;
   toPublicIds: string[];
 }) {
+  await assertAdvancedSeoMutationAllowed();
   return enqueueSearchOperationAction({
     definitionId: "linking.apply",
     payload: {
@@ -126,6 +136,7 @@ export async function applyAiSuggestionsAction(input: {
   url: string;
   fields?: Record<string, unknown>;
 }) {
+  await assertAdvancedSeoMutationAllowed();
   return enqueueSearchOperationAction({
     definitionId: "ai.apply_metadata",
     payload: { url: input.url, fields: input.fields ?? { title: true, description: true } },
@@ -135,6 +146,7 @@ export async function applyAiSuggestionsAction(input: {
 }
 
 export async function createContentDraftAction(topic: string) {
+  await assertAdvancedSeoMutationAllowed();
   return enqueueSearchOperationAction({
     definitionId: "content.create_draft",
     payload: { topic },
@@ -144,6 +156,7 @@ export async function createContentDraftAction(topic: string) {
 }
 
 export async function approveNextWaitingOperationAction() {
+  await assertAdvancedSeoMutationAllowed();
   const platform = await getSearchOperationsPlatform();
   const waiting = platform.operations.list({ status: "waiting_approval" })[0];
   if (!waiting) return null;
@@ -157,6 +170,7 @@ export async function testSearchOpsConnectorAction(formData: FormData): Promise<
   ok: boolean;
   message: string;
 }> {
+  await assertAdvancedSeoMutationAllowed();
   const raw = String(formData.get("connectorId") ?? "");
   const { CONNECTOR_DEFINITIONS } = await import("../integrations");
   const { googleIntegrationRegistry } = await import("@/features/seo/google-platform/registry");

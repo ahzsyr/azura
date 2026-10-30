@@ -8,9 +8,11 @@ import {
 import { updateApprovalPolicyAction } from "@/features/search-intelligence/workspaces/actions";
 import { OPERATION_DEFINITIONS } from "@/features/search-intelligence/operations";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function SearchOpsSettingsWorkspace() {
+  await requireAdvancedSeoPage();
   const platform = await getSearchOperationsPlatform();
   const policy = platform.operations.getPolicy();
   const moderateAuto = platform.operations.getModerateAutoExecute();

@@ -5,9 +5,11 @@ import { getPageTargetsWorkspaceAction } from "@/features/search-intelligence/co
 import { PageTargetsPanel } from "@/features/search-intelligence/content-intelligence/page-targets-panel";
 import { buildSeoReadinessChecklist } from "@/features/seo/quality/seo-readiness-checklist";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function AdminContentIntelligencePage() {
+  await requireAdvancedSeoPage();
   const [overview, workspace, readiness] = await Promise.all([
     getSearchIntelligenceOverview(),
     getPageTargetsWorkspaceAction(),

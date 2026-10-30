@@ -4,6 +4,10 @@ import { geoFromRequestHeaders, parseUserAgent } from "@/modules/marketing/attri
 import { isRecoverableDbError } from "@/lib/debug/recoverable-db-error";
 import type { MarketingClickIdType } from "@prisma/client";
 import { defineApiRoute } from "@/lib/api-auth";
+import {
+  marketingIngressSkipResponse,
+  resolveMarketingIngressAccess,
+} from "@/modules/marketing/ingress-guard";
 
 export const runtime = "nodejs";
 
@@ -11,6 +15,11 @@ export const runtime = "nodejs";
 export const POST = defineApiRoute({
   access: "public",
   handler: async ({ request }) => {
+  const access = await resolveMarketingIngressAccess();
+  if (!access.allow) {
+    return marketingIngressSkipResponse(access.reason);
+  }
+
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const visitorToken = String(body.visitorToken ?? "").trim();

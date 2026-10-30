@@ -6,6 +6,7 @@ import { getGooglePlatformState, upsertGooglePlatformState } from "@/features/se
 import { createGoogleConnectionManager } from "@/features/seo/google-platform/connection-manager";
 import { googleIntegrationRegistry } from "@/features/seo/google-platform/registry";
 import type { GoogleIntegrationId } from "@/features/seo/google-platform/types";
+import { advancedSeoApiGuardResponse } from "@/modules/advanced-seo/guard";
 
 export const runtime = "nodejs";
 
@@ -36,6 +37,9 @@ function revalidateIntegrationsPaths() {
 }
 
 export async function GET(request: NextRequest) {
+  const denied = await advancedSeoApiGuardResponse();
+  if (denied) return denied;
+
   const url = request.nextUrl;
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");

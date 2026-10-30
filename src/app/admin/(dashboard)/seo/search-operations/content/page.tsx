@@ -12,9 +12,11 @@ import {
   createContentDraftAction,
 } from "@/features/search-intelligence/workspaces/actions";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function SearchOpsContentWorkspace() {
+  await requireAdvancedSeoPage();
   const platform = await getSearchOperationsPlatform();
   const content = await platform.contentIntelligence();
   const org = (await platform.query.findByType("Organization"))[0];

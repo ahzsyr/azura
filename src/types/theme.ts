@@ -32,6 +32,8 @@ export type PresetColors = PresetColorTokens;
 
 export type ThemeProvenance = {
   sourcePresetId?: string | null;
+  sourcePackageId?: string | null;
+  sourcePackageVersion?: string | null;
   appliedAt?: string | null;
 };
 

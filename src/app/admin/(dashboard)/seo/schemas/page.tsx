@@ -3,8 +3,10 @@ import { SeoDeveloperDetailsPanel } from "@/features/seo/workspace/components/se
 import { schemaRegistry } from "@/features/seo/platform/layers/governance/schema-registry";
 import { SEO_PIPELINE_VERSION } from "@/features/seo/workspace/types";
 import Link from "next/link";
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 
-export default function AdminSeoSchemasPage() {
+export default async function AdminSeoSchemasPage() {
+  await requireAdvancedSeoPage();
   const schemas = schemaRegistry.list();
   return (
     <div className="space-y-8">

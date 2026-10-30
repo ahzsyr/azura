@@ -65,42 +65,77 @@ export const attributionService = {
       return { skipped: true as const, reason: "consent_denied" };
     }
 
-    const visitor = await prisma.marketingVisitor.upsert({
-      where: { visitorToken: input.visitorToken },
-      create: {
-        visitorToken: input.visitorToken,
-        consentStatus,
-        consentGrantedAt: consentStatus === "GRANTED" ? now : null,
-        firstSeenAt: now,
-        lastSeenAt: now,
-      },
-      update: {
-        lastSeenAt: now,
-        ...(consentStatus === "GRANTED"
-          ? { consentStatus, consentGrantedAt: now }
-          : { consentStatus }),
-      },
-    });
+    // Concurrent capture posts race on unique tokens — create-or-recover on P2002.
+    const isUniqueConflict = (error: unknown) =>
+      Boolean(
+        error &&
+          typeof error === "object" &&
+          "code" in error &&
+          String((error as { code: unknown }).code) === "P2002",
+      );
+
+    let visitor;
+    try {
+      visitor = await prisma.marketingVisitor.upsert({
+        where: { visitorToken: input.visitorToken },
+        create: {
+          visitorToken: input.visitorToken,
+          consentStatus,
+          consentGrantedAt: consentStatus === "GRANTED" ? now : null,
+          firstSeenAt: now,
+          lastSeenAt: now,
+        },
+        update: {
+          lastSeenAt: now,
+          ...(consentStatus === "GRANTED"
+            ? { consentStatus, consentGrantedAt: now }
+            : { consentStatus }),
+        },
+      });
+    } catch (error) {
+      if (!isUniqueConflict(error)) throw error;
+      visitor = await prisma.marketingVisitor.findUnique({
+        where: { visitorToken: input.visitorToken },
+      });
+      if (!visitor) throw error;
+      visitor = await prisma.marketingVisitor.update({
+        where: { id: visitor.id },
+        data: {
+          lastSeenAt: now,
+          ...(consentStatus === "GRANTED"
+            ? { consentStatus, consentGrantedAt: now }
+            : { consentStatus }),
+        },
+      });
+    }
 
     let session = await prisma.marketingSession.findUnique({
       where: { sessionToken: input.sessionToken },
     });
     if (!session) {
-      session = await prisma.marketingSession.create({
-        data: {
-          visitorId: visitor.id,
-          sessionToken: input.sessionToken,
-          entryUrl: input.entryUrl,
-          landingPagePath: input.landingPagePath,
-          referrer: input.referrer,
-          deviceType: input.deviceType,
-          browser: input.browser,
-          os: input.os,
-          country: input.country,
-          region: input.region,
-          startedAt: now,
-        },
-      });
+      try {
+        session = await prisma.marketingSession.create({
+          data: {
+            visitorId: visitor.id,
+            sessionToken: input.sessionToken,
+            entryUrl: input.entryUrl,
+            landingPagePath: input.landingPagePath,
+            referrer: input.referrer,
+            deviceType: input.deviceType,
+            browser: input.browser,
+            os: input.os,
+            country: input.country,
+            region: input.region,
+            startedAt: now,
+          },
+        });
+      } catch (error) {
+        if (!isUniqueConflict(error)) throw error;
+        session = await prisma.marketingSession.findUnique({
+          where: { sessionToken: input.sessionToken },
+        });
+        if (!session) throw error;
+      }
     } else {
       // Activity bump — do not overwrite first-touch landing fields on the session
       await prisma.marketingSession.update({

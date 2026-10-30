@@ -9,6 +9,11 @@ import {
 } from "@/config/deployment-profile/site-features";
 import { requireAdmin } from "@/features/auth/guards";
 import { activatePackage, deactivatePackage, PackageInstallerError } from "@/platform/packages/installer";
+import { auditPackageLifecycle } from "@/platform/packages/package-lifecycle-audit";
+import {
+  preflightPackageOperation,
+  type PackagePreflightResult,
+} from "@/platform/packages/package-preflight";
 
 export type SetSiteFeatureResult = { ok: true } | { ok: false; error: string };
 
@@ -16,6 +21,15 @@ function errorMessage(error: unknown): string {
   if (error instanceof SiteFeatureUpdateError || error instanceof PackageInstallerError) return error.message;
   if (error instanceof Error && error.message.trim()) return error.message;
   return "Could not save this package";
+}
+
+/** Dry-run before Enable / Disable on Modules Manager (admin). */
+export async function preflightModuleToggle(
+  featureId: string,
+  enabled: boolean,
+): Promise<PackagePreflightResult> {
+  await requireAdmin();
+  return preflightPackageOperation(featureId, enabled ? "activate" : "deactivate");
 }
 
 export async function setSiteFeatureEnabled(
@@ -36,11 +50,25 @@ export async function setSiteFeatureEnabled(
     if (kind === "module") {
       if (enabled) await activatePackage(featureId);
       else await deactivatePackage(featureId);
+      await auditPackageLifecycle({
+        op: enabled ? "activate" : "deactivate",
+        packageId: featureId,
+        ok: true,
+      });
     } else {
       await updateSiteFeatures([{ kind, featureId, enabled }]);
     }
   } catch (error) {
-    return { ok: false, error: errorMessage(error) };
+    const reason = errorMessage(error);
+    if (kind === "module") {
+      await auditPackageLifecycle({
+        op: enabled ? "activate" : "deactivate",
+        packageId: featureId,
+        ok: false,
+        reason,
+      });
+    }
+    return { ok: false, error: reason };
   }
   revalidatePath("/admin/modules");
   revalidatePath("/admin");

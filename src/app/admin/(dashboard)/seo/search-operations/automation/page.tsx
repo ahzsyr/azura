@@ -10,9 +10,11 @@ import {
   toggleAutomationRuleAction,
 } from "@/features/search-intelligence/workspaces/actions";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function SearchOpsAutomationWorkspace() {
+  await requireAdvancedSeoPage();
   const platform = await getSearchOperationsPlatform();
   const rules = platform.automation.listRules();
   const runs = platform.automation.listRuns();
