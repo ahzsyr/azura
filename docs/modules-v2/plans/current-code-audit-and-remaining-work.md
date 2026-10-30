@@ -9,7 +9,7 @@
 
 The current working tree contains a broad implementation of the Option A + C platform described by the study: four registered built-in Modules; profile and runtime gates; fail-closed mutation ingress; package lifecycle and migration handling; settings and Module permissions; contribution validation and consumers; theme and extension package flows; Modules Manager preflight and recovery copy; and profile/support inventories.
 
-The plan set is useful and unusually explicit about security boundaries and non-goals, but it is not yet a reliable single “all complete” report. Phase 1–5 and Phase 7–8 are documented as implemented with source/test evidence, while Phase 6’s bundle lane is explicitly blocked. Several Phase 8 / executive summaries compress that distinction into “complete” or “exit recorded.” A test file or script being present is evidence of intended coverage, not evidence that it passed in this audit.
+The plan set is useful and unusually explicit about security boundaries and non-goals, but it is not yet a reliable single “all complete” report. Phase 1–5 and Phase 7–8 are documented as implemented with source/test evidence. At audit time Phase 6’s bundle lane was blocked on ephemeral Node; **R1 later recorded Complete / inconclusive** under durable Node ([../inventories/r1-verification-results.json](../inventories/r1-verification-results.json)). Several Phase 8 / executive summaries compress dual-lane status into “complete” or “exit recorded.” A test file or script being present is evidence of intended coverage, not evidence that it passed in this audit.
 
 **Audit verdict:** Platform implementation is **present in the working tree; release status is unverified**. No new mandatory platform feature is justified by this inspection. The immediate remaining work is to reconcile status documentation, run the prescribed verification in a durable project Node environment, and record a reviewable release baseline. Physical Advanced SEO relocation and other deferred product work should remain separate RFCs.
 
@@ -31,15 +31,15 @@ The plan set is useful and unusually explicit about security boundaries and non-
 | Settings and permissions | Module permission registry, grants, ModuleSetting model/migration, per-Module settings schemas, and guard/test files are present. Phase 3 specifies null/empty/explicit grant semantics and secret redaction. | Present; documented test evidence, not rerun | Run auth/permission/settings suites and check migrations against supported deployment profiles before release. |
 | Integrations and contributions | Contribution inventory/owner maps, overlay resolution, theme package pipeline, and boundary checker are present. Phase 4 removes unsupported contribution claims and documents bridge exceptions. | Present; documented test evidence, not rerun | Run package contract, theme, contribution, and import-boundary checks. Keep SEO/Google credential bridges visible until their follow-on ownership work is approved. |
 | Modules Manager | Screen model/UI, preflight, lifecycle audit, recovery hints, and package copy are present; Phase 5 documents the operator status overlays and settings links. | Present; documented test evidence, not rerun | Verify screen/action contract suites and ensure the UI continues to distinguish profile omission, inactive, pending, and incompatible states. |
-| Profile boundary evidence | `profile-gating-evidence.json` currently says `ok: true` for enterprise and the Marketing-omitted twin. The bundle summary is still blocked on an ephemeral Node runtime and contains no finished build buckets. | Gating evidence recorded; bundle evidence blocked | Run the matched Hostinger builds/scans with a durable supported Node/SWC toolchain. Report a completed inconclusive result as inconclusive; do not infer bundle exclusion. |
+| Profile boundary evidence | At audit: gating `ok: true`; bundle summary blocked (`ephemeral-runtime`). **After R1:** bundle lane Complete / `inconclusive` under durable Node — see inventories. | Gating green; bundle finished inconclusive (R1) | Do not infer Module excision from inconclusive markers; exclusion CI gate stays docs-only. |
 | Advanced SEO ownership | Manifest/guard/inventory and static pins are present. The RFC explicitly keeps Advanced UI/service implementation partly in `features/seo` and `features/search-intelligence`. | Logical ownership clarification complete; physical move deferred | No source move is required for this roadmap exit. A future move needs a new RFC, route/data parity, no Core callers, and cleared import exceptions. |
 | Operational policy | Compatibility/profile inventories, support diagnostics, retention/export wording, rollback classes, and marketplace deferral are documented. | Policy artifacts present; verify implementation outputs | Re-run inventory/diagnostic checks and confirm the operator docs match the shipped build. Signing, marketplace, purge, remote update feeds, and universal rollback are explicitly deferred/out of scope. |
 
 ## Documentation findings to reconcile
 
-1. **Phase 6 status conflict.** [phase-6-boundary-evidence.md](./phase-6-boundary-evidence.md) says “Blocked (instrument-ready)” and the checked-in bundle summary says `blocked`; the executive plan says “exit recorded.” These can coexist only if “exit” means a docs-only decision, not completion of matched-profile evidence. State that directly in the executive closeout and README.
-2. **Phase 6 artifact changed state over time.** The gating pack is green (`ok: true`), but the older blocked summary embeds false gating flags because its bundle-measure run stopped before those asserts. Treat the standalone gating artifact as current gating evidence and the summary as blocked bundle evidence; do not describe both lanes as blocked.
-3. **Gap matrix stale/ambiguous.** [11-capability-gap-matrix.md](../11-capability-gap-matrix.md) describes the twin baseline as still needing durable Node, but does not separate the already-green gating lane from the blocked bundle lane. It should use the dual-lane status and avoid suggesting release readiness depends on a bundle-exclusion gate, which is explicitly disabled.
+1. **Phase 6 dual-lane wording (R0/R1).** Profile-gating lane green; bundle lane finished Complete/`inconclusive` under durable Node (R1). Docs-only exclusion release-gate unchanged. Do not treat inconclusive as Module excision. See [phase-6-boundary-evidence.md](./phase-6-boundary-evidence.md).
+2. **Historical audit artifacts.** Older blocked summaries (`ephemeral-runtime`) are superseded by R1 inventories; keep them only as lineage, not current status.
+3. **Gap matrix.** Describe both lanes separately; release readiness must not depend on a bundle-exclusion CI gate (`exclusionCiGate: false`).
 4. **Baseline register is historical to HEAD/working-tree snapshot.** [phase-0-baseline-register.md](./phase-0-baseline-register.md) and [phase-0-working-tree-disposition.md](./phase-0-working-tree-disposition.md) are dated/snapshot-based. Their acceptance decision remains useful, but their counts and “present-but-unverified” labels must not be mistaken for the current Git state or a clean/released baseline.
 5. **“Complete” labels need qualification.** Phase 1/3–5 and 7–8 plans cite tests and implementation evidence; this audit did not rerun those commands. Phase status should mean “implementation/report recorded,” with a separate current verification and release status.
 
@@ -47,7 +47,7 @@ The plan set is useful and unusually explicit about security boundaries and non-
 
 ### R0 — Reconcile the report (documentation only)
 
-1. Update the executive plan’s Phase 6 closeout to say: **profile-gating lane recorded green; bundle lane blocked; docs-only release-gate decision recorded**.
+1. Update the executive plan’s Phase 6 closeout to say: **profile-gating lane recorded green; bundle lane Complete/inconclusive (R1); docs-only release-gate decision recorded**.
 2. Update the capability gap matrix to describe both lanes separately and link to the Phase 6 evidence artifacts.
 3. Add this audit to the Modules v2 README plan index and label its verdict as a working-tree audit, not a release certification.
 4. Keep the Phase 0 snapshot counts as historical; add a current date/status note only if a new inventory is actually performed.
@@ -76,6 +76,8 @@ Use the project’s durable Node 24 toolchain and run the already-defined checks
 
 ### R3 — Keep follow-on product work gated by separate decisions
 
+**Gate record:** [r3-follow-on-decision-gates.md](./r3-follow-on-decision-gates.md) (canonical table, authority links, homonym notes).
+
 | Follow-on | Current decision | Trigger to start |
 |---|---|---|
 | Advanced SEO physical relocation | Deferred | New RFC proves route/data parity, no Core callers, and removal/replacement of import exceptions. |
@@ -87,6 +89,8 @@ Use the project’s durable Node 24 toolchain and run the already-defined checks
 
 These are not blockers to the present A + C platform baseline unless a product decision changes scope.
 
+**Acceptance:** Gate record published and cross-linked from README, executive closeout, Phase 7/8 “Next,” and the gap matrix; no deferred product feature implemented under R3.
+
 ## Recommendation
 
-Treat the immediate deliverable as **documentation reconciliation + verification + reviewable baseline**, not another architecture phase. The code-level feature set described by Phases 1–5 and 7–8 is substantially represented in the working tree. The only explicitly blocked planned measurement is the Phase 6 matched-profile bundle lane. Keep the source-movement and product features listed under R3 deferred until their stated triggers are met.
+Treat the immediate deliverable as **documentation reconciliation + verification + reviewable baseline**, not another architecture phase. The code-level feature set described by Phases 1–5 and 7–8 is substantially represented in the working tree. Phase 6 twin measurement is Complete (finished inconclusive) per R1; exclusion remains docs-only. Keep the source-movement and product features listed under R3 deferred until their stated triggers are met ([r3-follow-on-decision-gates.md](./r3-follow-on-decision-gates.md)).

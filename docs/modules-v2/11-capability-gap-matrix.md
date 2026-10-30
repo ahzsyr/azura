@@ -34,7 +34,7 @@ Legend: **Done** · **Partial** · **Missing** · **Out of scope (Option B)**
 
 1. Keep Option A + C as the security boundary.
 2. Deepen integration interfaces (contributions that are still declared-only, shared config/permissions model) **without** inventing Option B.
-3. Convert additional Core features into Modules only when manifests, guards, profile entries, and admin UX are complete.
-4. Keep operator docs and UI copy honest — this folder’s job.
+3. Convert additional Core features into Modules only when manifests, guards, profile entries, and admin UX are complete — **and** only after an R3/Fitness gate for deferred candidates (catalog/translation/booking, Advanced SEO physical relocate, etc.). See [plans/r3-follow-on-decision-gates.md](./plans/r3-follow-on-decision-gates.md).
+4. Keep operator docs and UI copy honest — this folder’s job. Deferred rows (marketplace, purge, Class D rollback, generic event bus) are **R3-gated**, not implied next implementation phases.
 
 Related historical plan: [`docs/azura-v2/plans/application-platform-upgrade-plan.md`](../azura-v2/plans/application-platform-upgrade-plan.md).

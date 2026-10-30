@@ -24,7 +24,7 @@
 | Topic | Status | Cite |
 |-------|--------|------|
 | Option B runtime executable ZIP host | **Rejected / out of scope** | azura-v2 audits/03; executive plan; decisions freeze |
-| Marketplace / catalogue in this roadmap (M9) | **Deferred** — separate RFC | track-close; Phase 9 |
+| Marketplace / catalogue in this roadmap (M9) | **Deferred** — separate RFC (**not** automatic Phase 9); see [r3-follow-on-decision-gates.md](./r3-follow-on-decision-gates.md) | track-close; Phase 8 P8.7; R3 |
 | Capability toggles on Modules screen | **Rejected** | track-close / Phase 9 |
 | Bundle exclusion as CI ship gate | **Closed as docs-only** until Phase 6 evidence | DG7 / M8 |
 | Claiming working tree = production-proven | **Forbidden** | executive §1; Phase 0 |

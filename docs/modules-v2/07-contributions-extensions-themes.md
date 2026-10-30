@@ -66,6 +66,6 @@ Important boundary: Theme Studio save paths may still differ in sanitization fro
 - Arbitrary server jobs registered from ZIP (jobs are **Module-owned** under Option A — see Phase 4 matrix)
 - Capability registration at runtime
 - ACL / permission grants from package ZIP (Phase 3 ACL keys ship in repo manifests)
-- Generic Module event / plugin bus (**deferred**)
+- Generic Module event / plugin bus (**deferred** / **R3-gated** — [plans/r3-follow-on-decision-gates.md](./plans/r3-follow-on-decision-gates.md); Module-private buses OK)
 
 Those require Option A (code in repo + profile + deploy) or a future platform bet outside Option C.

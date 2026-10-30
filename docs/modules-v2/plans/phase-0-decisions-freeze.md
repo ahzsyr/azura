@@ -49,7 +49,7 @@ Do not collapse these policies. Do not move SiteFeature into Edge without a sepa
 | Soft uninstall (builtin) | Equivalent to deactivate + keep ledger row |
 | Destructive Remove | **Refused** for every builtin before down SQL |
 | Pending non-builtin Remove | May delete ledger row; must **not** claim content/schema purge |
-| Purge / retention product policy | Separate future decision — not implied by deactivate |
+| Purge / retention product policy | Separate future decision — not implied by deactivate (**R3-gated** — [r3-follow-on-decision-gates.md](./r3-follow-on-decision-gates.md)) |
 
 **Cite:** installer deactivate/uninstall paths; modules-v2 `05`, `09`.
 
@@ -91,7 +91,7 @@ Do not collapse these policies. Do not move SiteFeature into Edge without a sepa
 
 ## 9. Non-negotiables for later phases
 
-1. No marketplace in Phases 1–7 without a separate trust/RFC decision (Phase 8+).  
+1. No marketplace in Phases 1–7 without a separate trust/RFC decision (Phase 8+; **not** automatic Phase 9 — [r3-follow-on-decision-gates.md](./r3-follow-on-decision-gates.md)).  
 2. No bulk “convert all features to Modules.”  
 3. No Phase 1 implementation that weakens ZIP allowlists, signature-free executable loading, or Edge Prisma SiteFeature checks.  
 4. First implementation slice after Phase 0 = one agreed gap with acceptance criteria (executive §7).

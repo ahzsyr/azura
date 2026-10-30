@@ -11,7 +11,7 @@
 | Label | Advanced SEO |
 | Version | `1.0.0` |
 | Compatibility | `>=0.1.0` |
-| Extraction status | Logical gating (M6) + **Phase 7 RFC Approved** ([../plans/phase-7-extraction-advanced-seo.md](../plans/phase-7-extraction-advanced-seo.md)); physical relocate of `features/seo` / Search Intelligence **deferred** |
+| Extraction status | Logical gating (M6) + **Phase 7 RFC Approved** ([../plans/phase-7-extraction-advanced-seo.md](../plans/phase-7-extraction-advanced-seo.md)); physical relocate of `features/seo` / Search Intelligence **deferred** (**R3-gated** — [../plans/r3-follow-on-decision-gates.md](../plans/r3-follow-on-decision-gates.md)) |
 
 ## Manifest summary
 

@@ -74,4 +74,4 @@ ZIP import checks `azuraCompatibility` against `AZURA_CORE_VERSION`. Incompatibl
 | Same-trust-zone ops transfer (ops-controlled copy between environments the operator already trusts) | Existing ZIP allowlist, size caps, and `azuraCompatibility` checks are **sufficient**. Unsigned declarative ZIPs remain valid. |
 | External / third-party / marketplace distribution | **Signatures + provenance required** before product. Documented stance only in Phase 8 — **no** crypto libraries or signing UI shipped. |
 
-Marketplace / catalogue remains deferred until that RFC lands. See [plans/phase-8-operational-maturity-release-policy.md](./plans/phase-8-operational-maturity-release-policy.md).
+Marketplace / catalogue remains deferred until that RFC lands (**R3-gated**, not automatic Phase 9). See [plans/phase-8-operational-maturity-release-policy.md](./plans/phase-8-operational-maturity-release-policy.md) and [plans/r3-follow-on-decision-gates.md](./plans/r3-follow-on-decision-gates.md).

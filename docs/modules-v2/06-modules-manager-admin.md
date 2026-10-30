@@ -42,7 +42,7 @@ Builtin Modules come from `getModuleManifests()`. Non-builtin `PackageInstallati
 | **Update** | Included builtin + generated profile | Re-apply ship-time **up** SQL / version bump |
 | **Uninstall** (soft) | Included builtin **or** pending/unavailable | Builtin → same effect as turning Enabled off (deactivate + keep ledger); pending → delete ledger |
 | **Remove** (typed confirm) | Pending / unavailable non-builtin only | Delete ledger; may run down SQL; **refused** for every builtin |
-| **Purge** | — | **Not available** in Modules Manager (deferred); UI states that explicitly |
+| **Purge** | — | **Not available** in Modules Manager (**R3-gated** deferred product); UI states that explicitly — [plans/r3-follow-on-decision-gates.md](./plans/r3-follow-on-decision-gates.md) |
 
 Capabilities listed on a card are **not** toggles. Lifecycle ops write `SecurityAuditLog` (`package.<op>.ok|fail`) without secret payloads.
 

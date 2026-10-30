@@ -38,6 +38,7 @@ AZURA today has a **Modules system**, not a WordPress-style hot-pluggable plugin
 | [plans/phase-7-candidate-dispositions.md](./plans/phase-7-candidate-dispositions.md) | Phase 7 Fitness not-now for catalog / translation / booking |
 | [plans/phase-8-operational-maturity-release-policy.md](./plans/phase-8-operational-maturity-release-policy.md) | Phase 8 release policy, matrix, diagnostics, marketplace deferral |
 | [plans/current-code-audit-and-remaining-work.md](./plans/current-code-audit-and-remaining-work.md) | **Working-tree audit (not a release certification)** — plan/report discrepancies + R0–R3 remaining work; R1 evidence in [inventories/r1-verification-results.json](./inventories/r1-verification-results.json) |
+| [plans/r3-follow-on-decision-gates.md](./plans/r3-follow-on-decision-gates.md) | **R3 follow-on gates** — deferred / out-of-scope / not-now product work; separate RFCs only; not Phases 0–8 continuation |
 
 ## Document index
 

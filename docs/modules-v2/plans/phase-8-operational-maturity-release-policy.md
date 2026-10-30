@@ -188,4 +188,6 @@ Shape helper: `src/platform/packages/package-support-diagnostics.ts` (unit-teste
 
 ## Next
 
-Executive Phases **0–8 complete**. Follow-ons are separate RFCs (signing implementation, marketplace, purge, Advanced SEO physical relocate, Phase 6 twin Complete).
+Executive Phases **0–8 complete**. Phase 6 twin Complete (finished inconclusive) is already recorded under R1 — not a Phase 8 follow-on.
+
+Product follow-ons are **R3-gated** (separate RFCs / Fitness only; not automatic Phase 9): signing implementation, marketplace, purge, Advanced SEO physical relocate, remote update channels / Class D rollback, catalog/translation/booking Modules, generic Module event bus. Canonical table: [r3-follow-on-decision-gates.md](./r3-follow-on-decision-gates.md).

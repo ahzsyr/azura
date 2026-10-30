@@ -136,4 +136,4 @@ npm run check:module-import-boundaries
 
 ## Next
 
-Phase 8 — Operational maturity and release policy. Physical Advanced SEO relocate requires a new RFC meeting the migration criteria above.
+Phase 8 — Operational maturity and release policy (recorded complete). **Physical Advanced SEO relocate is R3-gated** — requires a new RFC meeting the migration criteria above; see [r3-follow-on-decision-gates.md](./r3-follow-on-decision-gates.md). Candidates 2–4 remain not-now per [phase-7-candidate-dispositions.md](./phase-7-candidate-dispositions.md).

@@ -163,7 +163,7 @@ Before calling the platform ready for broad feature conversion, confirm all of t
 - All Module-owned mutation ingress is protected server-side, including APIs, actions, jobs, callbacks, and exceptional bindings.
 - Dependencies and compatibility are checked before activation or upgrade, and failures are recoverable.
 - Settings and permissions have versioned contracts and server-side enforcement.
-- Deactivation retains data; uninstall and purge have separately documented, auditable behavior.
+- Deactivation retains data; uninstall behavior is documented and auditable. **CMS/domain purge remains deferred** (unavailable in Manager) until an R3-gated product RFC — see [r3-follow-on-decision-gates.md](./r3-follow-on-decision-gates.md).
 - Package ZIP validation cannot admit executable payloads; allowed contributions have actual consumers.
 - Core-owned services remain single-owned and Module dependencies follow the project Constitution.
 - Existing URLs, data, routes, and workflows have migration or compatibility coverage.
@@ -176,10 +176,10 @@ Before calling the platform ready for broad feature conversion, confirm all of t
 |---|---|---|
 | Runtime executable packages | Out of scope; retain Option A + C | Revisit only with a separate sandboxing, hosting, supply-chain, and operational proposal |
 | Permission model | Core-owned, server-enforced Module permissions | Choose exact role/user grant semantics and migration path from current admin-section grants |
-| Rollback | Required before broad third-party/update claims | Define what can be rolled back for schema and data changes; SQL down scripts alone are not a safe universal rollback |
-| Package authenticity | Validate inputs; do not imply a trusted marketplace | Decide whether imported declarative packages require signatures/provenance before external distribution |
-| Bundle exclusion | No claim until measured | Current working-tree notes report previous measurement blocked/inconclusive; resolve toolchain and reproducibility first |
-| Shared database | Retain Core-owned schema and migration authority initially | Define Module data ownership, deletion/retention, and tenant/install boundaries before destructive uninstall support |
+| Rollback | Required before broad third-party/update claims | **R3-gated:** universal Class D rollback / remote channels need a migration-safety RFC; down SQL alone is insufficient ([r3-follow-on-decision-gates.md](./r3-follow-on-decision-gates.md)) |
+| Package authenticity | Validate inputs; do not imply a trusted marketplace | **R3-gated:** external signatures/provenance + marketplace require trust RFC + product approval |
+| Bundle exclusion | No claim until measured | Dual lanes: gating green; bundle Complete/`inconclusive` (R1). Exclusion CI gate remains docs-only — not an excision proof |
+| Shared database | Retain Core-owned schema and migration authority initially | **R3-gated:** CMS/domain purge and destructive retention product need authorization/audit/backup RFC before support |
 | Documentation drift | Establish one current executive entry point | Several historical plans overlap; preserve history but label superseded decisions clearly |
 | Uncommitted changes | Reconcile before implementation starts | The repository contains broad uncommitted changes; do not accidentally overwrite, stage, or assume their release status |
 
@@ -203,7 +203,7 @@ Before calling the platform ready for broad feature conversion, confirm all of t
 
 **Phase 8 operational maturity / release policy** — complete: [phase-8-operational-maturity-release-policy.md](./phase-8-operational-maturity-release-policy.md). Compatibility matrix, signing stance (same-trust-zone vs external), Manual update channel + rollback Classes A–D, retention/export matrix, support diagnostics script, marketplace **deferred**. No Option B, purge product, or signing implementation.
 
-**Executive sequence finished (Phases 0–8).** Phase 6 twin measure is Complete (finished inconclusive) per R1; exclusion remains docs-only. Follow-ons are separate RFCs (signing/provenance implementation, marketplace, purge, Advanced SEO physical relocate). Do not reopen Phases 0–8 contracts automatically.
+**Executive sequence finished (Phases 0–8).** Phase 6 twin measure is Complete (finished inconclusive) per R1; exclusion remains docs-only. **Follow-ons are R3-gated** — [r3-follow-on-decision-gates.md](./r3-follow-on-decision-gates.md) (signing/marketplace, purge, Advanced SEO physical relocate, remote updates/Class D, catalog/translation/booking Modules, generic event bus). Do not reopen Phases 0–8 contracts automatically; do not treat these as Phase 9 of this sequence.
 
 ## 8. Source references reviewed
 

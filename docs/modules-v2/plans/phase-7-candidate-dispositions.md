@@ -39,7 +39,9 @@ Only **Advanced SEO** is approved for extraction clarification in Phase 7. Candi
 
 | Candidate | Phase 7 | Next trigger |
 |-----------|---------|--------------|
-| Advanced SEO | **Approved** (logical RFC) | Physical relocate follow-on RFC |
-| Catalog/commerce | not-now | Independent cart/order platform RFC |
-| Translation ops | not-now | Distinct enterprise workflow RFC |
-| Booking | not-now | Infrastructure ownership proof |
+| Advanced SEO | **Approved** (logical RFC) | Physical relocate follow-on RFC (**R3-gated**) |
+| Catalog/commerce | not-now | Independent cart/order platform RFC (**R3-gated**) |
+| Translation ops | not-now | Distinct enterprise workflow RFC (**R3-gated**) |
+| Booking | not-now | Infrastructure ownership proof (**R3-gated**) |
+
+Do not start these as automatic Phases 0–8 continuation. Gate record: [r3-follow-on-decision-gates.md](./r3-follow-on-decision-gates.md).
