@@ -1,0 +1,125 @@
+{
+  "phase": "6",
+  "measuredAt": "2026-10-30T18:16:34.934Z",
+  "pair": "enterprise vs enterprise-minus-marketing",
+  "status": "complete",
+  "verdict": "inconclusive",
+  "rationale": "No interpretable client/server chunk primary-marker delta between matched twins. Hits may be equal (accepted coupling / shared imports), zero on both (marker not retained), or metadata-only. Absence of a marker is not proof of exclusion.",
+  "toolchain": {
+    "nodeVersion": "v24.22.2",
+    "execPath": "/Users/alizahedah/.local/node-v24/bin/node",
+    "nextVersion": "16.4.3",
+    "platform": "darwin/arm64",
+    "nextBinPresent": true,
+    "swcOk": true
+  },
+  "inputs": {
+    "enterpriseYamlSha256": "a3b6d16b9a0c2e1e6a7244fe31f768219dd708ba6a7a03e954a74f1549ff5ebe",
+    "twinYamlSha256": "6717a0be9fc105a2a552e158c590ecf02eb40a4a3c0a673198304971e857dcf3",
+    "expectationsSha256": "ea57aebc6d190bec593ee1c8eabe7684d6100024fbe1c5a70fc283db66819114"
+  },
+  "generatedArtifacts": {
+    "enterpriseDeploymentProfileSha256": "d3dbf611033ebb2d4c8c7bf904e3cac73b434c280a0d111d5b3719e449dc8c02",
+    "twinDeploymentProfileSha256": "b3c995230d5612110b4bb8b71205593c5c0905a243935d3c379bf0846af2163e",
+    "middlewareManifestNote": "Hostinger measure may regenerate middleware-manifest under AZURA_MEASURE_NO_DB; restored in finally."
+  },
+  "buildArtifacts": {
+    "enterprise": {
+      "exists": true,
+      "fileCount": 4585,
+      "sha256OfPaths": "c86d35a8134dff0007fcf90958c5fc7400f0eaac61b78a899939a4c2879841cc"
+    },
+    "twin": {
+      "exists": true,
+      "fileCount": 4590,
+      "sha256OfPaths": "45742a1d4f330accfa1722db0c93cf0f4e1d001a1e6af91cac2c1083b472ce51"
+    }
+  },
+  "profileGating": {
+    "enterpriseAssertOk": true,
+    "twinExpectMarketingAbsentOk": true,
+    "notes": [
+      "Enterprise: production assert + twin assert (marketing present).",
+      "Twin: twin assert (marketing absent); production expectations intentionally skipped."
+    ]
+  },
+  "bundleEvidence": {
+    "markerMethod": "boundary-marker+substring",
+    "primaryMarkers": [
+      "AZURA_MODULE_BOUNDARY:marketing"
+    ],
+    "secondaryMarkers": [
+      "modules/marketing",
+      "modules\\\\marketing",
+      "@/modules/marketing"
+    ],
+    "enterpriseBuckets": {
+      "primary": {
+        "clientChunks": {
+          "hitCount": 0,
+          "sampleFiles": []
+        },
+        "serverChunks": {
+          "hitCount": 0,
+          "sampleFiles": []
+        },
+        "metadata": {
+          "hitCount": 0,
+          "sampleFiles": []
+        }
+      },
+      "secondary": {
+        "clientChunks": {
+          "hitCount": 0
+        },
+        "serverChunks": {
+          "hitCount": 328
+        },
+        "metadata": {
+          "hitCount": 75
+        }
+      }
+    },
+    "twinBuckets": {
+      "primary": {
+        "clientChunks": {
+          "hitCount": 0,
+          "sampleFiles": []
+        },
+        "serverChunks": {
+          "hitCount": 0,
+          "sampleFiles": []
+        },
+        "metadata": {
+          "hitCount": 0,
+          "sampleFiles": []
+        }
+      },
+      "secondary": {
+        "clientChunks": {
+          "hitCount": 0
+        },
+        "serverChunks": {
+          "hitCount": 328
+        },
+        "metadata": {
+          "hitCount": 74
+        }
+      }
+    },
+    "deltas": {
+      "clientChunks": 0,
+      "serverChunks": 0,
+      "metadata": 0
+    },
+    "limitations": "Matched twin + no-DB Hostinger/Next + marker/substring scan cannot prove Marketing exclusion. Conclusive = marker-delta claim only. releaseGate stays docs-only."
+  },
+  "releaseGate": {
+    "exclusionCiGate": false,
+    "decision": "docs-only"
+  },
+  "reports": {
+    "enterprise": "performance-reports/profile-boundary/enterprise.json",
+    "twin": "performance-reports/profile-boundary/enterprise-minus-marketing.json"
+  }
+}

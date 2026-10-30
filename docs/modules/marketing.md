@@ -14,6 +14,17 @@ This system is a **first-party Marketing Intelligence and Advertising Management
 | Package | `src/modules/marketing/` |
 | Admin | `/admin/marketing/*` |
 | APIs | `/api/marketing/oauth/*`, `/api/marketing/webhooks/*`, `/api/marketing/jobs/run`, `/api/marketing/attribution/capture`, `/api/marketing/events` |
+| Short link | `GET /a` (App Router); middleware also treats `/a/*` |
+
+## Availability
+
+| Layer | Behavior |
+|-------|----------|
+| Profile | Must list `marketing` (requires capability `analytics` at generate). Manifest `publicRoutes` is `/api/marketing` only |
+| Extra binding | `/a` is injected into `disabledPublicPrefixes` when Marketing is **profile-omitted** (`MODULE_EXTRA_DISABLED_PUBLIC`) |
+| Runtime-inactive | Node ingress fail-closed: no attribution cookie, no beacon/event writes, no OAuth upsert, webhook GET challenge denied; Core ledger seed writes may still occur on SiteFeature load |
+| Env kill | `MARKETING_CORE_ENABLED=0` denies ingress even if SiteFeature is on |
+| Ledger outage | Mutation ingress fail-closed; restore DB/SiteFeature readability (ops) |
 
 ## Core chain
 

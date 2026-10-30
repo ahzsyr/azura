@@ -4,6 +4,11 @@ import { cache } from "react";
 import type { Prisma, PrismaClient } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import type { BlockAvailabilityProfile } from "@/features/builder/registry/block-requirement";
+import {
+  blockingDependents,
+  inactiveRequiredPackages,
+  planPackageStatusSync,
+} from "@/platform/packages/lifecycle";
 import { expandFeatureToggles } from "@/platform/packages/site-feature-changes";
 import { getDeploymentProfile, isModuleEnabled, isPresetEnabled } from "./load-profile";
 import { getModuleManifests } from "./route-registry";
@@ -94,6 +99,25 @@ export async function isModuleActive(moduleId: string): Promise<boolean> {
   return rows.get(featureKey("module", moduleId)) === true;
 }
 
+/**
+ * Fail-closed module access for mutation-capable Node ingress.
+ * Distinct from `isModuleActive`, which fails open on ledger read errors
+ * so admin UI and saved blocks stay visible during an outage.
+ */
+export type ModuleIngressAccess =
+  | "active"
+  | "profile_omitted"
+  | "runtime_inactive"
+  | "ledger_unavailable";
+
+export async function resolveModuleIngressAccess(moduleId: string): Promise<ModuleIngressAccess> {
+  if (!isModuleEnabled(moduleId)) return "profile_omitted";
+  if (!profileIncludesRuntimeRows()) return "active";
+  const rows = await loadSiteFeatureMap();
+  if (!rows) return "ledger_unavailable";
+  return rows.get(featureKey("module", moduleId)) === true ? "active" : "runtime_inactive";
+}
+
 /** True only when the compiled profile includes the preset and its row is enabled. */
 export async function isPresetActive(presetId: string): Promise<boolean> {
   if (!isPresetEnabled(presetId)) return false;
@@ -131,6 +155,20 @@ export async function getEffectiveAvailabilityProfile(): Promise<BlockAvailabili
   };
 }
 
+/**
+ * Admin builder availability including M7.1 extension overlay locks.
+ * Do not use on public render paths — those must call getEffectiveAvailabilityProfile().
+ */
+export async function getAdminBuilderAvailabilityProfile(): Promise<BlockAvailabilityProfile> {
+  const base = await getEffectiveAvailabilityProfile();
+  const { listOverlayLockedBlockTypes } = await import("@/platform/packages/contributions");
+  const overlayLockedBlockTypes = await listOverlayLockedBlockTypes();
+  return {
+    ...base,
+    overlayLockedBlockTypes,
+  };
+}
+
 function assertChangeIsIncluded(change: SiteFeatureChange): void {
   const profile = getDeploymentProfile();
   const allowed = change.kind === "module" ? profile.modules : profile.presets;
@@ -156,10 +194,34 @@ function assertEnabledModulesKeepRequiredPresets(state: Map<string, boolean>): v
   }
 }
 
+function assertModulePackageGraph(state: Map<string, boolean>): void {
+  const manifests = getModuleManifests();
+  const asDependencyRows = manifests.map((entry) => ({
+    packageId: entry.id,
+    status: state.get(featureKey("module", entry.id)) === true ? "active" : "inactive",
+    requiredPackages: entry.requiredPackages,
+  }));
+
+  for (const manifest of manifests) {
+    if (state.get(featureKey("module", manifest.id)) !== true) continue;
+    const inactive = inactiveRequiredPackages(
+      manifest.id,
+      manifest.requiredPackages,
+      asDependencyRows,
+    );
+    if (inactive.length > 0) {
+      throw new SiteFeatureUpdateError(
+        `Module ${manifest.id} requires ${inactive.join(", ")} to be active`,
+      );
+    }
+  }
+}
+
 /**
  * Apply enablement changes. Refuses ids the compiled profile omitted.
  * Locks SiteFeature rows, then checks the combined result, including
- * module requiredPresets. Updates only enabled and updatedAt.
+ * module requiredPresets and requiredPackages. Updates SiteFeature and
+ * keeps PackageInstallation.status aligned (active ↔ enabled).
  */
 export async function updateSiteFeatures(changes: SiteFeatureChange[]): Promise<void> {
   for (const change of changes) assertChangeIsIncluded(change);
@@ -181,12 +243,51 @@ export async function updateSiteFeatures(changes: SiteFeatureChange[]): Promise<
       state.set(featureKey(change.kind, change.featureId), change.enabled);
     }
     assertEnabledModulesKeepRequiredPresets(state);
+    assertModulePackageGraph(state);
+
+    const moduleWrites = expanded.filter((change) => change.kind === "module");
+    const installations = await tx.packageInstallation.findMany({
+      select: { packageId: true, status: true, manifest: true },
+    });
+    const dependencyRows = installations.map((row) => {
+      const manifest =
+        row.manifest && typeof row.manifest === "object" && !Array.isArray(row.manifest)
+          ? (row.manifest as { requiredPackages?: unknown })
+          : null;
+      const requiredPackages = Array.isArray(manifest?.requiredPackages)
+        ? manifest.requiredPackages.filter((entry): entry is string => typeof entry === "string")
+        : [];
+      return {
+        packageId: row.packageId,
+        status: row.status,
+        requiredPackages,
+      };
+    });
+
+    for (const write of moduleWrites) {
+      if (write.enabled) continue;
+      const fromRows = blockingDependents(write.featureId, dependencyRows);
+      if (fromRows.length > 0) {
+        throw new SiteFeatureUpdateError(
+          `${write.featureId} is required by ${fromRows.join(", ")}`,
+        );
+      }
+    }
+
     for (const change of expanded) {
       await tx.siteFeature.update({
         where: {
           kind_featureId: { kind: change.kind, featureId: change.featureId },
         },
         data: { enabled: change.enabled },
+      });
+    }
+
+    const statusSync = planPackageStatusSync(moduleWrites, installations);
+    for (const sync of statusSync) {
+      await tx.packageInstallation.update({
+        where: { packageId: sync.packageId },
+        data: { status: sync.status },
       });
     }
   });

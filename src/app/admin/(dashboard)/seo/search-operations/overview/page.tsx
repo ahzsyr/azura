@@ -14,9 +14,11 @@ import {
 } from "@/features/search-intelligence/workspaces/actions";
 import Link from "next/link";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function SearchOpsOverviewPage() {
+  await requireAdvancedSeoPage();
   const platform = await getSearchOperationsPlatform();
   const center = await platform.commandCenter();
   const siteOrigin = platform.siteOrigin;

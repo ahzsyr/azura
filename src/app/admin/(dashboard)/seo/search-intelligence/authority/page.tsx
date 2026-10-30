@@ -4,9 +4,11 @@ import { getSearchIntelligenceOverview } from "@/features/search-intelligence/se
 import { getSearchIntelligencePlatform } from "@/features/search-intelligence";
 import { readPropertyValue } from "@/features/search-intelligence/entity-graph";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function AdminAuthorityPage() {
+  await requireAdvancedSeoPage();
   const overview = await getSearchIntelligenceOverview();
   const platform = getSearchIntelligencePlatform({ siteOrigin: overview.siteOrigin });
   const org = overview.organizations[0];

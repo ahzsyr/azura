@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { requireAdmin } from "@/features/auth/guards";
 import { prisma } from "@/lib/prisma";
 import { bootstrapMarketingModule } from "@/modules/marketing/bootstrap";
 import { sealSecret } from "@/features/seo/integrations/secret-seal.server";
@@ -17,10 +16,19 @@ import { automationService } from "@/modules/marketing/automation/service";
 import { updateRetentionPolicy, runRetentionPurge } from "@/modules/marketing/privacy/retention";
 import { analyticsAggregateService } from "@/modules/marketing/analytics/aggregate";
 import type { MarketingCampaignStatus, Prisma } from "@prisma/client";
+import { requireAdmin } from "@/features/auth/guards";
 import { assertMarketingModuleActive } from "@/modules/marketing/feature-flags";
+import "@/modules/marketing/settings";
+import type { MarketingSettings } from "@/modules/marketing/settings";
+import { MARKETING_MODULE_ID } from "@/modules/marketing/manifest";
+import {
+  exportModuleSettings,
+  getModuleSettings,
+  resetModuleSettings,
+  updateModuleSettings,
+} from "@/platform/packages/module-settings";
 
 export async function runMarketingJobsAction(): Promise<void> {
-  await requireAdmin();
   await assertMarketingModuleActive();
   await bootstrapMarketingModule();
   await runDueMarketingJobs(20);
@@ -29,7 +37,6 @@ export async function runMarketingJobsAction(): Promise<void> {
 }
 
 export async function upsertTrackingConfigAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   const providerId = String(formData.get("providerId") ?? "").trim();
   if (!providerId) throw new Error("providerId required");
@@ -116,7 +123,6 @@ export async function verifyMetaPixelLiveAction(input: {
 }): Promise<
   import("@/modules/marketing/tracking/verify-meta-pixel-live.types").MetaPixelLiveVerifyResult
 > {
-  await requireAdmin();
   await assertMarketingModuleActive();
   const { verifyMetaPixelOnLiveSite } = await import(
     "@/modules/marketing/tracking/verify-meta-pixel-live.server"
@@ -128,7 +134,6 @@ export async function verifyMetaPixelLiveAction(input: {
 }
 
 export async function upsertProviderAppConfigAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   const providerId = String(formData.get("providerId") ?? "").trim();
   if (!providerId) throw new Error("providerId required");
@@ -159,7 +164,6 @@ export async function upsertProviderAppConfigAction(formData: FormData) {
 }
 
 export async function enqueueManualPublishAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   await bootstrapMarketingModule();
   const providerId = String(formData.get("providerId") ?? "").trim();
@@ -183,7 +187,6 @@ export async function enqueueManualPublishAction(formData: FormData) {
 }
 
 export async function createCampaignAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   const name = String(formData.get("name") ?? "").trim();
   if (!name) throw new Error("Campaign name is required");
@@ -214,7 +217,6 @@ export async function createCampaignAction(formData: FormData) {
 }
 
 export async function updateCampaignAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   const id = String(formData.get("id") ?? "").trim();
   if (!id) throw new Error("Campaign id required");
@@ -238,7 +240,6 @@ export async function updateCampaignAction(formData: FormData) {
 }
 
 export async function updateCampaignStatusAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   const id = String(formData.get("id") ?? "");
   const status = String(formData.get("status") ?? "") as MarketingCampaignStatus;
@@ -248,7 +249,6 @@ export async function updateCampaignStatusAction(formData: FormData) {
 }
 
 export async function addCampaignBindingAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   const campaignId = String(formData.get("campaignId") ?? "");
   const adAccountId = String(formData.get("adAccountId") ?? "").trim();
@@ -279,7 +279,6 @@ export async function addCampaignBindingAction(formData: FormData) {
 }
 
 export async function linkExternalCampaignAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   const campaignId = String(formData.get("campaignId") ?? "").trim();
   const adAccountId = String(formData.get("adAccountId") ?? "").trim();
@@ -301,7 +300,6 @@ export async function linkExternalCampaignAction(formData: FormData) {
 }
 
 export async function unlinkCampaignBindingAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   const bindingId = String(formData.get("bindingId") ?? "").trim();
   const campaignId = String(formData.get("campaignId") ?? "").trim();
@@ -313,7 +311,6 @@ export async function unlinkCampaignBindingAction(formData: FormData) {
 }
 
 export async function retryBoundCampaignSyncAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   await bootstrapMarketingModule();
   const bindingId = String(formData.get("bindingId") ?? "").trim();
@@ -326,7 +323,6 @@ export async function retryBoundCampaignSyncAction(formData: FormData) {
 }
 
 export async function createTrackingUrlAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   const campaignId = String(formData.get("campaignId") ?? "");
   await trackingUrlService.create({
@@ -344,7 +340,6 @@ export async function createTrackingUrlAction(formData: FormData) {
 }
 
 export async function upsertConversionDefinitionAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   await conversionService.upsertDefinition({
     key: String(formData.get("key") ?? "").trim(),
@@ -357,7 +352,6 @@ export async function upsertConversionDefinitionAction(formData: FormData) {
 }
 
 export async function syncGoogleAdsAccountsAction() {
-  await requireAdmin();
   await assertMarketingModuleActive();
   await bootstrapMarketingModule();
   try {
@@ -453,7 +447,6 @@ export async function syncGoogleAdsAccountsAction() {
 }
 
 export async function syncAdAccountAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   await bootstrapMarketingModule();
   const connectionId = String(formData.get("connectionId") ?? "");
@@ -474,7 +467,6 @@ export async function syncAdAccountAction(formData: FormData) {
 }
 
 export async function upsertAutomationRuleAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   await automationService.upsertRule({
     id: String(formData.get("id") ?? "") || undefined,
@@ -491,7 +483,6 @@ export async function upsertAutomationRuleAction(formData: FormData) {
 }
 
 export async function updateRetentionPolicyAction(formData: FormData) {
-  await requireAdmin();
   await assertMarketingModuleActive();
   await updateRetentionPolicy({
     visitorDays: Number(formData.get("visitorDays") ?? 365),
@@ -505,16 +496,49 @@ export async function updateRetentionPolicyAction(formData: FormData) {
 }
 
 export async function runRetentionPurgeAction() {
-  await requireAdmin();
   await assertMarketingModuleActive();
   await runRetentionPurge();
   revalidatePath("/admin/marketing/settings");
 }
 
 export async function runAnalyticsRollupAction() {
-  await requireAdmin();
   await assertMarketingModuleActive();
   await analyticsAggregateService.rollupDay(new Date());
   revalidatePath("/admin/marketing");
   revalidatePath("/admin/marketing/analytics");
+}
+
+/** Phase 3 pilot: Core ModuleSetting store (incl. webhookProbeSecret redaction). */
+export async function getMarketingModuleSettings(): Promise<MarketingSettings> {
+  await assertMarketingModuleActive();
+  return getModuleSettings<MarketingSettings>(MARKETING_MODULE_ID);
+}
+
+export async function saveMarketingModuleSettings(
+  patch: Partial<MarketingSettings>,
+): Promise<MarketingSettings> {
+  await assertMarketingModuleActive();
+  const session = await requireAdmin();
+  const updated = await updateModuleSettings(
+    MARKETING_MODULE_ID,
+    patch as Record<string, unknown>,
+    { updatedBy: session.user.id, replaceSecrets: true },
+  );
+  revalidatePath("/admin/marketing/settings");
+  return updated as MarketingSettings;
+}
+
+export async function resetMarketingModuleSettings(): Promise<MarketingSettings> {
+  await assertMarketingModuleActive();
+  const session = await requireAdmin();
+  const reset = await resetModuleSettings(MARKETING_MODULE_ID, {
+    updatedBy: session.user.id,
+  });
+  revalidatePath("/admin/marketing/settings");
+  return reset as MarketingSettings;
+}
+
+export async function exportMarketingModuleSettings() {
+  await assertMarketingModuleActive();
+  return exportModuleSettings(MARKETING_MODULE_ID, { redactSecrets: true });
 }

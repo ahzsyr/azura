@@ -23,6 +23,7 @@ modules:
   - documentation
   - status-page
   - marketing
+  - advanced-seo
 
 admin:
   groups: [dashboard, content, media, marketing, design, seo, modules, settings, system]

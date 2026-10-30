@@ -28,4 +28,11 @@ run("hostinger build", "node", [
 ]);
 run("assemble standalone", "node", ["scripts/deploy/assemble-standalone.mjs"]);
 
-console.log("\n[hostinger-standalone] Upload .next/standalone/ to Hostinger and start with: node server.js");
+console.log("\n[hostinger-standalone] Bundle ready.");
+console.log("[hostinger-standalone] Deploy order (prevents ChunkLoadError / 520 windows):");
+console.log("  1. Upload/sync .next/static (content-hashed) WITHOUT deleting prior hashes yet");
+console.log("  2. ORIGIN_URL=https://your-domain npm run verify:origin-assets");
+console.log("  3. Swap/restart app so HTML matches this build");
+console.log("  4. Purge Cloudflare cache only after step 2 passes");
+console.log("  5. Optionally prune old /_next/static hashes after traffic is stable");
+console.log("Start command: node scripts/deploy/hostinger-start.mjs");

@@ -1,5 +1,11 @@
+import { requireModulePermission } from "@/features/auth/guards";
+import { MARKETING_BOUNDARY_MARKER } from "@/modules/marketing/boundary-marker";
+import { MARKETING_MODULE_ID } from "@/modules/marketing/manifest";
 import { isModuleActive } from "@/modules/marketing/module-profile";
 import type { MarketingCapabilityId } from "@/modules/marketing/core/capabilities/types";
+import { resolveMarketingIngressAccess } from "@/modules/marketing/ingress-guard";
+
+void MARKETING_BOUNDARY_MARKER;
 
 const DEFAULTS: Record<string, boolean> = {
   "marketing.core": true,
@@ -20,15 +26,37 @@ function readEnvFlag(name: string, fallback: boolean): boolean {
   return fallback;
 }
 
+/** Soft availability / capability checks — fail-open via isModuleActive. */
 export async function isMarketingCoreEnabled(): Promise<boolean> {
   if (!(await isModuleActive())) return false;
   return readEnvFlag("MARKETING_CORE_ENABLED", DEFAULTS["marketing.core"]);
 }
 
-export async function assertMarketingModuleActive(): Promise<void> {
-  if (!(await isMarketingCoreEnabled())) {
-    throw new Error("Marketing module is not enabled in this deployment profile");
+export class MarketingMutationDeniedError extends Error {
+  readonly reason: string;
+
+  constructor(reason: string) {
+    super(`Marketing module is not available (${reason})`);
+    this.name = "MarketingMutationDeniedError";
+    this.reason = reason;
   }
+}
+
+/**
+ * Mutations / jobs / privileged admin writes — fail-closed via resolveMarketingIngressAccess
+ * (profile omit, runtime inactive, ledger unavailable, or env kill).
+ */
+export async function assertMarketingModuleActive(): Promise<void> {
+  const decision = await resolveMarketingIngressAccess();
+  if (!decision.allow) {
+    throw new MarketingMutationDeniedError(decision.reason);
+  }
+  await requireModulePermission(MARKETING_MODULE_ID, "manage");
+}
+
+/** Admin read UI — Module read (section ∩ marketing.read). */
+export async function assertMarketingReadAllowed(): Promise<void> {
+  await requireModulePermission(MARKETING_MODULE_ID, "read");
 }
 
 export async function isMarketingCapabilityEnabled(capability: MarketingCapabilityId): Promise<boolean> {

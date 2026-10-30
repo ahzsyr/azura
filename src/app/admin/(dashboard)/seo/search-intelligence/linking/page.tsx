@@ -8,9 +8,11 @@ import {
 } from "@/features/search-intelligence/internal-linking";
 import { normalizeSiteKey } from "@/features/search-intelligence/content-intelligence/page-search-target";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function AdminInternalLinkingPage() {
+  await requireAdvancedSeoPage();
   const overview = await getSearchIntelligenceOverview();
   const platform = getSearchIntelligencePlatform({ siteOrigin: overview.siteOrigin });
   const org = overview.organizations[0];

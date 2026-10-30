@@ -11,9 +11,11 @@ import { enqueueSearchOperationAction } from "@/features/search-intelligence/wor
 import { readPropertyValue } from "@/features/search-intelligence/entity-graph";
 import { operationResultHref } from "@/features/search-intelligence/operations/result-summary";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function SearchOpsMonitoringWorkspace() {
+  await requireAdvancedSeoPage();
   const platform = await getSearchOperationsPlatform();
   const issues = platform.issues.list().filter((i) => !i.resolvedAt);
   const org = (await platform.query.findByType("Organization"))[0];

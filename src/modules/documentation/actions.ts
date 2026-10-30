@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/features/auth/guards";
 import { uniqueSlug } from "@/features/portal/lib/unique-slug";
 import { parseChildrenJson, str, num, bool } from "@/features/portal/lib/parse-children-json";
 import { checkboxValue } from "@/features/portal/lib/action-helpers";
@@ -11,7 +10,17 @@ import { localeService } from "@/features/i18n/locale.service";
 import { getDefaultLocaleFieldFromForm } from "@/features/translation/form-sync";
 import { syncEntityTranslationsFromForm } from "@/features/translation/form-sync.server";
 import { prisma } from "@/lib/prisma";
-import { assertModuleActive } from "./module-profile";
+import { requireAdmin } from "@/features/auth/guards";
+import {
+  exportModuleSettings,
+  getModuleSettings,
+  resetModuleSettings,
+  updateModuleSettings,
+} from "@/platform/packages/module-settings";
+import { assertDocumentationMutationAllowed } from "./module-profile";
+import "@/modules/documentation/settings";
+import type { DocumentationSettings } from "@/modules/documentation/settings";
+import { DOCUMENTATION_MODULE_ID } from "@/modules/documentation/manifest";
 
 const ADMIN_BASE = "/admin/documentation";
 
@@ -24,8 +33,7 @@ function revalidateDocPortalPaths(slug?: string, id?: string) {
 }
 
 export async function upsertDocPortal(formData: FormData) {
-  await requireAdmin();
-  await assertModuleActive();
+  await assertDocumentationMutationAllowed();
   const enabledLocales = await localeService.listEnabled();
   const id = (formData.get("id") as string | null) || undefined;
   const titleForSlug = getDefaultLocaleFieldFromForm(formData, enabledLocales, "title");
@@ -106,20 +114,52 @@ export async function upsertDocPortal(formData: FormData) {
 }
 
 export async function deleteDocPortal(id: string) {
-  await requireAdmin();
-  await assertModuleActive();
+  await assertDocumentationMutationAllowed();
   const row = await prisma.docPortal.findUnique({ where: { id }, select: { slug: true } });
   await prisma.docPortal.delete({ where: { id } });
   revalidateDocPortalPaths(row?.slug, id);
 }
 
 export async function toggleDocPortalPublished(id: string, isPublished: boolean) {
-  await requireAdmin();
-  await assertModuleActive();
+  await assertDocumentationMutationAllowed();
   const row = await prisma.docPortal.update({
     where: { id },
     data: { isPublished },
     select: { slug: true, id: true },
   });
   revalidateDocPortalPaths(row.slug, id);
+}
+
+export async function getDocumentationModuleSettings(): Promise<DocumentationSettings> {
+  await assertDocumentationMutationAllowed();
+  return getModuleSettings<DocumentationSettings>(DOCUMENTATION_MODULE_ID);
+}
+
+export async function saveDocumentationModuleSettings(
+  patch: Partial<DocumentationSettings>,
+): Promise<DocumentationSettings> {
+  await assertDocumentationMutationAllowed();
+  const session = await requireAdmin();
+  const updated = await updateModuleSettings(
+    DOCUMENTATION_MODULE_ID,
+    patch as Record<string, unknown>,
+    { updatedBy: session.user.id },
+  );
+  revalidatePath(ADMIN_BASE);
+  return updated as DocumentationSettings;
+}
+
+export async function resetDocumentationModuleSettings(): Promise<DocumentationSettings> {
+  await assertDocumentationMutationAllowed();
+  const session = await requireAdmin();
+  const reset = await resetModuleSettings(DOCUMENTATION_MODULE_ID, {
+    updatedBy: session.user.id,
+  });
+  revalidatePath(ADMIN_BASE);
+  return reset as DocumentationSettings;
+}
+
+export async function exportDocumentationModuleSettings() {
+  await assertDocumentationMutationAllowed();
+  return exportModuleSettings(DOCUMENTATION_MODULE_ID, { redactSecrets: true });
 }

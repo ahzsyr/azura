@@ -6,9 +6,11 @@ import {
   buildGraphBackedSchema,
 } from "@/features/search-intelligence";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function AdminSchemaGraphPage() {
+  await requireAdvancedSeoPage();
   const overview = await getSearchIntelligenceOverview();
   const platform = createSearchIntelligencePlatform({ siteOrigin: overview.siteOrigin });
   await platform.ingestSourceRecords(

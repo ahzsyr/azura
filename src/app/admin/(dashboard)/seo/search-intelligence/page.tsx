@@ -6,9 +6,11 @@ import type { ContentGap } from "@/features/search-intelligence/content-intellig
 import type { ConnectorHealth, GraphEntity } from "@/features/search-intelligence/types";
 import Link from "next/link";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function AdminSearchIntelligencePage() {
+  await requireAdvancedSeoPage();
   const overview = await getSearchIntelligenceOverview();
 
   return (

@@ -9,9 +9,11 @@ import {
 import { getSearchIntelligencePlatform } from "@/features/search-intelligence";
 import Link from "next/link";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function AdminEntityGraphPage() {
+  await requireAdvancedSeoPage();
   const overview = await getSearchIntelligenceOverview();
   const platform = getSearchIntelligencePlatform({ siteOrigin: overview.siteOrigin });
   const entities = await platform.store.entities.list();

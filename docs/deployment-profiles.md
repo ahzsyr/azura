@@ -5,7 +5,7 @@
 
 AZURA is a **composable platform**. A deployment profile is the build-time availability ceiling: it selects which Core Platform areas, Capabilities, Presets, and Modules a build includes. It is not a runtime installation setting.
 
-A future site flag may disable an included Module or Preset. It cannot enable code the profile omitted. That flag is not part of profile loading today.
+An installation-wide `SiteFeature` flag may disable an included Module or Preset at runtime. It cannot enable a Module or Preset the compiled profile omitted. Profile loading still reads only compiled JSON; enablement lives in `SiteFeature` / `PackageInstallation`.
 
 ## Module route contract
 
@@ -23,11 +23,17 @@ Services, public resolvers, Documentation and Status Page actions, Marketing act
 
 `isBlockTypeEnabled()` gates the picker, editor preview, and public renderer. The preview and public renderer show an unavailable state for a disabled block. The editor page tree keeps that block, including its children, and marks the row unavailable. Save persists the validated composition and does not remove a block because its preset or module is off.
 
-The compiled Deployment Profile is the ceiling. `isModuleEnabled()`, `isPresetEnabled()`, and `isCapabilityEnabled()` stay profile-only, and middleware still uses the compiled prefixes. Server reads and writes also require an installation-wide `SiteFeature` row. `isModuleActive()` and `isPresetActive()` are true only when the profile includes the id and that row is enabled. A failed read fails closed. The editor and the public renderer each load one effective profile per request: the compiled module and preset lists with disabled rows removed. Capabilities stay on the profile. Changing a flag updates `enabled` and `updatedAt` only. It does not delete pages, entities, or block JSON. The Modules admin screen calls `updateSiteFeatures` for included modules and required presets. It does not change the compiled profile.
+The compiled Deployment Profile is the ceiling. `isModuleEnabled()`, `isPresetEnabled()`, and `isCapabilityEnabled()` stay profile-only, and middleware still uses the compiled prefixes. Server reads and writes also require an installation-wide `SiteFeature` row. `isModuleActive()` and `isPresetActive()` are true only when the profile includes the id and that row is enabled. On ledger read failure, availability helpers **fail open** (treat included features as active) so admin UI and saved blocks are not blanked by a DB outage. Mutation-capable Node ingress uses fail-closed access (`resolveModuleIngressAccess` / Marketing ingress) when the ledger is unavailable. The editor and the public renderer each load one effective profile per request: the compiled module and preset lists with disabled rows removed. Capabilities stay on the profile. Changing a flag updates `enabled` and `updatedAt` only. It does not delete pages, entities, or block JSON. The Modules admin screen calls `updateSiteFeatures` for included modules and required presets. It does not change the compiled profile. Prebuild hard-fails if `profile:generate` fails or the selected artifact is not `generated: true` with `profileId` matching `AZURA_PROFILE`.
+
+**Hostinger shipping path (M2.1 / M2.3):** `build:hostinger` imports [`ensureSelectedDeploymentProfile`](../scripts/deploy/ensure-selected-deployment-profile.mjs) then [`runBuildGenerators`](../scripts/deploy/run-build-generators.mjs) (prisma-metadata → middleware) **before** standalone / engines / DB probe / Prisma / Next. It regenerates and asserts the selected profile and **rejects `AZURA_PROFILE_FILE`**. Middleware hard-fail means the generator **exits 0** (fallback write without DB is OK) — not that a live DB is required. **Rollback:** fix `AZURA_PROFILE` in hPanel (or unset → default `enterprise`). Do not bypass the gate.
+
+**npm prebuild (M2.3):** [`runPrebuildManifestSteps`](../scripts/deploy/run-build-generators.mjs) hard-fails middleware → profile(+assert) → prisma-metadata (order preserved; softFail removed).
+
+**Module-set integrity (M2.2 — partial closure):** production assert compares artifact **module list** (`profileSourceModules`) to reviewed expectations in [`scripts/deploy/profile-source-expectations.json`](../scripts/deploy/profile-source-expectations.json) (ships with build scripts). Trust model: shrink is **reviewable** via `--write-expectations` diffs, not impossible. `profileSourceHash` is **provenance only** — not an edit detector by itself; a full YAML-byte tripwire is **deferred**. Matched-twin measure uses a separate twin assert under `scripts/platform/` (no expectations).
 
 **Problem solved:** Every deploy today effectively carries the full surface area (~84 models, full admin nav, all portal features). Profiles align each build with customer need.
 
-**Phase 7** is implemented. Profile loading reads compiled JSON from `src/generated/deployment-profile.json`, built at prebuild from `AZURA_PROFILE` and YAML manifests in [`profiles/`](./profiles/) and [`admin-nav-manifest.yaml`](./admin-nav-manifest.yaml). Admin IA spec: [`admin-ia.md`](./admin-ia.md).
+**Phase 7** is implemented. Profile loading reads compiled JSON from `src/generated/deployment-profile.json`, built at prebuild (and on Hostinger via M2.1 ensure) from `AZURA_PROFILE` and YAML manifests in [`profiles/`](./profiles/) and [`admin-nav-manifest.yaml`](./admin-nav-manifest.yaml). Admin IA spec: [`admin-ia.md`](./admin-ia.md).
 
 Block-to-admin content mapping and route gating notes: [`block-source-admin-content-audit.md`](./block-source-admin-content-audit.md).
 
@@ -37,11 +43,41 @@ A profile that omits a Module removes that Module’s declared route prefixes an
 
 That omission is route and nav gating. It is not package exclusion, and it does not prove the Module is absent from a client bundle. `SiteFeature` can turn an included Module off. It cannot delete the Module’s code, or its pages, entities, or saved block JSON. The Modules screen does not install or uninstall code.
 
-Marketing’s manifest declares `/api/marketing`. `src/app/a/route.ts` is a Marketing-backed short-link route outside that prefix, so a marketing-off profile does not disable `/a` through the current manifest. Before a later extraction, decide whether `/a` belongs to Marketing and must be declared and gated, or is a shared route that must no-op when Marketing is unavailable. Leave the current import in place until that decision.
+Marketing’s manifest declares `/api/marketing`. The short-link App Router handler is `src/app/a/route.ts` (**`/a` only**); middleware also treats `/a/*` as a campaign short-link path. `/a` is an **extra public binding** (`MODULE_EXTRA_DISABLED_PUBLIC` in the profile generator), not derived from `publicRoutes`. When Marketing is **profile-omitted**, `/a` is added to `disabledPublicPrefixes` so middleware returns 404 for `/a` and `/a/...`. When Marketing is included but runtime-inactive, Node ingress denies Marketing side effects (no attribution cookie / campaign writes) without relying on that middleware list.
+
+### Boundary evidence (matched twin) — modules-v2 Phase 6
+
+**Authority:** [`docs/modules-v2/plans/phase-6-boundary-evidence.md`](./modules-v2/plans/phase-6-boundary-evidence.md). Historical M8/M8.1/M8.2 notes under `docs/azura-v2/` are lineage only.
+
+**Profile = access / nav / ceiling; middleware 404 ≠ bundle exclusion.** Report `profileGating` and `bundleEvidence` as separate lanes.
+
+| Field | Value |
+|-------|--------|
+| Pair | `enterprise` vs ephemeral `enterprise-minus-marketing` (Marketing-only delta). Do **not** treat as-shipped `marketing.yaml` as a Marketing-only control. |
+| Preflight | `node scripts/platform/preflight-measure-toolchain.mjs` (durable Node only; rejects session/CUA runtimes) |
+| Commands | `node scripts/platform/measure-profile-boundary.mjs` (calls generate directly for twins / `AZURA_PROFILE_FILE`; Hostinger path separately runs M2.1 ensure; `AZURA_MEASURE_NO_DB=1`) |
+| Inventory CI | `npm run inventory:marketing-shared-edges` — reviewed snapshot [`docs/azura-v2/inventories/marketing-shared-edges.json`](./azura-v2/inventories/marketing-shared-edges.json); on drift, the script prints the re-snapshot command |
+| Checked-in summary | [`docs/azura-v2/inventories/profile-boundary-summary.json`](./azura-v2/inventories/profile-boundary-summary.json) and [`docs/modules-v2/inventories/profile-boundary-summary.json`](./modules-v2/inventories/profile-boundary-summary.json) |
+| Marker method | Primary: intentional `AZURA_MODULE_BOUNDARY:<id>` constants; secondary: path substrings. Absence ≠ proven exclusion. Metadata ≠ shipped code. |
+| Exclusion CI gate | **None** (`releaseGate.decision: docs-only`). |
+
+#### Accepted coupling (cross-cutting production imports)
+
+Runtime Marketing ingress guards remain. Snapshot: **90 production + 4 test edges** in [`marketing-shared-edges.json`](./azura-v2/inventories/marketing-shared-edges.json) (includes Marketing admin/API trees).
+
+- `src/app/a/route.ts` → `ingress-guard` / `ingress/short-link`
+- `src/app/api/inquiries/route.ts` → `leads/attribution-bridge` (`attachLeadAttributionFromUtm`)
+- `src/app/api/newsletter/subscribe/route.ts` → `leads/attribution-bridge` (`attachLeadAttributionFromUtm`)
+- `src/components/analytics/meta-pixel.tsx` → `tracking/meta-pixel`
+- `src/config/deployment-profile/route-registry.ts` → `manifest` (`marketingModuleManifest`)
+- `src/features/i18n/deferred-locale-marketing-chrome.tsx` → ingress-guard + meta-pixel resolvers
+- `src/features/marketing-attribution/client.ts` → `tracking-urls/build-url`
+- `src/features/seo/google-platform/ads-credentials.ts` / `marketing-ads-bridge.ts` → Google Ads marketing helpers
+- `src/lib/request-country.ts` → `attribution/ua-geo` (`geoFromRequestHeaders`)
 
 `adminRoutes` and `publicRoutes` are prefixes. The Next.js pages, layouts, and handlers live under `src/app`, outside the Module folders. A later extraction of one named Module moves or adapts the whole route subtrees those prefixes cover, including layouts and server actions, plus `src/modules/<id>` and the block types in `contributedBlockTypes`.
 
-That list is not sufficient by itself. Shared files import Module types and implementations. Documentation and Status block views import Module types. Marketing is imported from inquiries, the short-link route, SEO, forms, attribution, and analytics. Review those imports before moving files. Moving only the Module directory and the listed route and block files would leave imports that still resolve into the Module.
+That list is not sufficient by itself. Shared files import Module types and implementations (see accepted coupling above). Review those imports before moving files. Moving only the Module directory and the listed route and block files would leave imports that still resolve into the Module.
 
 Core, every Preset, every Capability, `src/modules/module-manifest.ts`, the Modules screen, `SiteFeature`, and the profile compiler stay in the application. The route registry keeps importing the manifests that remain. An extracted Module is absent from that list, so the generator cannot enable it.
 
@@ -258,9 +294,8 @@ Advanced SEO and enterprise translation remain profile-visible areas or future M
 | Surface | Profile gates |
 |---------|---------------|
 | Admin navigation | Show only enabled preset labels and modules |
-| Public routes | Register routes for enabled presets/modules only |
-| Middleware | Matchers exclude disabled module paths |
-| API routes | Optional lazy registration or 404 for disabled |
+| Public / API paths | Compiled `disabledPublicPrefixes`, `disabledPublicSegments`, and `disabledApiPrefixes`; middleware returns 404. App Router files under `src/app` remain on disk — omission is not proven client/server bundle exclusion |
+| Middleware | Matchers enforce those disabled prefix/segment lists |
 | Search index profiles | Index only enabled EntityTypes |
 | Setup wizard / demo import | Offer profile-appropriate seeds |
 

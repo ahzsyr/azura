@@ -65,6 +65,7 @@ function compileProfile(profileId: string) {
     throw new Error(`profile:generate failed for ${profileId}: ${result.stderr || result.stdout}`);
   }
   return JSON.parse(readFileSync(GENERATED, "utf8")) as {
+    generated: boolean;
     profileId: string;
     presets: string[];
     modules: string[];
@@ -110,6 +111,9 @@ function main() {
 
     try {
       const compiled = compileProfile(profileId);
+      if (compiled.generated !== true) {
+        fail(`${profileId}: compiled artifact must have generated: true`);
+      }
       if (compiled.profileId !== profileId) {
         fail(`${profileId}: compiled profileId mismatch (${compiled.profileId})`);
       } else {
@@ -177,6 +181,16 @@ function main() {
   } else {
     pass("marketing: /api/products disabled");
   }
+  if (!marketing.disabledPublicPrefixes.includes("/a")) {
+    fail("marketing: /a must be in disabledPublicPrefixes when Marketing Module is omitted");
+  } else {
+    pass("marketing: /a disabled via MODULE_EXTRA_DISABLED_PUBLIC");
+  }
+  if (marketing.generated !== true) {
+    fail("marketing: compiled artifact must have generated: true");
+  } else {
+    pass("marketing: generated === true");
+  }
   for (const manifestPath of [
     "src/modules/marketing/manifest.ts",
     "src/modules/documentation/manifest.ts",
@@ -195,9 +209,22 @@ function main() {
 
   console.log("\nEnterprise content route exit criteria:");
   const enterprise = JSON.parse(readFileSync(GENERATED, "utf8")) as {
+    generated: boolean;
     enabledNavItemIds: string[];
     disabledAdminPrefixes: string[];
+    disabledPublicPrefixes: string[];
+    modules: string[];
   };
+  if (enterprise.generated !== true) {
+    fail("enterprise: compiled artifact must have generated: true");
+  } else {
+    pass("enterprise: generated === true");
+  }
+  if (enterprise.modules.includes("marketing") && enterprise.disabledPublicPrefixes.includes("/a")) {
+    fail("enterprise: /a must not be disabled when Marketing Module is included");
+  } else if (enterprise.modules.includes("marketing")) {
+    pass("enterprise: /a not in disabledPublicPrefixes (Marketing included)");
+  }
   const enterpriseContentRoutes = [
     "/admin/content",
     "/admin/content/catalog-items",

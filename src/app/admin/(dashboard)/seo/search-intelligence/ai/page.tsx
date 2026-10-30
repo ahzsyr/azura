@@ -3,9 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getSearchIntelligenceOverview } from "@/features/search-intelligence/seo-consumer";
 import { getSearchIntelligencePlatform } from "@/features/search-intelligence";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function AdminAiAuditPage() {
+  await requireAdvancedSeoPage();
   const overview = await getSearchIntelligenceOverview();
   const platform = getSearchIntelligencePlatform({ siteOrigin: overview.siteOrigin });
 

@@ -1,0 +1,772 @@
+{
+  "module": "marketing",
+  "description": "Reviewed production (+ test) static import edges into src/modules/marketing from outside that tree. Edge identity = kind + importer + modulePath + sorted importedSymbols.",
+  "generatedAt": "2026-10-30T13:09:10.716Z",
+  "edges": [
+    {
+      "importer": "src/app/a/route.ts",
+      "modulePath": "src/modules/marketing/ingress-guard",
+      "importedSymbols": [
+        "resolveMarketingIngressAccess"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/a/route.ts",
+      "modulePath": "src/modules/marketing/ingress/short-link",
+      "importedSymbols": [
+        "handleMarketingShortLink"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/ad-accounts/page.tsx",
+      "modulePath": "src/modules/marketing/admin/ad-accounts-panel",
+      "importedSymbols": [
+        "MarketingAdAccountsPanel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/ad-accounts/page.tsx",
+      "modulePath": "src/modules/marketing/ads/sync-service",
+      "importedSymbols": [
+        "adSyncService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/ad-accounts/page.tsx",
+      "modulePath": "src/modules/marketing/providers/google-ads/health",
+      "importedSymbols": [
+        "ensureSeoBackedGoogleAdsConnection"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/analytics/page.tsx",
+      "modulePath": "src/modules/marketing/actions",
+      "importedSymbols": [
+        "runAnalyticsRollupAction"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/analytics/page.tsx",
+      "modulePath": "src/modules/marketing/analytics/aggregate",
+      "importedSymbols": [
+        "analyticsAggregateService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/analytics/page.tsx",
+      "modulePath": "src/modules/marketing/campaigns/service",
+      "importedSymbols": [
+        "campaignService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/analytics/page.tsx",
+      "modulePath": "src/modules/marketing/service",
+      "importedSymbols": [
+        "marketingService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/automation/page.tsx",
+      "modulePath": "src/modules/marketing/actions",
+      "importedSymbols": [
+        "upsertAutomationRuleAction"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/automation/page.tsx",
+      "modulePath": "src/modules/marketing/automation/service",
+      "importedSymbols": [
+        "automationService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/campaigns/[id]/page.tsx",
+      "modulePath": "src/modules/marketing/admin/campaign-detail-panel",
+      "importedSymbols": [
+        "MarketingCampaignDetailPanel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/campaigns/[id]/page.tsx",
+      "modulePath": "src/modules/marketing/campaigns/service",
+      "importedSymbols": [
+        "campaignService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/campaigns/page.tsx",
+      "modulePath": "src/modules/marketing/admin/campaigns-panel",
+      "importedSymbols": [
+        "MarketingCampaignsPanel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/campaigns/page.tsx",
+      "modulePath": "src/modules/marketing/campaigns/service",
+      "importedSymbols": [
+        "campaignService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/conversions/page.tsx",
+      "modulePath": "src/modules/marketing/admin/conversions-panel",
+      "importedSymbols": [
+        "MarketingConversionsPanel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/conversions/page.tsx",
+      "modulePath": "src/modules/marketing/conversions/service",
+      "importedSymbols": [
+        "conversionService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/integrations/page.tsx",
+      "modulePath": "src/modules/marketing/actions",
+      "importedSymbols": [
+        "runMarketingJobsAction"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/integrations/page.tsx",
+      "modulePath": "src/modules/marketing/service",
+      "importedSymbols": [
+        "marketingService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/landing-pages/page.tsx",
+      "modulePath": "src/modules/marketing/analytics/aggregate",
+      "importedSymbols": [
+        "analyticsAggregateService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/layout.tsx",
+      "modulePath": "src/modules/marketing/feature-flags",
+      "importedSymbols": [
+        "assertMarketingReadAllowed",
+        "isMarketingCoreEnabled"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/leads/page.tsx",
+      "modulePath": "src/modules/marketing/admin/leads-panel",
+      "importedSymbols": [
+        "MarketingLeadsPanel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/leads/page.tsx",
+      "modulePath": "src/modules/marketing/service",
+      "importedSymbols": [
+        "marketingService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/page.tsx",
+      "modulePath": "src/modules/marketing/admin/dashboard-panel",
+      "importedSymbols": [
+        "MarketingDashboardPanel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/page.tsx",
+      "modulePath": "src/modules/marketing/analytics/aggregate",
+      "importedSymbols": [
+        "analyticsAggregateService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/page.tsx",
+      "modulePath": "src/modules/marketing/service",
+      "importedSymbols": [
+        "marketingService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/page.tsx",
+      "modulePath": "src/modules/marketing/sources/service",
+      "importedSymbols": [
+        "ensureMarketingSources"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/platforms/page.tsx",
+      "modulePath": "src/modules/marketing/admin/platforms-panel",
+      "importedSymbols": [
+        "MarketingPlatformsPanel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/platforms/page.tsx",
+      "modulePath": "src/modules/marketing/providers/app-config",
+      "importedSymbols": [
+        "PublicMarketingProviderAppConfig",
+        "listPublicProviderAppConfigs"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/platforms/page.tsx",
+      "modulePath": "src/modules/marketing/providers/google-ads/health",
+      "importedSymbols": [
+        "getGoogleAdsOperationalContext"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/platforms/page.tsx",
+      "modulePath": "src/modules/marketing/providers/google-ads/manifest",
+      "importedSymbols": [
+        "GOOGLE_ADS_PROVIDER_ID"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/platforms/page.tsx",
+      "modulePath": "src/modules/marketing/providers/google-ads/migrate-seo-credentials",
+      "importedSymbols": [
+        "migrateMarketingAdsCredentialsIntoSeo"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/platforms/page.tsx",
+      "modulePath": "src/modules/marketing/service",
+      "importedSymbols": [
+        "marketingService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/publishing/page.tsx",
+      "modulePath": "src/modules/marketing/admin/publishing-panel",
+      "importedSymbols": [
+        "MarketingPublishingPanel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/publishing/page.tsx",
+      "modulePath": "src/modules/marketing/service",
+      "importedSymbols": [
+        "marketingService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/settings/page.tsx",
+      "modulePath": "src/modules/marketing/actions",
+      "importedSymbols": [
+        "runRetentionPurgeAction",
+        "updateRetentionPolicyAction"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/settings/page.tsx",
+      "modulePath": "src/modules/marketing/privacy/retention",
+      "importedSymbols": [
+        "getOrCreateRetentionPolicy"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/tracking/page.tsx",
+      "modulePath": "src/modules/marketing/admin/tracking-panel",
+      "importedSymbols": [
+        "MarketingTrackingPanel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/tracking/page.tsx",
+      "modulePath": "src/modules/marketing/service",
+      "importedSymbols": [
+        "marketingService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/urls/page.tsx",
+      "modulePath": "src/modules/marketing/admin/urls-panel",
+      "importedSymbols": [
+        "MarketingUrlsPanel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/urls/page.tsx",
+      "modulePath": "src/modules/marketing/campaigns/service",
+      "importedSymbols": [
+        "campaignService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/admin/(dashboard)/marketing/urls/page.tsx",
+      "modulePath": "src/modules/marketing/tracking-urls/service",
+      "importedSymbols": [
+        "trackingUrlService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/inquiries/route.ts",
+      "modulePath": "src/modules/marketing/leads/attribution-bridge",
+      "importedSymbols": [
+        "attachLeadAttributionFromUtm"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/attribution/capture/route.ts",
+      "modulePath": "src/modules/marketing/attribution/service",
+      "importedSymbols": [
+        "attributionService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/attribution/capture/route.ts",
+      "modulePath": "src/modules/marketing/attribution/ua-geo",
+      "importedSymbols": [
+        "geoFromRequestHeaders",
+        "parseUserAgent"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/attribution/capture/route.ts",
+      "modulePath": "src/modules/marketing/ingress-guard",
+      "importedSymbols": [
+        "marketingIngressSkipResponse",
+        "resolveMarketingIngressAccess"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/events/route.ts",
+      "modulePath": "src/modules/marketing/campaigns/service",
+      "importedSymbols": [
+        "campaignService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/events/route.ts",
+      "modulePath": "src/modules/marketing/events/service",
+      "importedSymbols": [
+        "marketingEventService"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/events/route.ts",
+      "modulePath": "src/modules/marketing/ingress-guard",
+      "importedSymbols": [
+        "marketingIngressSkipResponse",
+        "resolveMarketingIngressAccess"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/events/route.ts",
+      "modulePath": "src/modules/marketing/sources/service",
+      "importedSymbols": [
+        "mapUtmSourceToKey",
+        "resolveSourceByKey"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/jobs/run/route.ts",
+      "modulePath": "src/modules/marketing/ads/schedule",
+      "importedSymbols": [
+        "scheduleGoogleAdsSyncJobs"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/jobs/run/route.ts",
+      "modulePath": "src/modules/marketing/bootstrap",
+      "importedSymbols": [
+        "bootstrapMarketingModule"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/jobs/run/route.ts",
+      "modulePath": "src/modules/marketing/ingress-guard",
+      "importedSymbols": [
+        "resolveMarketingIngressAccess"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/jobs/run/route.ts",
+      "modulePath": "src/modules/marketing/ingress/handlers",
+      "importedSymbols": [
+        "handleMarketingJobsIngress"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/jobs/run/route.ts",
+      "modulePath": "src/modules/marketing/jobs",
+      "importedSymbols": [
+        "runDueMarketingJobs"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/jobs/run/route.ts",
+      "modulePath": "src/modules/marketing/manifest",
+      "importedSymbols": [
+        "MARKETING_MODULE_ID"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/callback/route.ts",
+      "modulePath": "src/modules/marketing/bootstrap",
+      "importedSymbols": [
+        "bootstrapMarketingModule"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/callback/route.ts",
+      "modulePath": "src/modules/marketing/core/registry",
+      "importedSymbols": [
+        "findProvider"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/callback/route.ts",
+      "modulePath": "src/modules/marketing/ingress-guard",
+      "importedSymbols": [
+        "resolveMarketingIngressAccess"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/callback/route.ts",
+      "modulePath": "src/modules/marketing/ingress/handlers",
+      "importedSymbols": [
+        "handleMarketingOAuthCallbackIngress"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/callback/route.ts",
+      "modulePath": "src/modules/marketing/manifest",
+      "importedSymbols": [
+        "MARKETING_MODULE_ID"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/callback/route.ts",
+      "modulePath": "src/modules/marketing/oauth/connection-lifecycle",
+      "importedSymbols": [
+        "syncAccountsForConnection",
+        "upsertConnectionFromOAuth"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/callback/route.ts",
+      "modulePath": "src/modules/marketing/providers/app-config",
+      "importedSymbols": [
+        "getProviderAppCredentials"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/callback/route.ts",
+      "modulePath": "src/modules/marketing/providers/google-ads/sdk/api",
+      "importedSymbols": [
+        "exchangeGoogleAdsCode"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/callback/route.ts",
+      "modulePath": "src/modules/marketing/providers/linkedin/sdk/api",
+      "importedSymbols": [
+        "exchangeLinkedInCode"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/callback/route.ts",
+      "modulePath": "src/modules/marketing/providers/meta/sdk/api",
+      "importedSymbols": [
+        "exchangeMetaCode"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/start/route.ts",
+      "modulePath": "src/modules/marketing/bootstrap",
+      "importedSymbols": [
+        "bootstrapMarketingModule"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/start/route.ts",
+      "modulePath": "src/modules/marketing/core/registry",
+      "importedSymbols": [
+        "findProvider"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/start/route.ts",
+      "modulePath": "src/modules/marketing/ingress-guard",
+      "importedSymbols": [
+        "resolveMarketingIngressAccess"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/start/route.ts",
+      "modulePath": "src/modules/marketing/ingress/handlers",
+      "importedSymbols": [
+        "handleMarketingOAuthStartIngress"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/start/route.ts",
+      "modulePath": "src/modules/marketing/manifest",
+      "importedSymbols": [
+        "MARKETING_MODULE_ID"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/oauth/[provider]/start/route.ts",
+      "modulePath": "src/modules/marketing/providers/app-config",
+      "importedSymbols": [
+        "getProviderAppCredentials"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/webhooks/[provider]/route.ts",
+      "modulePath": "src/modules/marketing/bootstrap",
+      "importedSymbols": [
+        "bootstrapMarketingModule"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/webhooks/[provider]/route.ts",
+      "modulePath": "src/modules/marketing/ingress-guard",
+      "importedSymbols": [
+        "resolveMarketingIngressAccess"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/webhooks/[provider]/route.ts",
+      "modulePath": "src/modules/marketing/ingress/handlers",
+      "importedSymbols": [
+        "handleMarketingWebhookGetIngress",
+        "handleMarketingWebhookPostIngress"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/webhooks/[provider]/route.ts",
+      "modulePath": "src/modules/marketing/providers/app-config",
+      "importedSymbols": [
+        "getProviderAppCredentials"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/marketing/webhooks/[provider]/route.ts",
+      "modulePath": "src/modules/marketing/webhooks/ingest",
+      "importedSymbols": [
+        "ingestMarketingWebhook"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/app/api/newsletter/subscribe/route.ts",
+      "modulePath": "src/modules/marketing/leads/attribution-bridge",
+      "importedSymbols": [
+        "attachLeadAttributionFromUtm"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/components/analytics/meta-pixel.tsx",
+      "modulePath": "src/modules/marketing/tracking/meta-pixel",
+      "importedSymbols": [
+        "extractMetaPixelNoscriptSrc",
+        "resolveMetaPixelInitScript"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/config/deployment-profile/route-registry.ts",
+      "modulePath": "src/modules/marketing/manifest",
+      "importedSymbols": [
+        "marketingModuleManifest"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/features/i18n/deferred-locale-marketing-chrome.tsx",
+      "modulePath": "src/modules/marketing/ingress-guard",
+      "importedSymbols": [
+        "resolveMarketingIngressAccess"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/features/i18n/deferred-locale-marketing-chrome.tsx",
+      "modulePath": "src/modules/marketing/tracking/meta-pixel",
+      "importedSymbols": [
+        "resolveMetaPixelInitScript"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/features/i18n/deferred-locale-marketing-chrome.tsx",
+      "modulePath": "src/modules/marketing/tracking/resolve-meta-pixel.server",
+      "importedSymbols": [
+        "ActiveMetaPixel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/features/i18n/deferred-locale-marketing-chrome.tsx",
+      "modulePath": "src/modules/marketing/tracking/resolve-meta-pixel.server",
+      "importedSymbols": [
+        "resolveActiveMetaPixel"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/features/marketing-attribution/client.ts",
+      "modulePath": "src/modules/marketing/tracking-urls/build-url",
+      "importedSymbols": [
+        "CAMPAIGN_ENTRY_COOKIE",
+        "CampaignEntryPayload",
+        "decodeCampaignEntryCookie",
+        "resolveCampaignParamFromSearchParams"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/features/seo/google-platform/ads-credentials.ts",
+      "modulePath": "src/modules/marketing/providers/google-ads/sdk/api",
+      "importedSymbols": [
+        "parseGoogleAdsCustomerId"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/features/seo/google-platform/marketing-ads-bridge.ts",
+      "modulePath": "src/modules/marketing/providers/google-ads/health",
+      "importedSymbols": [
+        "getGoogleAdsOperationalContext"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/features/seo/google-platform/marketing-ads-bridge.ts",
+      "modulePath": "src/modules/marketing/providers/google-ads/migrate-seo-credentials",
+      "importedSymbols": [
+        "migrateMarketingAdsCredentialsIntoSeo"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/features/seo/google-platform/marketing-ads-bridge.ts",
+      "modulePath": "src/modules/marketing/providers/google-ads/readiness",
+      "importedSymbols": [
+        "mapOperationalToMarketingContext"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/lib/request-country.ts",
+      "modulePath": "src/modules/marketing/attribution/ua-geo",
+      "importedSymbols": [
+        "geoFromRequestHeaders"
+      ],
+      "kind": "production"
+    },
+    {
+      "importer": "src/platform/packages/__tests__/contribution-inventory.test.ts",
+      "modulePath": "src/modules/marketing/manifest",
+      "importedSymbols": [
+        "marketingModuleManifest"
+      ],
+      "kind": "test"
+    },
+    {
+      "importer": "src/platform/packages/__tests__/module-settings.test.ts",
+      "modulePath": "src/modules/marketing/settings",
+      "importedSymbols": [
+        "*side-effect*"
+      ],
+      "kind": "test"
+    },
+    {
+      "importer": "src/platform/packages/__tests__/package-contract.test.ts",
+      "modulePath": "src/modules/marketing/manifest",
+      "importedSymbols": [
+        "marketingModuleManifest"
+      ],
+      "kind": "test"
+    },
+    {
+      "importer": "src/platform/packages/__tests__/package-lifecycle.test.ts",
+      "modulePath": "src/modules/marketing/ingress-decision",
+      "importedSymbols": [
+        "decideMarketingIngress"
+      ],
+      "kind": "test"
+    }
+  ]
+}

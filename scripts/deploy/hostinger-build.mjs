@@ -8,8 +8,10 @@ import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { platform } from "node:os";
 import { ensurePrismaEnginesExecutable } from "./ensure-prisma-engines-executable.mjs";
+import { ensureSelectedDeploymentProfile } from "./ensure-selected-deployment-profile.mjs";
 import { buildPrismaEnv } from "./load-database-url.mjs";
 import { resolvePrismaSchemaPath } from "./resolve-prisma-schema.mjs";
+import { runBuildGenerators } from "./run-build-generators.mjs";
 import { runPrismaOrExit } from "./run-prisma.mjs";
 
 function generatePrismaClient(env = buildPrismaEnv()) {
@@ -64,6 +66,35 @@ if (missingMessages.length > 0) {
   process.exit(1);
 }
 
+// M2.1: fail-closed selected profile before engines / DB / Prisma / Next.
+// Intentional deploy-policy change — typo'd AZURA_PROFILE now blocks the ship path.
+// M8 measure twin may set AZURA_MEASURE_SKIP_PROFILE_ENSURE=1 after compiling an
+// ephemeral artifact (production never sets this; twin assert already ran).
+if (process.env.AZURA_MEASURE_SKIP_PROFILE_ENSURE === "1") {
+  console.warn(
+    "[hostinger-build] AZURA_MEASURE_SKIP_PROFILE_ENSURE=1 — skipping ensure (measure twin only).",
+  );
+} else {
+  const profileEnsure = ensureSelectedDeploymentProfile({ env: process.env });
+  if (!profileEnsure.ok) {
+    console.error(`[hostinger-build] ${profileEnsure.reason}`);
+    console.error(
+      "[hostinger-build] Rollback: fix AZURA_PROFILE in the environment (or unset for default enterprise). Do not bypass this gate.",
+    );
+    process.exit(profileEnsure.code);
+  }
+}
+
+// M2.3: hard-run prisma-metadata then middleware before standalone / engines / DB / Next.
+// Hard-fail = generator exit nonzero. Middleware may write fallback without DB (exit 0 = OK).
+const generators = runBuildGenerators({ env: process.env });
+if (!generators.ok) {
+  console.error(
+    `[hostinger-build] ${generators.failedStep} failed — aborting (exit ${generators.code}).`,
+  );
+  process.exit(generators.code);
+}
+
 if (process.env.OUTPUT_STANDALONE === "1") {
   const standaloneDir = join(process.cwd(), ".next", "standalone");
   rmSync(standaloneDir, { recursive: true, force: true });
@@ -75,8 +106,24 @@ if (platform() === "linux") {
   ensurePrismaEnginesExecutable();
 }
 
-const prismaEnv = buildPrismaEnv();
-const dbProbe = await probeDatabase(prismaEnv);
+const measureNoDb = process.env.AZURA_MEASURE_NO_DB === "1";
+const prismaEnv = measureNoDb
+  ? (() => {
+      const env = { ...process.env };
+      delete env.DATABASE_URL;
+      delete env.DIRECT_URL;
+      delete env.POSTGRES_PRISMA_URL;
+      delete env.POSTGRES_URL;
+      delete env.POSTGRES_URL_NON_POOLING;
+      console.warn(
+        "[hostinger-build] AZURA_MEASURE_NO_DB=1 — skipping env-file DATABASE_URL and migrate probe.",
+      );
+      return env;
+    })()
+  : buildPrismaEnv();
+const dbProbe = measureNoDb
+  ? { ok: false, reason: "AZURA_MEASURE_NO_DB=1" }
+  : await probeDatabase(prismaEnv);
 const buildEnv = { ...prismaEnv };
 
 // Next.js page-data collection spawns 60+ workers; Supabase session pooler caps at ~15
@@ -130,6 +177,20 @@ const buildExit = existsSync(nextBin)
     }).status ?? 1
   : run("npx", ["next", "build", "--webpack"], webpackEnv);
 if (buildExit !== 0) process.exit(buildExit);
+
+const assetGateExit =
+  spawnSync(process.execPath, ["scripts/ci/verify-next-static-assets.mjs"], {
+    stdio: "inherit",
+    shell: false,
+    env: buildEnv,
+    cwd: process.cwd(),
+  }).status ?? 1;
+if (assetGateExit !== 0) {
+  console.error(
+    "[hostinger-build] Static asset integrity gate failed — refusing to treat this build as deployable.",
+  );
+  process.exit(assetGateExit);
+}
 
 const symlinkExit =
   spawnSync(process.execPath, ["scripts/deploy/ensure-uploads-symlink.mjs"], {

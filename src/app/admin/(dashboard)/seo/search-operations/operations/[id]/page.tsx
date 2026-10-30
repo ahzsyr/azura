@@ -6,6 +6,7 @@ import { getSearchOperationsPlatform } from "@/features/search-intelligence/work
 import { SearchOpsSubnav } from "@/features/search-intelligence/workspaces/ui";
 import { OperationResultView } from "@/features/search-intelligence/workspaces/operation-result-view";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function SearchOpsOperationDetailPage({
@@ -13,6 +14,7 @@ export default async function SearchOpsOperationDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requireAdvancedSeoPage();
   const { id } = await params;
   const platform = await getSearchOperationsPlatform();
   const record = platform.operations.get(id);

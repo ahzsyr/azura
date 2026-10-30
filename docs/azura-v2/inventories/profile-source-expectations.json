@@ -1,0 +1,37 @@
+{
+  "description": "Reviewed module-set expectations per AZURA_PROFILE. Production assert compares artifact.profileSourceModules to profiles[id].modules. Updating this file is a reviewable bypass (same class as marketing-shared-edges).",
+  "updatedAt": "2026-10-28T20:42:08.170Z",
+  "profiles": {
+    "marketing": {
+      "modules": [],
+      "sourceHash": "4a0a871497688f8bd61825578694123d3d22c27fc3b72778279c4975febc5989"
+    },
+    "showroom": {
+      "modules": [],
+      "sourceHash": "992aeb9ef526557d5098a730dd7551fb279127defb2242ec3942058c597781d9"
+    },
+    "agency": {
+      "modules": [],
+      "sourceHash": "3c57b0147d443cb9ff054c19249042050236f140ee45f55042e4dd8085ce6f08"
+    },
+    "tourism": {
+      "modules": [],
+      "sourceHash": "9732b670ae2d34c6ffebffaf53bc0142eaab3bd69674f160144b3b6b59484ad0"
+    },
+    "documentation": {
+      "modules": [
+        "documentation"
+      ],
+      "sourceHash": "baa70e2a2d34a1e1db3a2dc915691d6bbb8e0f39f7461a0966949173b42d8208"
+    },
+    "enterprise": {
+      "modules": [
+        "advanced-seo",
+        "documentation",
+        "marketing",
+        "status-page"
+      ],
+      "sourceHash": "a3b6d16b9a0c2e1e6a7244fe31f768219dd708ba6a7a03e954a74f1549ff5ebe"
+    }
+  }
+}

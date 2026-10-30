@@ -1,0 +1,514 @@
+{
+  "generatedAt": "2026-10-30T13:26:57.782Z",
+  "schemaVersion": 1,
+  "coreCompatibilityGate": "PackageManifest.azuraCompatibility vs AZURA_CORE_VERSION",
+  "shippedModuleIds": [
+    "documentation",
+    "status-page",
+    "marketing",
+    "advanced-seo"
+  ],
+  "moduleFacts": [
+    {
+      "id": "documentation",
+      "version": "1.0.0",
+      "azuraCompatibility": ">=0.1.0",
+      "requiredPackages": [],
+      "requiredCapabilities": [
+        "search",
+        "versioning",
+        "workflow"
+      ],
+      "requiredPresets": [
+        "knowledge"
+      ],
+      "label": "Documentation"
+    },
+    {
+      "id": "status-page",
+      "version": "1.0.0",
+      "azuraCompatibility": ">=0.1.0",
+      "requiredPackages": [],
+      "requiredCapabilities": [],
+      "requiredPresets": [],
+      "label": "Status Page"
+    },
+    {
+      "id": "marketing",
+      "version": "1.0.0",
+      "azuraCompatibility": ">=0.1.0",
+      "requiredPackages": [],
+      "requiredCapabilities": [
+        "analytics"
+      ],
+      "requiredPresets": [],
+      "label": "Marketing"
+    },
+    {
+      "id": "advanced-seo",
+      "version": "1.0.0",
+      "azuraCompatibility": ">=0.1.0",
+      "requiredPackages": [],
+      "requiredCapabilities": [],
+      "requiredPresets": [],
+      "label": "Advanced SEO"
+    }
+  ],
+  "profiles": [
+    {
+      "profileId": "agency",
+      "label": "Agency",
+      "source": "docs/profiles/agency.yaml",
+      "profileSourceHash": "3c57b0147d443cb9ff054c19249042050236f140ee45f55042e4dd8085ce6f08",
+      "modules": [],
+      "presets": [
+        "service",
+        "project",
+        "team-member",
+        "case-study"
+      ],
+      "capabilities": [
+        "search",
+        "ai"
+      ],
+      "moduleMatrix": {
+        "documentation": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "search",
+            "versioning",
+            "workflow"
+          ],
+          "requiredPresets": [
+            "knowledge"
+          ],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": [
+            "Profile omits documentation requiredPresets: knowledge (display/ceiling; not activate-enforced)."
+          ]
+        },
+        "status-page": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "marketing": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "analytics"
+          ],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "advanced-seo": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": [
+            "Basic SEO Core routes survive Advanced SEO omit (adminRoutes never include /admin/seo root)."
+          ]
+        }
+      }
+    },
+    {
+      "profileId": "documentation",
+      "label": "Documentation",
+      "source": "docs/profiles/documentation.yaml",
+      "profileSourceHash": "baa70e2a2d34a1e1db3a2dc915691d6bbb8e0f39f7461a0966949173b42d8208",
+      "modules": [
+        "documentation"
+      ],
+      "presets": [
+        "knowledge"
+      ],
+      "capabilities": [
+        "search",
+        "versioning",
+        "workflow"
+      ],
+      "moduleMatrix": {
+        "documentation": {
+          "included": true,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "search",
+            "versioning",
+            "workflow"
+          ],
+          "requiredPresets": [
+            "knowledge"
+          ],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "status-page": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "marketing": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "analytics"
+          ],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "advanced-seo": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": [
+            "Basic SEO Core routes survive Advanced SEO omit (adminRoutes never include /admin/seo root)."
+          ]
+        }
+      }
+    },
+    {
+      "profileId": "enterprise",
+      "label": "Enterprise",
+      "source": "docs/profiles/enterprise.yaml",
+      "profileSourceHash": "a3b6d16b9a0c2e1e6a7244fe31f768219dd708ba6a7a03e954a74f1549ff5ebe",
+      "modules": [
+        "documentation",
+        "status-page",
+        "marketing",
+        "advanced-seo"
+      ],
+      "presets": [
+        "product",
+        "service",
+        "project",
+        "case-study",
+        "team-member",
+        "partner",
+        "knowledge",
+        "pricing",
+        "destination",
+        "property",
+        "release"
+      ],
+      "capabilities": [
+        "search",
+        "workflow",
+        "versioning",
+        "ai",
+        "personalization",
+        "analytics"
+      ],
+      "moduleMatrix": {
+        "documentation": {
+          "included": true,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "search",
+            "versioning",
+            "workflow"
+          ],
+          "requiredPresets": [
+            "knowledge"
+          ],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "status-page": {
+          "included": true,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "marketing": {
+          "included": true,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "analytics"
+          ],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "advanced-seo": {
+          "included": true,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": [
+            "Basic SEO Core routes survive Advanced SEO omit (adminRoutes never include /admin/seo root)."
+          ]
+        }
+      }
+    },
+    {
+      "profileId": "marketing",
+      "label": "Marketing",
+      "source": "docs/profiles/marketing.yaml",
+      "profileSourceHash": "4a0a871497688f8bd61825578694123d3d22c27fc3b72778279c4975febc5989",
+      "modules": [],
+      "presets": [],
+      "capabilities": [
+        "ai"
+      ],
+      "moduleMatrix": {
+        "documentation": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "search",
+            "versioning",
+            "workflow"
+          ],
+          "requiredPresets": [
+            "knowledge"
+          ],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": [
+            "Profile omits documentation requiredPresets: knowledge (display/ceiling; not activate-enforced)."
+          ]
+        },
+        "status-page": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "marketing": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "analytics"
+          ],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "advanced-seo": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": [
+            "Basic SEO Core routes survive Advanced SEO omit (adminRoutes never include /admin/seo root)."
+          ]
+        }
+      }
+    },
+    {
+      "profileId": "showroom",
+      "label": "Product Showroom",
+      "source": "docs/profiles/showroom.yaml",
+      "profileSourceHash": "992aeb9ef526557d5098a730dd7551fb279127defb2242ec3942058c597781d9",
+      "modules": [],
+      "presets": [
+        "product",
+        "service"
+      ],
+      "capabilities": [
+        "search",
+        "ai",
+        "personalization"
+      ],
+      "moduleMatrix": {
+        "documentation": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "search",
+            "versioning",
+            "workflow"
+          ],
+          "requiredPresets": [
+            "knowledge"
+          ],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": [
+            "Profile omits documentation requiredPresets: knowledge (display/ceiling; not activate-enforced)."
+          ]
+        },
+        "status-page": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "marketing": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "analytics"
+          ],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "advanced-seo": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": [
+            "Basic SEO Core routes survive Advanced SEO omit (adminRoutes never include /admin/seo root)."
+          ]
+        }
+      }
+    },
+    {
+      "profileId": "tourism",
+      "label": "Tourism",
+      "source": "docs/profiles/tourism.yaml",
+      "profileSourceHash": "9732b670ae2d34c6ffebffaf53bc0142eaab3bd69674f160144b3b6b59484ad0",
+      "modules": [],
+      "presets": [
+        "destination",
+        "property",
+        "service",
+        "product"
+      ],
+      "capabilities": [
+        "search",
+        "ai"
+      ],
+      "moduleMatrix": {
+        "documentation": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "search",
+            "versioning",
+            "workflow"
+          ],
+          "requiredPresets": [
+            "knowledge"
+          ],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": [
+            "Profile omits documentation requiredPresets: knowledge (display/ceiling; not activate-enforced)."
+          ]
+        },
+        "status-page": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "marketing": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [
+            "analytics"
+          ],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": []
+        },
+        "advanced-seo": {
+          "included": false,
+          "azuraCompatibility": ">=0.1.0",
+          "version": "1.0.0",
+          "requiredPackages": [],
+          "requiredCapabilities": [],
+          "requiredPresets": [],
+          "missingCapabilities": [],
+          "missingPresets": [],
+          "notes": [
+            "Basic SEO Core routes survive Advanced SEO omit (adminRoutes never include /admin/seo root)."
+          ]
+        }
+      }
+    }
+  ]
+}

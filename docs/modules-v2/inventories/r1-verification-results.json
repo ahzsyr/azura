@@ -1,0 +1,204 @@
+{
+  "phase": "R1",
+  "title": "Modules v2 verification gates",
+  "measuredAt": "2026-10-30T18:17:56.842Z",
+  "execPath": "/Users/alizahedah/.local/node-v24/bin/node",
+  "nodeVersion": "v24.22.2",
+  "npmVersion": "11.19.1",
+  "platform": "darwin/arm64",
+  "nextVersion": "16.4.3",
+  "swcPackage": "@next/swc-darwin-arm64",
+  "swcOk": true,
+  "nextBinPresent": true,
+  "preflightOk": true,
+  "releaseGate": {
+    "exclusionCiGate": false,
+    "decision": "docs-only"
+  },
+  "commands": [
+    {
+      "command": "npm run preflight:measure-toolchain -- --json",
+      "name": "preflight_measure_toolchain",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "$EXEC_PATH -e 'require(\"@next/swc-darwin-arm64\"); console.log(\"swc-ok\")'",
+      "name": "swc_probe",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run profiles:verify",
+      "name": "profiles_verify",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:profile-source-integrity",
+      "name": "profile_source_integrity",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:marketing-ingress",
+      "name": "marketing_ingress",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:portal-module-ingress",
+      "name": "portal_module_ingress",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:advanced-seo",
+      "name": "advanced_seo",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:modules-lifecycle",
+      "name": "modules_lifecycle",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:package-contract",
+      "name": "package_contract",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:phase4-integration",
+      "name": "phase4_integration",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:phase6-boundary",
+      "name": "phase6_boundary",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:theme-packages",
+      "name": "theme_packages",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:theme-assets",
+      "name": "theme_assets",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:theme-rich-fields",
+      "name": "theme_rich_fields",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run test:contribution-overlays",
+      "name": "contribution_overlays",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run check:module-import-boundaries",
+      "name": "module_import_boundaries",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "node scripts/platform/inventory-profile-module-matrix.mjs --check",
+      "name": "matrix_check",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "node scripts/platform/export-package-support-diagnostics.mjs --all-builtins",
+      "name": "support_diagnostics",
+      "exitCode": 1,
+      "ok": false
+    },
+    {
+      "command": "node scripts/platform/export-package-support-diagnostics.mjs --all-builtins",
+      "name": "support_diagnostics_retry",
+      "exitCode": 1,
+      "ok": false,
+      "notes": "after server-only CLI stub fix"
+    },
+    {
+      "command": "node scripts/platform/export-package-support-diagnostics.mjs --shape-fixture",
+      "name": "support_diagnostics_shape_fixture",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "npm run evidence:profile-gating",
+      "name": "evidence_profile_gating",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "command": "/Users/alizahedah/.local/node-v24/bin/node scripts/platform/measure-profile-boundary.mjs",
+      "name": "measure_profile_boundary",
+      "exitCode": 0,
+      "ok": true
+    }
+  ],
+  "artifactHashes": {
+    "profileGatingEvidenceSha256": "5ed252e91f3373bfa6a2f9b5639bff3bf8245b8109815bf04d27165be4b6050e",
+    "profileModuleCompatibilityMatrixSha256": "51e8c9479088dee9fc7469fc1025f1e1b33b6c3ea06ec67bfaa19d7e3ca3768f",
+    "profileBoundarySummarySha256": "3fb2d18c696da1c811bb51b811eac13208a4528728cbe1c12344bfc6341ca5e3",
+    "profileBoundarySummaryLocalSha256": "3fb2d18c696da1c811bb51b811eac13208a4528728cbe1c12344bfc6341ca5e3",
+    "azuraV2ProfileBoundarySummarySha256": "3fb2d18c696da1c811bb51b811eac13208a4528728cbe1c12344bfc6341ca5e3",
+    "supportDiagnosticsStdoutSha256": "eed0c6cbbd89a0d413286eae2f31047d6cc236f5a5936b661f872284ce15c7e6",
+    "supportDiagnosticsShapeFixtureSha256": "074bcd2686539868daf284c2913e6dbb760b5c9c2b8b45565ffff25e9ddb7f90",
+    "preflightJsonSha256": "d6c8b9d9e77f1f649bf29b05f4eb3582dc93703a5e1d349043b0683a38094e02",
+    "enterpriseYamlSha256": "a3b6d16b9a0c2e1e6a7244fe31f768219dd708ba6a7a03e954a74f1549ff5ebe",
+    "twinYamlSha256": "6717a0be9fc105a2a552e158c590ecf02eb40a4a3c0a673198304971e857dcf3",
+    "expectationsSha256": "ea57aebc6d190bec593ee1c8eabe7684d6100024fbe1c5a70fc283db66819114",
+    "enterpriseDeploymentProfileSha256": "d3dbf611033ebb2d4c8c7bf904e3cac73b434c280a0d111d5b3719e449dc8c02",
+    "twinDeploymentProfileSha256": "b3c995230d5612110b4bb8b71205593c5c0905a243935d3c379bf0846af2163e"
+  },
+  "phase6Bundle": {
+    "status": "complete",
+    "verdict": "inconclusive",
+    "blockReason": null,
+    "processGateSatisfied": true,
+    "notes": "No interpretable client/server chunk primary-marker delta between matched twins. Hits may be equal (accepted coupling / shared imports), zero on both (marker not retained), or metadata-only. Absence of a marker is not proof of exclusion."
+  },
+  "profileGating": {
+    "ok": true,
+    "measuredAt": "2026-10-30T18:14:37.726Z",
+    "enterpriseYamlSha256": "a3b6d16b9a0c2e1e6a7244fe31f768219dd708ba6a7a03e954a74f1549ff5ebe"
+  },
+  "modulesPlatformFixes": [
+    {
+      "id": "support-diagnostics-server-only",
+      "summary": "Stub server-only for export-package-support-diagnostics CLI via --import register-cli-server-only.mjs so live collect can load Prisma/seed outside Next Server Components.",
+      "files": [
+        "scripts/platform/export-package-support-diagnostics.mjs",
+        "scripts/platform/register-cli-server-only.mjs",
+        "scripts/platform/stubs/server-only.mjs"
+      ]
+    }
+  ],
+  "unrelatedFailures": [
+    {
+      "command": "node scripts/platform/export-package-support-diagnostics.mjs --all-builtins",
+      "exitCode": 1,
+      "classification": "environment",
+      "reason": "After server-only CLI fix, live collect fails with TypeError Invalid URL (empty DATABASE_URL) in mariaDbPoolConfig. No DB URL configured in this shell. Offline --shape-fixture passes."
+    }
+  ],
+  "notes": [
+    "Durable Node installed at ~/.local/node-v24 (official nodejs.org v24.22.2 darwin-arm64) because Homebrew/nvm were absent and only ephemeral Codex/CUA/dsh/cursor-agent binaries were present.",
+    "Phase 6 bundle finished with verdict=inconclusive; process gate satisfied per dual-lane taxonomy.",
+    "All R1 npm test/check gates passed under the durable execPath."
+  ]
+}

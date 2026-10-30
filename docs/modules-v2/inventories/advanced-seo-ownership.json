@@ -1,0 +1,983 @@
+{
+  "phase": "7",
+  "generatedAt": "2026-10-30T13:19:15.082Z",
+  "advancedAdminRoutes": [
+    "/admin/seo/templates",
+    "/admin/seo/metadata",
+    "/admin/seo/schemas",
+    "/admin/seo/rules",
+    "/admin/seo/google",
+    "/admin/seo/404",
+    "/admin/seo/search-operations",
+    "/admin/seo/search-intelligence"
+  ],
+  "owners": [
+    "core-basic",
+    "advanced-seo",
+    "shared-shell",
+    "search-intelligence-as-advanced"
+  ],
+  "summary": {
+    "rows": 102,
+    "gaps": 0,
+    "pages": 50,
+    "apis": 10,
+    "actions": 40,
+    "prefixCoverageOk": true
+  },
+  "prefixCoverage": [
+    {
+      "prefix": "/admin/seo/templates",
+      "covered": true
+    },
+    {
+      "prefix": "/admin/seo/metadata",
+      "covered": true
+    },
+    {
+      "prefix": "/admin/seo/schemas",
+      "covered": true
+    },
+    {
+      "prefix": "/admin/seo/rules",
+      "covered": true
+    },
+    {
+      "prefix": "/admin/seo/google",
+      "covered": true
+    },
+    {
+      "prefix": "/admin/seo/404",
+      "covered": true
+    },
+    {
+      "prefix": "/admin/seo/search-operations",
+      "covered": true
+    },
+    {
+      "prefix": "/admin/seo/search-intelligence",
+      "covered": true
+    }
+  ],
+  "gaps": [],
+  "rows": [
+    {
+      "path": "src/app/admin/(dashboard)/seo/404/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/404",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/analysis/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/analysis",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/assistant/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/assistant",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/audit/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/audit",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/autofill/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/autofill",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/automation/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/automation",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/content/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/content",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/google-tags/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/google-tags",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/google/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/google",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/history/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/history",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/integrations/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/integrations",
+      "owner": "shared-shell",
+      "guardPresent": true,
+      "guardKind": "isAdvancedSeoMutationAllowed-soft",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/issues/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/issues",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/llms/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/llms",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/metadata/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/metadata",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/monitoring/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/monitoring",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/recommendations/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/recommendations",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/redirects/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/redirects",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/reports/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/reports",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/robots/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/robots",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/rules/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/rules",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/schemas/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/schemas",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-intelligence/ai/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-intelligence/ai",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-intelligence/authority/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-intelligence/authority",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-intelligence/content/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-intelligence/content",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-intelligence/entity-graph/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-intelligence/entity-graph",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-intelligence/linking/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-intelligence/linking",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-intelligence/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-intelligence",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-intelligence/performance/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-intelligence/performance",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-intelligence/schema/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-intelligence/schema",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-operations/automation/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-operations/automation",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-operations/content/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-operations/content",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-operations/entities/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-operations/entities",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-operations/google/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-operations/google",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-operations/monitoring/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-operations/monitoring",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-operations/operations/[id]/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-operations/operations/[id]",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-operations/operations/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-operations/operations",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-operations/overview/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-operations/overview",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-operations/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-operations",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-operations/pages/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-operations/pages",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/search-operations/settings/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/search-operations/settings",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/settings/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/settings",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/setup/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/setup",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/sitemap/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/sitemap",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/structured-data/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/structured-data",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/tasks/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/tasks",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/tasks/today/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/tasks/today",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/tasks/week/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/tasks/week",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/technical/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/technical",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/admin/(dashboard)/seo/templates/page.tsx",
+      "kind": "page",
+      "route": "/admin/seo/templates",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "requireAdvancedSeoPage",
+      "notes": ""
+    },
+    {
+      "path": "src/app/api/seo/analytics/google/oauth/callback/route.ts",
+      "kind": "api",
+      "route": "/api/seo/analytics/google/oauth/callback",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "advancedSeoApiGuardResponse",
+      "notes": ""
+    },
+    {
+      "path": "src/app/api/seo/analytics/google/oauth/start/route.ts",
+      "kind": "api",
+      "route": "/api/seo/analytics/google/oauth/start",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "advancedSeoApiGuardResponse",
+      "notes": ""
+    },
+    {
+      "path": "src/app/api/seo/analytics/run/route.ts",
+      "kind": "api",
+      "route": "/api/seo/analytics/run",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/api/seo/analyze/route.ts",
+      "kind": "api",
+      "route": "/api/seo/analyze",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "advancedSeoApiGuardResponse",
+      "notes": ""
+    },
+    {
+      "path": "src/app/api/seo/debug/route.ts",
+      "kind": "api",
+      "route": "/api/seo/debug",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "advancedSeoApiGuardResponse",
+      "notes": ""
+    },
+    {
+      "path": "src/app/api/seo/head/route.ts",
+      "kind": "api",
+      "route": "/api/seo/head",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/api/seo/indexnow-key/[key]/route.ts",
+      "kind": "api",
+      "route": "/api/seo/indexnow-key/[key]",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/api/seo/integrations/run/route.ts",
+      "kind": "api",
+      "route": "/api/seo/integrations/run",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/api/seo/llms/route.ts",
+      "kind": "api",
+      "route": "/api/seo/llms",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/app/api/seo/simulate/route.ts",
+      "kind": "api",
+      "route": "/api/seo/simulate",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "advancedSeoApiGuardResponse",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/actions.ts",
+      "kind": "action",
+      "route": "upsertSeoAppearanceAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/actions.ts",
+      "kind": "action",
+      "route": "upsertCustom404Action",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/actions.ts",
+      "kind": "action",
+      "route": "upsertSeoIntegrationsAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/actions.ts",
+      "kind": "action",
+      "route": "upsertGoogleIntegrationAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/actions.ts",
+      "kind": "action",
+      "route": "enqueueSitemapSubmissionAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/actions.ts",
+      "kind": "action",
+      "route": "runSeoSubmissionQueueAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/actions.ts",
+      "kind": "action",
+      "route": "submitSitemapAndRunAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/actions.ts",
+      "kind": "action",
+      "route": "runSeoAnalyticsIngestionAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/google-platform/actions.ts",
+      "kind": "action",
+      "route": "upsertGoogleGlobalSettingsAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/google-platform/actions.ts",
+      "kind": "action",
+      "route": "upsertGoogleServiceConfigAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/google-platform/actions.ts",
+      "kind": "action",
+      "route": "upsertGoogleServicePolicyAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/google-platform/actions.ts",
+      "kind": "action",
+      "route": "runGoogleOperationAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/google-platform/actions.ts",
+      "kind": "action",
+      "route": "testGoogleIntegrationAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/google-platform/actions.ts",
+      "kind": "action",
+      "route": "disconnectGoogleIntegrationAction",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "enqueueSearchOperationAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "approveSearchOperationAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "rejectSearchOperationAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "undoSearchOperationAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "updateApprovalPolicyAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "runAutomationRuleAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "toggleAutomationRuleAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "editEntityAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "applyLinkRecommendationsAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "applyAiSuggestionsAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "createContentDraftAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "approveNextWaitingOperationAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/workspaces/actions.ts",
+      "kind": "action",
+      "route": "testSearchOpsConnectorAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/content-intelligence/actions.ts",
+      "kind": "action",
+      "route": "upsertPageSearchTargetAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/content-intelligence/actions.ts",
+      "kind": "action",
+      "route": "retirePageSearchTargetAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/content-intelligence/actions.ts",
+      "kind": "action",
+      "route": "deletePageSearchTargetAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/content-intelligence/actions.ts",
+      "kind": "action",
+      "route": "acknowledgeOwnershipExceptionAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/content-intelligence/actions.ts",
+      "kind": "action",
+      "route": "updatePriorityEntitiesAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/content-intelligence/actions.ts",
+      "kind": "action",
+      "route": "upsertKeywordClusterAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/content-intelligence/actions.ts",
+      "kind": "action",
+      "route": "deleteKeywordClusterAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/content-intelligence/actions.ts",
+      "kind": "action",
+      "route": "upsertKeywordRecordAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/content-intelligence/actions.ts",
+      "kind": "action",
+      "route": "deleteKeywordRecordAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/search-intelligence/content-intelligence/actions.ts",
+      "kind": "action",
+      "route": "createPlanningBriefAction",
+      "owner": "search-intelligence-as-advanced",
+      "guardPresent": true,
+      "guardKind": "assertAdvancedSeoMutationAllowed",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/actions.ts",
+      "kind": "action",
+      "route": "upsertRedirectAction",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/workspace/actions.ts",
+      "kind": "action",
+      "route": "runSiteAuditAction",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/operator/actions.ts",
+      "kind": "action",
+      "route": "setSeoTaskStatusAction",
+      "owner": "core-basic",
+      "guardPresent": true,
+      "guardKind": "none-expected",
+      "notes": ""
+    },
+    {
+      "path": "src/features/seo/actions.ts",
+      "kind": "lib",
+      "route": "import:@/modules/advanced-seo/guard",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "bridge-allowlist",
+      "notes": "Phase 4/7 bridge: features/seo → modules/advanced-seo (relocate deferred)"
+    },
+    {
+      "path": "src/features/seo/google-platform/actions.ts",
+      "kind": "lib",
+      "route": "import:@/modules/advanced-seo/guard",
+      "owner": "advanced-seo",
+      "guardPresent": true,
+      "guardKind": "bridge-allowlist",
+      "notes": "Phase 4/7 bridge: features/seo → modules/advanced-seo (relocate deferred)"
+    }
+  ]
+}

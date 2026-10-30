@@ -19,6 +19,10 @@ export type CompiledDeploymentProfile = {
   experience: string[];
   presets: string[];
   modules: string[];
+  /** Provenance: sorted unique modules from YAML at generate (M2.2). */
+  profileSourceModules?: string[];
+  /** Provenance: SHA-256 of YAML bytes at generate — not a Hostinger hard-fail. */
+  profileSourceHash?: string;
   enabledNavItemIds: string[];
   enabledAdminHrefs: string[];
   disabledAdminPrefixes: string[];

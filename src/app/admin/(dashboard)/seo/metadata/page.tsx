@@ -5,9 +5,11 @@ import { AdminSeoHub } from "@/features/seo/admin/admin-seo-hub";
 import { listMetadataAttention } from "@/features/seo/operator/metadata-attention";
 import { SeoMetadataAttention } from "@/features/seo/operator/components/seo-metadata-attention";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function AdminSeoMetadataPage() {
+  await requireAdvancedSeoPage();
   const staticPageKeys = STATIC_SEO_PAGES.map((page) => page.pageKey);
 
   let contextsByKey: Awaited<ReturnType<typeof listPageSeoContexts>> = {};

@@ -13,9 +13,11 @@ import {
   summarizeOperationResult,
 } from "@/features/search-intelligence/operations/result-summary";
 
+import { requireAdvancedSeoPage } from "@/modules/advanced-seo/guard";
 export const dynamic = "force-dynamic";
 
 export default async function SearchOpsOperationsPage() {
+  await requireAdvancedSeoPage();
   const platform = await getSearchOperationsPlatform();
   const center = platform.actionCenter();
 
