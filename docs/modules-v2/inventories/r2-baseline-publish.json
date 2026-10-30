@@ -321,8 +321,8 @@
   "excludedUnrelatedWorkingTree": true,
   "github": {
     "remote": "https://github.com/ahzsyr/azura.git",
-    "prStatus": "pending-auth",
-    "notes": "Push/PR creation requires GitHub authentication (gh auth login)."
+    "prStatus": "blocked-on-auth",
+    "notes": "Local branch modules-platform-baseline is ready. Run: gh auth login && git push -u origin HEAD && gh pr create (see plan). CI workflow file is included; full npm run ci lint is pre-existing red on main."
   },
   "r1": {
     "evidence": "docs/modules-v2/inventories/r1-verification-results.json",
