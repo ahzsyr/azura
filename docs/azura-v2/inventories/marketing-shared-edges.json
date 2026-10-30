@@ -1,7 +1,7 @@
 {
   "module": "marketing",
   "description": "Reviewed production (+ test) static import edges into src/modules/marketing from outside that tree. Edge identity = kind + importer + modulePath + sorted importedSymbols.",
-  "generatedAt": "2026-10-30T13:09:10.716Z",
+  "generatedAt": "2026-10-30T18:37:07.236Z",
   "edges": [
     {
       "importer": "src/app/a/route.ts",
@@ -650,14 +650,6 @@
       "modulePath": "src/modules/marketing/manifest",
       "importedSymbols": [
         "marketingModuleManifest"
-      ],
-      "kind": "production"
-    },
-    {
-      "importer": "src/features/i18n/deferred-locale-marketing-chrome.tsx",
-      "modulePath": "src/modules/marketing/ingress-guard",
-      "importedSymbols": [
-        "resolveMarketingIngressAccess"
       ],
       "kind": "production"
     },
