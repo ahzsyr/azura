@@ -1,5 +1,8 @@
 import type { ThemeTypographySettings } from "@/schemas/theme";
 import { collectThemeFonts } from "@/lib/theme/locale-fonts";
+import { formatPackageFontFaceCss } from "@/lib/theme/package-font-face-css";
+
+export { formatPackageFontFaceCss } from "@/lib/theme/package-font-face-css";
 
 /** Known theme fonts and their CSS family strings (loaded via Google Fonts CDN). */
 const FONT_MAP: Record<string, { cssFamily: string; weights: string }> = {
@@ -47,11 +50,19 @@ export function resolveNextFonts(bodyFont: string, headingFont: string): Resolve
 export function resolveThemeFonts(typography: ThemeTypographySettings): ResolvedFonts {
   const allFonts = collectThemeFonts(typography);
   const global = resolveNextFonts(typography.bodyFont, typography.headingFont);
+  const packageFamilies = new Set((typography.fontFaces ?? []).map((f) => f.family));
+  const needsGoogle = allFonts.some((name) => !packageFamilies.has(name));
 
   return {
     ...global,
-    needsExternalLink: allFonts.length > 0,
+    needsExternalLink: needsGoogle && allFonts.length > 0,
   };
+}
+
+/** CSS for package fontFaces (escaped); empty when none. */
+export function packageFontFaceCssFromTypography(typography: ThemeTypographySettings): string {
+  if (!typography.fontFaces?.length) return "";
+  return formatPackageFontFaceCss(typography.fontFaces);
 }
 
 export function buildGoogleFontsHref(bodyFont: string, headingFont: string): string {

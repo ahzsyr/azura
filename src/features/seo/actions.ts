@@ -2,7 +2,9 @@
 
 import { revalidatePath, revalidateTag } from "next/cache";
 import { after } from "next/server";
-import { requireAdmin } from "@/features/auth/guards";
+import { requireAdminSection } from "@/features/auth/guards";
+import { assertAdvancedSeoMutationAllowed } from "@/modules/advanced-seo/guard";
+
 import { prisma } from "@/lib/prisma";
 import { seoRepository } from "@/repositories/seo.repository";
 import { redirectSchema } from "@/schemas/seo";
@@ -69,7 +71,8 @@ export async function upsertSeoAppearanceAction(
   config: SeoAppearanceConfig,
 ): Promise<{ ok: true } | { ok: false; message: string }> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
+    await assertAdvancedSeoMutationAllowed();
     await seoRepository.upsertAppearanceConfig(config);
     revalidateSeoDocuments();
     await enqueueSitemapSubmission("metadata");
@@ -101,7 +104,7 @@ export type UpsertSeoMetaResult = { ok: true } | { ok: false; message: string };
 
 export async function upsertSeoMetaAction(formData: FormData): Promise<UpsertSeoMetaResult> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
     const enabledLocales = await localeService.listEnabled();
     const parsed = parseSeoForm(formData, enabledLocales);
     const cmsPageId = formData.get("cmsPageId") as string | null;
@@ -220,7 +223,7 @@ export async function upsertSeoMetaAction(formData: FormData): Promise<UpsertSeo
 }
 
 export async function upsertRedirectAction(formData: FormData) {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const id = String(formData.get("id") ?? "").trim();
   const parsed = redirectSchema.parse({
     fromPath: formData.get("fromPath"),
@@ -249,7 +252,7 @@ export async function upsertRedirectAction(formData: FormData) {
 
 /** Push stored redirect rules to the live site (middleware manifest + lookup cache). */
 export async function publishRedirectsAction() {
-  await requireAdmin();
+  await requireAdminSection("seo");
   clearRedirectLookupCache();
   revalidateTag(CACHE_TAGS.redirects, "max");
   await refreshMiddlewareManifestBestEffort("redirect publish");
@@ -273,7 +276,7 @@ export async function publishRedirectsAction() {
 
 /** Revalidate public SEO surfaces after a settings publish. */
 export async function publishSeoPublicAction() {
-  await requireAdmin();
+  await requireAdminSection("seo");
   clearRedirectLookupCache();
   revalidateTag(CACHE_TAGS.redirects, "max");
   await refreshMiddlewareManifestBestEffort("seo publish");
@@ -288,14 +291,15 @@ export async function publishSeoPublicAction() {
 }
 
 export async function deleteRedirectAction(id: string) {
-  await requireAdmin();
+  await requireAdminSection("seo");
   await seoRepository.deleteRedirect(id);
   revalidatePath("/admin/seo/redirects");
   revalidatePath("/admin/seo/settings");
 }
 
 export async function upsertCustom404Action(formData: FormData) {
-  await requireAdmin();
+  await requireAdminSection("seo");
+  await assertAdvancedSeoMutationAllowed();
   const locale = formData.get("locale") as string;
   const row = await seoRepository.upsertCustom404({
     locale,
@@ -312,7 +316,7 @@ export async function upsertCustom404Action(formData: FormData) {
 }
 
 export async function upsertSeoGlobalAction(formData: FormData) {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const additionalDisallow = (formData.get("additionalDisallow") as string)
     .split("\n")
     .map((s) => s.trim())
@@ -344,7 +348,7 @@ function normalizeSitemapConfigLine(raw: string): string {
 }
 
 export async function upsertSeoSitemapAction(formData: FormData) {
-  await requireAdmin();
+  await requireAdminSection("seo");
 
   const excludeNormalized: string[] = [];
   for (const line of ((formData.get("excludePaths") as string) ?? "").split("\n")) {
@@ -378,7 +382,7 @@ export type LlmsActionResult = {
 /** Persist the admin-managed llms.txt document and refresh the public surface. */
 export async function upsertSeoLlmsAction(formData: FormData): Promise<LlmsActionResult> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
     const raw = formData.get("document");
     if (typeof raw !== "string" || !raw.trim()) {
       return { ok: false, message: "llms.txt document is missing." };
@@ -420,7 +424,7 @@ export async function upsertSeoLlmsAction(formData: FormData): Promise<LlmsActio
 /** Validate the saved document and refresh caches without changing content. */
 export async function publishLlmsTxtAction(): Promise<LlmsActionResult> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
     const config = await getSavedLlmsConfig();
     if (!config) {
       return { ok: false, message: "Save an llms.txt document before publishing." };
@@ -447,12 +451,12 @@ export async function publishLlmsTxtAction(): Promise<LlmsActionResult> {
 
 /** Generate an editable draft from published, indexable content (never drafts). */
 export async function generateLlmsDraftAction(): Promise<LlmsDraftResponse> {
-  await requireAdmin();
+  await requireAdminSection("seo");
   return generateLlmsDraft();
 }
 
 export async function upsertSeoTrackingAction(formData: FormData) {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const { upsertSeoTrackingConfig, seoTrackingInputFromFormData } = await import(
     "@/features/seo/tracking/upsert-tracking.server"
   );
@@ -463,7 +467,7 @@ export async function upsertSeoTrackingAction(formData: FormData) {
 export async function loadStaticPageSeoFormAction(
   pageKey: string,
 ): Promise<SeoMetaFormPropsFromContext> {
-  await requireAdmin();
+  await requireAdminSection("seo");
   if (!isStaticSeoPageKey(pageKey)) {
     throw new Error("Invalid static page key.");
   }
@@ -475,7 +479,7 @@ export async function loadStaticPageSeoFormAction(
 export async function loadPageKeySeoFormAction(
   pageKey: string,
 ): Promise<SeoMetaFormPropsFromContext> {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const context = await resolvePageSeoContext({ pageKey, allowWrites: true });
   const base = toSeoMetaFormProps(context);
 
@@ -504,7 +508,7 @@ export async function loadPageKeySeoFormAction(
 export async function loadContentItemSeoFormAction(
   contentItemId: string,
 ): Promise<SeoMetaFormPropsFromContext> {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const context = await resolvePageSeoContext({ contentItemId, allowWrites: true });
   const base = toSeoMetaFormProps(context);
 
@@ -532,7 +536,7 @@ export async function loadContentItemSeoFormAction(
 }
 
 export async function upsertStructuredDataAction(formData: FormData) {
-  await requireAdmin();
+  await requireAdminSection("seo");
 
   const { buildConfigFromFormData, StructuredDataSaveError } = await import(
     "@/features/seo/platform/schema-pipeline/save-validation"
@@ -562,7 +566,7 @@ export async function upsertStructuredDataAction(formData: FormData) {
 }
 
 export async function bulkFillSeoMetadataAction(formData: FormData) {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const scope = (formData.get("scope") as BulkFillScope) ?? "all";
   const mode = (formData.get("mode") as BulkFillMode) ?? "empty-only";
   await seoBulkService.bulkFillMetadata(scope, mode);
@@ -576,7 +580,7 @@ export async function bulkFillSeoMetadataAction(formData: FormData) {
 export async function loadPostSeoFormAction(
   postId: string,
 ): Promise<SeoMetaFormPropsFromContext> {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const context = await resolvePageSeoContext({
     postId,
     allowWrites: true,
@@ -607,7 +611,7 @@ export async function suggestAutoFillAction(input: {
   profileId?: string;
   applyMode?: import("@/features/seo/platform/types/change-set").ApplyMode;
 }) {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const { createExecutionContext, seoPlatform } = await import("@/features/seo/platform");
   const { descriptorFromPageKey } = await import(
     "@/features/seo/platform/types/entity-descriptor"
@@ -658,7 +662,7 @@ export async function commitAutoFillAction(input: {
   changeSetJson: string;
   fieldSelection?: string[];
 }) {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const { createExecutionContext, seoPlatform } = await import("@/features/seo/platform");
   const changeSet = JSON.parse(input.changeSetJson) as import("@/features/seo/platform/types/change-set").SeoChangeSet;
 
@@ -681,7 +685,7 @@ export async function commitAutoFillAction(input: {
 }
 
 export async function bulkAutoFillAction(formData: FormData) {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const scope = (formData.get("scope") as BulkFillScope) ?? "all";
   const mode = (formData.get("mode") as BulkFillMode) ?? "empty-only";
   const dryRun = formData.get("dryRun") === "true";
@@ -731,12 +735,12 @@ export async function bulkAutoFillAction(formData: FormData) {
 }
 
 export async function planBulkSegmentsAction(scope: BulkFillScope, segmentSize: number) {
-  await requireAdmin();
+  await requireAdminSection("seo");
   return seoBulkService.planBulkSegments(scope, segmentSize);
 }
 
 export async function countBulkSeoAction(scope: BulkFillScope) {
-  await requireAdmin();
+  await requireAdminSection("seo");
   return seoBulkService.countBulk(scope);
 }
 
@@ -750,7 +754,7 @@ export type SeoChangeLogEntry = {
 };
 
 export async function listRecentSeoChangeLogsAction(limit = 50): Promise<SeoChangeLogEntry[]> {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const { listRecentChangeLogs } = await import(
     "@/features/seo/platform/services/change-log.service"
   );
@@ -858,7 +862,8 @@ export async function upsertSeoIntegrationsAction(
   formData: FormData,
 ): Promise<SeoActionResult> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
+    await assertAdvancedSeoMutationAllowed();
     const sealedExisting = await seoRepository.getSealedIntegrationsConfig();
     const existing = unsealIntegrationsConfig(sealedExisting);
     const hasGoogleFields = formDataHasGoogleOAuthFields(formData.keys());
@@ -922,7 +927,8 @@ export async function upsertGoogleIntegrationAction(
   formData: FormData,
 ): Promise<SeoActionResult> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
+    await assertAdvancedSeoMutationAllowed();
     const sealedExisting = await seoRepository.getSealedIntegrationsConfig();
     const existing = unsealIntegrationsConfig(sealedExisting);
     const incoming: SeoIntegrationsConfig = {
@@ -967,7 +973,8 @@ async function sitemapEnqueueEmptyResult(): Promise<SeoActionResult> {
 }
 
 export async function enqueueSitemapSubmissionAction(): Promise<SeoActionResult> {
-  await requireAdmin();
+  await requireAdminSection("seo");
+  await assertAdvancedSeoMutationAllowed();
   const enqueued = await enqueueSitemapSubmission("manual");
   revalidateIntegrationsPaths();
   if (enqueued === 0) {
@@ -981,7 +988,8 @@ export async function enqueueSitemapSubmissionAction(): Promise<SeoActionResult>
 }
 
 export async function runSeoSubmissionQueueAction(): Promise<SeoActionResult> {
-  await requireAdmin();
+  await requireAdminSection("seo");
+  await assertAdvancedSeoMutationAllowed();
   const result = await seoSubmissionRunner.runDue(25);
   revalidateIntegrationsPaths();
   if (result.skipped) {
@@ -1010,7 +1018,8 @@ export async function runSeoSubmissionQueueAction(): Promise<SeoActionResult> {
 }
 
 export async function submitSitemapAndRunAction(): Promise<SeoActionResult> {
-  await requireAdmin();
+  await requireAdminSection("seo");
+  await assertAdvancedSeoMutationAllowed();
   const enqueued = await enqueueSitemapSubmission("manual");
   if (enqueued === 0) {
     revalidateIntegrationsPaths();
@@ -1044,7 +1053,8 @@ export async function submitSitemapAndRunAction(): Promise<SeoActionResult> {
 }
 
 export async function runSeoAnalyticsIngestionAction(): Promise<SeoActionResult> {
-  await requireAdmin();
+  await requireAdminSection("seo");
+  await assertAdvancedSeoMutationAllowed();
   after(async () => {
     try {
       const result = await seoAnalyticsIngestionService.run(3, { includeRichResults: false });
@@ -1078,14 +1088,14 @@ export async function runSeoAnalyticsIngestionAction(): Promise<SeoActionResult>
 }
 
 export async function revalidateRichResultsAction() {
-  await requireAdmin();
+  await requireAdminSection("seo");
   await richResultsMonitoringService.analyzeAndPersist();
   revalidatePath("/admin/seo/audit");
   revalidatePath("/admin/seo");
 }
 
 export async function runStructuredDataAuditAction(pathname: string) {
-  await requireAdmin();
+  await requireAdminSection("seo");
   const { buildStructuredDataAudit } = await import(
     "@/features/seo/quality/build-structured-data-audit.server"
   );

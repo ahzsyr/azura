@@ -1,7 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/features/auth/guards";
+import { requireAdminSection } from "@/features/auth/guards";
+import { assertAdvancedSeoMutationAllowed } from "@/modules/advanced-seo/guard";
 import type { GoogleIntegrationId, GoogleOperationalPolicy, GoogleServiceConfigMap } from "./types";
 import {
   getGooglePlatformState,
@@ -56,7 +57,8 @@ export async function upsertGoogleGlobalSettingsAction(
   formData: FormData,
 ): Promise<GooglePlatformActionResult> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
+    await assertAdvancedSeoMutationAllowed();
     const sharedServiceAccountJson = String(formData.get("sharedServiceAccountJson") ?? "");
     if (sharedServiceAccountJson.trim()) {
       const validation = validateServiceAccountJson(sharedServiceAccountJson);
@@ -102,7 +104,8 @@ export async function upsertGoogleServiceConfigAction(
   formData: FormData,
 ): Promise<GooglePlatformActionResult> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
+    await assertAdvancedSeoMutationAllowed();
     const integrationId = String(formData.get("integrationId") ?? "") as GoogleIntegrationId;
     const def = googleIntegrationRegistry.get(integrationId);
     if (!def) return { ok: false, message: "Unknown integration" };
@@ -191,7 +194,8 @@ export async function upsertGoogleServicePolicyAction(
   formData: FormData,
 ): Promise<GooglePlatformActionResult> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
+    await assertAdvancedSeoMutationAllowed();
     const integrationId = String(formData.get("integrationId") ?? "") as GoogleIntegrationId;
     const def = googleIntegrationRegistry.get(integrationId);
     if (!def) return { ok: false, message: "Unknown integration" };
@@ -225,7 +229,8 @@ export async function runGoogleOperationAction(
   formData: FormData,
 ): Promise<GooglePlatformActionResult> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
+    await assertAdvancedSeoMutationAllowed();
     const integrationId = String(formData.get("integrationId") ?? "") as GoogleIntegrationId;
     const operationId = String(formData.get("operationId") ?? "");
     const dryRun = formData.get("dryRun") === "true";
@@ -256,7 +261,8 @@ export async function testGoogleIntegrationAction(
   formData: FormData,
 ): Promise<GooglePlatformActionResult> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
+    await assertAdvancedSeoMutationAllowed();
     const integrationId = String(formData.get("integrationId") ?? "") as GoogleIntegrationId;
     const dryRun = formData.get("dryRun") === "true";
     let ctx = await loadContext();
@@ -313,7 +319,8 @@ export async function disconnectGoogleIntegrationAction(
   formData: FormData,
 ): Promise<GooglePlatformActionResult> {
   try {
-    await requireAdmin();
+    await requireAdminSection("seo");
+    await assertAdvancedSeoMutationAllowed();
     const integrationId = String(formData.get("integrationId") ?? "") as GoogleIntegrationId;
     const state = await getGooglePlatformState();
     const manager = createGoogleConnectionManager(state);

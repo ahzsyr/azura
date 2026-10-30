@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/features/auth/guards";
+import { requireAdminSection } from "@/features/auth/guards";
 import { seoRepository } from "@/repositories/seo.repository";
 import {
   ensureCanonicalOAuthRequest,
@@ -9,6 +9,7 @@ import {
 import { googleIntegrationRegistry } from "@/features/seo/google-platform/registry";
 import { getGooglePlatformState } from "@/features/seo/google-platform/persistence";
 import { createGoogleConnectionManager } from "@/features/seo/google-platform/connection-manager";
+import { advancedSeoApiGuardResponse } from "@/modules/advanced-seo/guard";
 
 export const runtime = "nodejs";
 
@@ -30,7 +31,10 @@ export async function GET(request: NextRequest) {
     return new NextResponse(null, { status: 204 });
   }
 
-  await requireAdmin();
+  await requireAdminSection("seo");
+
+  const denied = await advancedSeoApiGuardResponse();
+  if (denied) return denied;
 
   const canonicalRedirect = ensureCanonicalOAuthRequest(request);
   if (canonicalRedirect) {

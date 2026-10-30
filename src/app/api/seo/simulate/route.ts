@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { createExecutionContext, seoPlatform } from "@/features/seo/platform";
+import { advancedSeoApiGuardResponse } from "@/modules/advanced-seo/guard";
 
 export async function GET(request: Request) {
+  const denied = await advancedSeoApiGuardResponse();
+  if (denied) return denied;
+
   const { searchParams } = new URL(request.url);
   const currentScore = Number(searchParams.get("currentScore") ?? "60");
   const accepted = searchParams.get("accepted")?.split(",").filter(Boolean) ?? [];
