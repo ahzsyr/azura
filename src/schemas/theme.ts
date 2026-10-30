@@ -13,12 +13,21 @@ export const localeFontOverrideSchema = z.object({
   htmlLang: z.string().optional(),
 });
 
+/** Persisted package/custom @font-face entries (resolved URLs only). */
+export const typographyFontFaceSchema = z.object({
+  family: z.string().min(1).max(64),
+  url: z.string().min(1),
+  format: z.enum(["woff2", "woff", "truetype", "opentype"]).optional(),
+});
+
 export const typographySchema = z.object({
   bodyFont: z.string().default("Plus Jakarta Sans"),
   headingFont: z.string().default("Amiri"),
   baseFontSize: z.string().default("16px"),
   headingScale: z.number().min(1).max(1.5).default(1.25),
   localeFonts: z.record(z.string(), localeFontOverrideSchema).optional(),
+  /** M7.2 — package or Studio-applied faces; Zod must retain (not strip). */
+  fontFaces: z.array(typographyFontFaceSchema).max(8).optional(),
 });
 
 export const chromeVisibilityModeSchema = z.enum(["all", "selected", "except"]);
@@ -80,6 +89,8 @@ export const motionSettingsSchema = z
 export const themeProvenanceSchema = z
   .object({
     sourcePresetId: z.string().nullable().optional(),
+    sourcePackageId: z.string().nullable().optional(),
+    sourcePackageVersion: z.string().nullable().optional(),
     appliedAt: z.string().nullable().optional(),
   })
   .optional();
